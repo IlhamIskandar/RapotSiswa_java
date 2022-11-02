@@ -38,10 +38,12 @@
                       <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="txtUsername" max="32767" attributes="0"/>
-                          <Component id="txtPassword" max="32767" attributes="0"/>
-                          <Component id="Password" alignment="0" max="32767" attributes="0"/>
-                          <Component id="jLabel2" alignment="0" min="-2" pref="140" max="-2" attributes="0"/>
+                          <Component id="txtPassword" pref="140" max="32767" attributes="0"/>
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="txtUsername" max="32767" attributes="0"/>
+                              <Component id="Password" alignment="0" max="32767" attributes="0"/>
+                              <Component id="jLabel2" alignment="0" pref="140" max="32767" attributes="0"/>
+                          </Group>
                       </Group>
                   </Group>
               </Group>
@@ -81,8 +83,6 @@
         <Property name="text" type="java.lang.String" value="Username"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="txtPassword">
-    </Component>
     <Component class="javax.swing.JLabel" name="Password">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -103,6 +103,8 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Siswa login menggunakan NIS"/>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JPasswordField" name="txtPassword">
     </Component>
   </SubComponents>
 </Form>

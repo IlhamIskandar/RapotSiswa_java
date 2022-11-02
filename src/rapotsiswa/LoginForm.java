@@ -26,6 +26,20 @@ public class LoginForm extends javax.swing.JFrame {
             Class.forName("com.mysql.jdbc.Driver");
             Connection con;
             con = DriverManager.getConnection("jdbc:mysql://localhost:3307/rapot_siswa", "root", "");
+            
+            PreparedStatement ps = con.prepareStatement("SELECT level FROM user WHERE username=? AND password =?");
+            ps.setString(1, txtUsername.getText());
+            ps.setString(2, String.valueOf(txtPassword.getPassword()));
+            ResultSet r = ps.executeQuery();
+            
+            if (r.next() == false) {
+                JOptionPane.showMessageDialog(this, "Username atau Password Salah");
+            }else{
+                MainMenu utama = new MainMenu();
+                utama.setLevel(r.getString(1));
+                utama.show(true);
+                this.dispose();
+            }
         } catch (Exception e) {
         }
     }
@@ -42,10 +56,10 @@ public class LoginForm extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         txtUsername = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        txtPassword = new javax.swing.JTextField();
         Password = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
+        txtPassword = new javax.swing.JPasswordField();
 
         jLabel1.setText("jLabel1");
 
@@ -74,10 +88,11 @@ public class LoginForm extends javax.swing.JFrame {
                         .addComponent(jLabel4)
                         .addGap(31, 31, 31)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtUsername)
-                            .addComponent(txtPassword)
-                            .addComponent(Password, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(txtPassword, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(txtUsername)
+                                .addComponent(Password, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -142,7 +157,7 @@ public class LoginForm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JTextField txtPassword;
+    private javax.swing.JPasswordField txtPassword;
     private javax.swing.JTextField txtUsername;
     // End of variables declaration//GEN-END:variables
 }
