@@ -291,6 +291,9 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="InputKdMapel">
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="InputKdMapelActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="InputNmMapel">
         </Component>
