@@ -1,16 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
-    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-<<<<<<< HEAD
-            <file>file:/D:/rapot/RapotSiswa_java/src/rapotsiswa/Home.java</file>
-            <file>file:/D:/rapot/RapotSiswa_java/src/image/hat-g21deb8e18_1280.png</file>
-            <file>file:/D:/rapot/RapotSiswa_java/src/rapotsiswa/LoginForm.java</file>
-=======
-            <file>file:/D:/Code/Java/RapotSiswa/src/rapotsiswa/MainMenu.java</file>
-            <file>file:/D:/Code/Java/RapotSiswa/src/rapotsiswa/LoginForm.java</file>
->>>>>>> 33480b22dfba122f5d948ffd0d6a646a80c7779f
+            <file>file:/C:/Tugas-Tugas/RapotSiswa_java/src/rapotsiswa/DataJurusan.java</file>
+            <file>file:/C:/Tugas-Tugas/RapotSiswa_java/src/rapotsiswa/DataSiswa.java</file>
+            <file>file:/C:/Tugas-Tugas/RapotSiswa_java/src/image/graduation_hat.png</file>
+            <file>file:/C:/Tugas-Tugas/RapotSiswa_java/src/rapotsiswa/LoginForm.java</file>
+            <file>file:/C:/Tugas-Tugas/RapotSiswa_java/src/rapotsiswa/Home.java</file>
+            <file>file:/C:/Tugas-Tugas/RapotSiswa_java/src/image/hat-g21deb8e18_1280.png</file>
         </group>
     </open-files>
 </project-private>
