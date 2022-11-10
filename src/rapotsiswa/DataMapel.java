@@ -186,6 +186,12 @@ public class DataMapel extends javax.swing.JFrame {
         NmMapel.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
         NmMapel.setText("Nama Mata Pelajaran");
 
+        InputKdMapel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                InputKdMapelActionPerformed(evt);
+            }
+        });
+
         TambahBtn.setBackground(new java.awt.Color(0, 255, 0));
         TambahBtn.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
         TambahBtn.setText("Tambah");
@@ -342,6 +348,10 @@ public class DataMapel extends javax.swing.JFrame {
 
     private void nilaiSiswa1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nilaiSiswa1ActionPerformed
         // TODO add your handling code here:
+        DataNilai a = new DataNilai();
+        a.setVisible(true);
+        a.setEnabled(true);
+        this.dispose();
     }//GEN-LAST:event_nilaiSiswa1ActionPerformed
 
     private void TambahBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TambahBtnActionPerformed
@@ -355,6 +365,11 @@ public class DataMapel extends javax.swing.JFrame {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void InputKdMapelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InputKdMapelActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_InputKdMapelActionPerformed
 
     /**
      * @param args the command line arguments
