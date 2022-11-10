@@ -5,18 +5,123 @@
  */
 package rapotsiswa;
 
+import java.sql.*;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author acer
  */
 public class DataKelas extends javax.swing.JFrame {
 
+    Connection conn;
+    DefaultTableModel tm;
     /**
-     * Creates new form DataKelas
+     * Creates new form DataKelas1
      */
     public DataKelas() {
         initComponents();
+        connectDB();
+        refreshTable();
     }
+    
+    private void connectDB(){
+        conn = null;
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3307/rapot_siswa", "root","");
+        } catch (Exception e) {
+            System.out.println("ERROR KONEKSI KE DATABASE " + e);
+            JOptionPane.showMessageDialog(null, "Gagal Terhubung ke Database");
+        }
+    }
+    
+    private void refreshTable(){
+        tm = new DefaultTableModel(null, new Object[] { "Kode Kelas", "Nama Kelas" });
+        TableKelas.setModel(tm);
+        tm.getDataVector().removeAllElements();
+
+        try {
+            PreparedStatement s = conn.prepareStatement("SELECT * FROM kelas");
+            ResultSet r = s.executeQuery();
+            while(r.next()) {
+                Object[] data = {
+                r.getString(1),
+                r.getString(2)
+                };
+           
+            tm.addRow(data);
+            
+            };
+        } catch (Exception e) {
+            System.out.println("ERROR QUERY KE DATABASE : \n"+e+"\n\n");
+        }
+    }
+    
+    private void tambahData(){
+        String namaKelas, kodeKelas;
+        namaKelas = InputNamaKelas.getText();
+        kodeKelas = InputKodeKelas.getText();
+        
+        try {
+            PreparedStatement ps = conn.prepareStatement("INSERT INTO kelas VALUES(?, ?)");
+            ps.setString(1, kodeKelas);
+            ps.setString(2, namaKelas);
+            ps.executeUpdate();
+            
+            refreshTable();
+            InputKodeKelas.setText("");
+            InputNamaKelas.setText("");
+        } catch (Exception e) {
+            System.out.println("GAGAL EKSEKUSI QUERY" +e);
+            JOptionPane.showMessageDialog(null, "Gagal Menambah Data");
+        }
+    }
+    
+    private void hapusData(){
+        String namaKelas, kodeKelas;
+        kodeKelas = InputKodeKelas.getText();
+        
+        try {
+            PreparedStatement ps = conn.prepareStatement("DELETE FROM kelas WHERE kode_kelas = ?");
+            ps.setString(1, kodeKelas);
+            ps.executeUpdate();
+            
+            refreshTable();
+            InputKodeKelas.setText("");
+            InputNamaKelas.setText("");
+        } catch (Exception e) {
+            System.out.println("GAGAL EKSEKUSI QUERY"+e);
+            JOptionPane.showMessageDialog(null, "Gagal Menghapus Data");
+            
+        }
+    }
+    private void ubahData(){
+        String namaKelas, kodeKelas;
+        kodeKelas = InputKodeKelas.getText();
+        namaKelas = InputNamaKelas.getText();
+        
+        try {
+            PreparedStatement ps = conn.prepareStatement("UPDATE kelas SET nama_kelas = ? WHERE kode_kelas = ?");
+            ps.setString(1, namaKelas);
+            ps.setString(2, kodeKelas);
+            ps.executeUpdate();
+            
+            refreshTable();
+            InputKodeKelas.setText("");
+            InputNamaKelas.setText("");
+        } catch (Exception e) {
+            System.out.println("GAGAL EKSEKUSI QUERY"+e);
+            JOptionPane.showMessageDialog(null, "Gagal Mengubah Data");
+            
+        }
+    }
+
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -47,6 +152,8 @@ public class DataKelas extends javax.swing.JFrame {
         ButtonHapus = new javax.swing.JButton();
         Labelnamakelas = new javax.swing.JLabel();
         InputNamaKelas = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        jSeparator1 = new javax.swing.JSeparator();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -199,15 +306,36 @@ public class DataKelas extends javax.swing.JFrame {
 
         ButtonTambah.setBackground(new java.awt.Color(0, 255, 0));
         ButtonTambah.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
+        ButtonTambah.setForeground(new java.awt.Color(255, 255, 255));
+        ButtonTambah.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/add-user (1).png"))); // NOI18N
         ButtonTambah.setText("Tambah");
+        ButtonTambah.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButtonTambahActionPerformed(evt);
+            }
+        });
 
-        ButtonUbah.setBackground(new java.awt.Color(255, 255, 0));
+        ButtonUbah.setBackground(new java.awt.Color(0, 102, 255));
         ButtonUbah.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
+        ButtonUbah.setForeground(new java.awt.Color(255, 255, 255));
+        ButtonUbah.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/pencil.png"))); // NOI18N
         ButtonUbah.setText("Ubah");
+        ButtonUbah.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButtonUbahActionPerformed(evt);
+            }
+        });
 
         ButtonHapus.setBackground(new java.awt.Color(255, 0, 0));
         ButtonHapus.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
+        ButtonHapus.setForeground(new java.awt.Color(255, 255, 255));
+        ButtonHapus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/bin (3).png"))); // NOI18N
         ButtonHapus.setText("Hapus");
+        ButtonHapus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButtonHapusActionPerformed(evt);
+            }
+        });
 
         Labelnamakelas.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
         Labelnamakelas.setText("Nama Kelas");
@@ -218,6 +346,9 @@ public class DataKelas extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
+        jLabel1.setText("Data Kelas");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -225,45 +356,54 @@ public class DataKelas extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(sideBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jSeparator1))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 566, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(38, 38, 38)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(Labelkodekelas)
-                                    .addComponent(Labelnamakelas))
-                                .addGap(43, 43, 43)
-                                .addComponent(InputNamaKelas, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(124, 124, 124)
-                                .addComponent(InputKodeKelas, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(ButtonTambah, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(ButtonUbah, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(ButtonHapus, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 566, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(19, Short.MAX_VALUE))
+                            .addComponent(Labelkodekelas)
+                            .addComponent(jLabel1)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addComponent(Labelnamakelas)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(InputNamaKelas, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addGap(124, 124, 124)
+                                    .addComponent(InputKodeKelas, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(ButtonTambah, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(ButtonUbah, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(ButtonHapus, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(sideBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(60, 60, 60)
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addGap(7, 7, 7)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Labelkodekelas)
                     .addComponent(InputKodeKelas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ButtonTambah)
-                    .addComponent(ButtonHapus))
+                    .addComponent(ButtonTambah))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Labelnamakelas)
                     .addComponent(InputNamaKelas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(ButtonUbah))
-                .addGap(16, 16, 16)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(ButtonHapus)
+                .addGap(26, 26, 26)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -285,9 +425,7 @@ public class DataKelas extends javax.swing.JFrame {
     private void LihatNilaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LihatNilaiActionPerformed
         // TODO add your handling code here:
         LaporanNilaiSiswa a = new LaporanNilaiSiswa();
-
         a.setVisible(true);
-        //        a.setEnabled(true);
     }//GEN-LAST:event_LihatNilaiActionPerformed
 
     private void btnSiswaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiswaActionPerformed
@@ -346,6 +484,21 @@ public class DataKelas extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_InputNamaKelasActionPerformed
 
+    private void ButtonTambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonTambahActionPerformed
+        // TODO add your handling code here:
+        tambahData();
+    }//GEN-LAST:event_ButtonTambahActionPerformed
+
+    private void ButtonUbahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonUbahActionPerformed
+        // TODO add your handling code here:
+        ubahData();
+    }//GEN-LAST:event_ButtonUbahActionPerformed
+
+    private void ButtonHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonHapusActionPerformed
+        // TODO add your handling code here:
+        hapusData();
+    }//GEN-LAST:event_ButtonHapusActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -372,6 +525,7 @@ public class DataKelas extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(DataKelas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -396,9 +550,11 @@ public class DataKelas extends javax.swing.JFrame {
     private javax.swing.JButton btnKelas;
     private javax.swing.JButton btnMapel;
     private javax.swing.JButton btnSiswa;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JButton menuAwal;
     private javax.swing.JButton nilaiSiswa1;
     private javax.swing.JPanel sideBar;
