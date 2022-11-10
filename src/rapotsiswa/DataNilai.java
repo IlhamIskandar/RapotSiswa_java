@@ -387,23 +387,11 @@ public class DataNilai extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton LihatNilai;
-    private javax.swing.JButton LihatNilai1;
     private javax.swing.JButton LihatNilai2;
-    private javax.swing.JButton btnGuru;
-    private javax.swing.JButton btnGuru1;
     private javax.swing.JButton btnGuru2;
-    private javax.swing.JButton btnJurusan;
-    private javax.swing.JButton btnJurusan1;
     private javax.swing.JButton btnJurusan2;
-    private javax.swing.JButton btnKelas;
-    private javax.swing.JButton btnKelas1;
     private javax.swing.JButton btnKelas2;
-    private javax.swing.JButton btnMapel;
-    private javax.swing.JButton btnMapel1;
     private javax.swing.JButton btnMapel2;
-    private javax.swing.JButton btnSiswa;
-    private javax.swing.JButton btnSiswa1;
     private javax.swing.JButton btnSiswa2;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
@@ -412,8 +400,6 @@ public class DataNilai extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
@@ -422,14 +408,8 @@ public class DataNilai extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JPanel mainPanel;
-    private javax.swing.JButton menuAwal;
-    private javax.swing.JButton menuAwal1;
     private javax.swing.JButton menuAwal2;
-    private javax.swing.JButton nilaiSiswa1;
-    private javax.swing.JButton nilaiSiswa2;
     private javax.swing.JButton nilaiSiswa3;
-    private javax.swing.JPanel sideBar;
-    private javax.swing.JPanel sideBar1;
     private javax.swing.JPanel sideBar2;
     // End of variables declaration//GEN-END:variables
 }
