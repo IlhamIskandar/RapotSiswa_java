@@ -38,6 +38,15 @@ public class DataKelas extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         menuAwal = new javax.swing.JButton();
         nilaiSiswa1 = new javax.swing.JButton();
+        Labelkodekelas = new javax.swing.JLabel();
+        InputKodeKelas = new javax.swing.JTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        TableKelas = new javax.swing.JTable();
+        ButtonTambah = new javax.swing.JButton();
+        ButtonUbah = new javax.swing.JButton();
+        ButtonHapus = new javax.swing.JButton();
+        Labelnamakelas = new javax.swing.JLabel();
+        InputNamaKelas = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -45,6 +54,7 @@ public class DataKelas extends javax.swing.JFrame {
 
         sideBar.setBackground(new java.awt.Color(51, 153, 255));
 
+        LihatNilai.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
         LihatNilai.setText("Lihat Nilai");
         LihatNilai.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -52,6 +62,7 @@ public class DataKelas extends javax.swing.JFrame {
             }
         });
 
+        btnSiswa.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
         btnSiswa.setText("Data Siswa");
         btnSiswa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -59,6 +70,7 @@ public class DataKelas extends javax.swing.JFrame {
             }
         });
 
+        btnMapel.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
         btnMapel.setText("Data Mata Pelajaran");
         btnMapel.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnMapel.addActionListener(new java.awt.event.ActionListener() {
@@ -67,6 +79,7 @@ public class DataKelas extends javax.swing.JFrame {
             }
         });
 
+        btnGuru.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
         btnGuru.setText("Data Guru");
         btnGuru.setActionCommand("");
         btnGuru.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -76,6 +89,7 @@ public class DataKelas extends javax.swing.JFrame {
             }
         });
 
+        btnKelas.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
         btnKelas.setText("Data Kelas");
         btnKelas.setActionCommand("Data Guru");
         btnKelas.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -85,6 +99,7 @@ public class DataKelas extends javax.swing.JFrame {
             }
         });
 
+        btnJurusan.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
         btnJurusan.setText("Data Jurusan");
         btnJurusan.setActionCommand("Data Guru");
         btnJurusan.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -96,6 +111,7 @@ public class DataKelas extends javax.swing.JFrame {
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/R.png"))); // NOI18N
 
+        menuAwal.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
         menuAwal.setText("Menu Awal");
         menuAwal.setActionCommand("Data Guru");
         menuAwal.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -105,6 +121,7 @@ public class DataKelas extends javax.swing.JFrame {
             }
         });
 
+        nilaiSiswa1.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
         nilaiSiswa1.setText("Data Nilai");
         nilaiSiswa1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -157,17 +174,98 @@ public class DataKelas extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        Labelkodekelas.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        Labelkodekelas.setText("Kode Kelas");
+
+        InputKodeKelas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                InputKodeKelasActionPerformed(evt);
+            }
+        });
+
+        TableKelas.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
+        TableKelas.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(TableKelas);
+
+        ButtonTambah.setBackground(new java.awt.Color(0, 255, 0));
+        ButtonTambah.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
+        ButtonTambah.setText("Tambah");
+
+        ButtonUbah.setBackground(new java.awt.Color(255, 255, 0));
+        ButtonUbah.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
+        ButtonUbah.setText("Ubah");
+
+        ButtonHapus.setBackground(new java.awt.Color(255, 0, 0));
+        ButtonHapus.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
+        ButtonHapus.setText("Hapus");
+
+        Labelnamakelas.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        Labelnamakelas.setText("Nama Kelas");
+
+        InputNamaKelas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                InputNamaKelasActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(sideBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 226, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(38, 38, 38)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(Labelkodekelas)
+                                    .addComponent(Labelnamakelas))
+                                .addGap(43, 43, 43)
+                                .addComponent(InputNamaKelas, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(124, 124, 124)
+                                .addComponent(InputKodeKelas, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(ButtonTambah, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(ButtonUbah, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(ButtonHapus, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 566, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(sideBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(60, 60, 60)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Labelkodekelas)
+                    .addComponent(InputKodeKelas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ButtonTambah)
+                    .addComponent(ButtonHapus))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Labelnamakelas)
+                    .addComponent(InputNamaKelas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ButtonUbah))
+                .addGap(16, 16, 16)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -240,6 +338,14 @@ public class DataKelas extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_nilaiSiswa1ActionPerformed
 
+    private void InputKodeKelasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InputKodeKelasActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_InputKodeKelasActionPerformed
+
+    private void InputNamaKelasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InputNamaKelasActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_InputNamaKelasActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -276,7 +382,15 @@ public class DataKelas extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton ButtonHapus;
+    private javax.swing.JButton ButtonTambah;
+    private javax.swing.JButton ButtonUbah;
+    private javax.swing.JTextField InputKodeKelas;
+    private javax.swing.JTextField InputNamaKelas;
+    private javax.swing.JLabel Labelkodekelas;
+    private javax.swing.JLabel Labelnamakelas;
     private javax.swing.JButton LihatNilai;
+    private javax.swing.JTable TableKelas;
     private javax.swing.JButton btnGuru;
     private javax.swing.JButton btnJurusan;
     private javax.swing.JButton btnKelas;
@@ -284,6 +398,7 @@ public class DataKelas extends javax.swing.JFrame {
     private javax.swing.JButton btnSiswa;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton menuAwal;
     private javax.swing.JButton nilaiSiswa1;
     private javax.swing.JPanel sideBar;
