@@ -29,18 +29,18 @@ public class DataNilai extends javax.swing.JFrame {
 
         mainPanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
+        Inputnis = new javax.swing.JTextField();
+        Labelpts = new javax.swing.JLabel();
+        Inputpas = new javax.swing.JTextField();
+        Labeluh = new javax.swing.JLabel();
+        Inputpts = new javax.swing.JTextField();
+        Labelpas = new javax.swing.JLabel();
+        Inputuh = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        Tabelnilai = new javax.swing.JTable();
+        btntambah = new javax.swing.JButton();
+        btnubah = new javax.swing.JButton();
+        btnhapus = new javax.swing.JButton();
         sideBar2 = new javax.swing.JPanel();
         LihatNilai2 = new javax.swing.JButton();
         btnSiswa2 = new javax.swing.JButton();
@@ -51,7 +51,7 @@ public class DataNilai extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         menuAwal2 = new javax.swing.JButton();
         nilaiSiswa3 = new javax.swing.JButton();
-        jLabel5 = new javax.swing.JLabel();
+        Labelnis = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -61,23 +61,23 @@ public class DataNilai extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
         jLabel1.setText("Data Nilai");
 
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        Inputnis.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                InputnisActionPerformed(evt);
             }
         });
 
-        jLabel2.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
-        jLabel2.setText("PTS");
+        Labelpts.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        Labelpts.setText("PTS");
 
-        jLabel3.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
-        jLabel3.setText("UH");
+        Labeluh.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        Labeluh.setText("UH");
 
-        jLabel4.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
-        jLabel4.setText("PAS");
+        Labelpas.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        Labelpas.setText("PAS");
 
-        jTable1.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        Tabelnilai.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
+        Tabelnilai.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -88,30 +88,30 @@ public class DataNilai extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(Tabelnilai);
 
-        jButton1.setBackground(new java.awt.Color(0, 255, 0));
-        jButton1.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/add-user (1).png"))); // NOI18N
-        jButton1.setText("Tambah");
+        btntambah.setBackground(new java.awt.Color(0, 255, 0));
+        btntambah.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
+        btntambah.setForeground(new java.awt.Color(255, 255, 255));
+        btntambah.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/add-user (1).png"))); // NOI18N
+        btntambah.setText("Tambah");
 
-        jButton2.setBackground(new java.awt.Color(255, 204, 0));
-        jButton2.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/pencil.png"))); // NOI18N
-        jButton2.setText("Ubah");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnubah.setBackground(new java.awt.Color(255, 204, 0));
+        btnubah.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
+        btnubah.setForeground(new java.awt.Color(255, 255, 255));
+        btnubah.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/pencil.png"))); // NOI18N
+        btnubah.setText("Ubah");
+        btnubah.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnubahActionPerformed(evt);
             }
         });
 
-        jButton3.setBackground(new java.awt.Color(255, 0, 0));
-        jButton3.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
-        jButton3.setForeground(new java.awt.Color(255, 255, 255));
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/bin (3).png"))); // NOI18N
-        jButton3.setText("Hapus");
+        btnhapus.setBackground(new java.awt.Color(255, 0, 0));
+        btnhapus.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
+        btnhapus.setForeground(new java.awt.Color(255, 255, 255));
+        btnhapus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/bin (3).png"))); // NOI18N
+        btnhapus.setText("Hapus");
 
         sideBar2.setBackground(new java.awt.Color(51, 153, 255));
 
@@ -227,8 +227,8 @@ public class DataNilai extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jLabel5.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
-        jLabel5.setText("NIS");
+        Labelnis.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        Labelnis.setText("NIS");
 
         javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
         mainPanel.setLayout(mainPanelLayout);
@@ -243,21 +243,21 @@ public class DataNilai extends javax.swing.JFrame {
                         .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(mainPanelLayout.createSequentialGroup()
                                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel5)
-                                    .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
-                                    .addComponent(jTextField3))
+                                    .addComponent(Labelpts)
+                                    .addComponent(Labelnis)
+                                    .addComponent(Inputnis, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+                                    .addComponent(Inputpts))
                                 .addGap(45, 45, 45)
                                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jLabel4)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
-                                    .addComponent(jTextField4))
+                                    .addComponent(Labelpas)
+                                    .addComponent(Labeluh)
+                                    .addComponent(Inputpas, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+                                    .addComponent(Inputuh))
                                 .addGap(33, 33, 33)
                                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(jButton2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                    .addComponent(btnubah, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btntambah, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btnhapus, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                             .addComponent(jLabel1)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 549, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(20, 20, 20))
@@ -278,31 +278,31 @@ public class DataNilai extends javax.swing.JFrame {
                     .addGroup(mainPanelLayout.createSequentialGroup()
                         .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(mainPanelLayout.createSequentialGroup()
-                                .addComponent(jLabel5)
+                                .addComponent(Labelnis)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(Inputnis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(mainPanelLayout.createSequentialGroup()
-                                .addComponent(jLabel4)
+                                .addComponent(Labelpas)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(Inputpas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(mainPanelLayout.createSequentialGroup()
                                 .addGap(7, 7, 7)
-                                .addComponent(jLabel2)
+                                .addComponent(Labelpts)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(Inputpts, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(mainPanelLayout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel3)
+                                .addComponent(Labeluh)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(Inputuh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(mainPanelLayout.createSequentialGroup()
                         .addGap(7, 7, 7)
-                        .addComponent(jButton1)
+                        .addComponent(btntambah)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton2)
+                        .addComponent(btnubah)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton3)))
+                        .addComponent(btnhapus)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -324,9 +324,9 @@ public class DataNilai extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void InputnisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InputnisActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_InputnisActionPerformed
 
     private void LihatNilai2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LihatNilai2ActionPerformed
         // TODO add your handling code here:
@@ -384,9 +384,9 @@ public class DataNilai extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_nilaiSiswa3ActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btnubahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnubahActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_btnubahActionPerformed
 
     /**
      * @param args the command line arguments
@@ -424,28 +424,28 @@ public class DataNilai extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField Inputnis;
+    private javax.swing.JTextField Inputpas;
+    private javax.swing.JTextField Inputpts;
+    private javax.swing.JTextField Inputuh;
+    private javax.swing.JLabel Labelnis;
+    private javax.swing.JLabel Labelpas;
+    private javax.swing.JLabel Labelpts;
+    private javax.swing.JLabel Labeluh;
     private javax.swing.JButton LihatNilai2;
+    private javax.swing.JTable Tabelnilai;
     private javax.swing.JButton btnGuru2;
     private javax.swing.JButton btnJurusan2;
     private javax.swing.JButton btnKelas2;
     private javax.swing.JButton btnMapel2;
     private javax.swing.JButton btnSiswa2;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton btnhapus;
+    private javax.swing.JButton btntambah;
+    private javax.swing.JButton btnubah;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JButton menuAwal2;
     private javax.swing.JButton nilaiSiswa3;
