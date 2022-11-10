@@ -6,23 +6,23 @@
 package rapotsiswa;
 
 import java.sql.*;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import static javax.swing.text.html.HTML.Tag.HEAD;
 
 /**
  *
  * @author acer
  */
 public class DataKelas extends javax.swing.JFrame {
-    
+
     Connection conn;
     DefaultTableModel tm;
-
     /**
-     * Creates new form DataKelas
+     * Creates new form DataKelas1
      */
-    
     public DataKelas() {
         initComponents();
         connectDB();
@@ -121,6 +121,8 @@ public class DataKelas extends javax.swing.JFrame {
         }
     }
 
+    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -145,16 +147,13 @@ public class DataKelas extends javax.swing.JFrame {
         InputKodeKelas = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         TableKelas = new javax.swing.JTable();
-        btnTambah = new javax.swing.JButton();
-        btnUbah = new javax.swing.JButton();
-        btnHapus = new javax.swing.JButton();
+        ButtonTambah = new javax.swing.JButton();
+        ButtonUbah = new javax.swing.JButton();
+        ButtonHapus = new javax.swing.JButton();
         Labelnamakelas = new javax.swing.JLabel();
         InputNamaKelas = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
-<<<<<<< HEAD
         jSeparator1 = new javax.swing.JSeparator();
-=======
->>>>>>> a3eb514da1f854132d4a301af5569d364adf2da4
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -305,55 +304,38 @@ public class DataKelas extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(TableKelas);
 
-<<<<<<< HEAD
         ButtonTambah.setBackground(new java.awt.Color(0, 255, 0));
         ButtonTambah.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
         ButtonTambah.setForeground(new java.awt.Color(255, 255, 255));
         ButtonTambah.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/add-user (1).png"))); // NOI18N
         ButtonTambah.setText("Tambah");
+        ButtonTambah.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButtonTambahActionPerformed(evt);
+            }
+        });
 
-        ButtonUbah.setBackground(new java.awt.Color(255, 204, 0));
+        ButtonUbah.setBackground(new java.awt.Color(0, 102, 255));
         ButtonUbah.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
         ButtonUbah.setForeground(new java.awt.Color(255, 255, 255));
         ButtonUbah.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/pencil.png"))); // NOI18N
         ButtonUbah.setText("Ubah");
+        ButtonUbah.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButtonUbahActionPerformed(evt);
+            }
+        });
 
         ButtonHapus.setBackground(new java.awt.Color(255, 0, 0));
         ButtonHapus.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
         ButtonHapus.setForeground(new java.awt.Color(255, 255, 255));
         ButtonHapus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/bin (3).png"))); // NOI18N
         ButtonHapus.setText("Hapus");
-=======
-        btnTambah.setBackground(new java.awt.Color(0, 255, 0));
-        btnTambah.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
-        btnTambah.setText("Tambah");
-        btnTambah.addActionListener(new java.awt.event.ActionListener() {
+        ButtonHapus.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnTambahActionPerformed(evt);
+                ButtonHapusActionPerformed(evt);
             }
         });
-
-        btnUbah.setBackground(new java.awt.Color(255, 255, 0));
-        btnUbah.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
-        btnUbah.setText("Ubah");
-        btnUbah.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnUbahActionPerformed(evt);
-            }
-        });
-
-        btnHapus.setBackground(new java.awt.Color(255, 0, 0));
-        btnHapus.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
-        btnHapus.setText("Hapus");
-<<<<<<< HEAD
->>>>>>> a8410404079014b251f80179df5f208314eb3a91
-=======
-        btnHapus.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnHapusActionPerformed(evt);
-            }
-        });
->>>>>>> a3eb514da1f854132d4a301af5569d364adf2da4
 
         Labelnamakelas.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
         Labelnamakelas.setText("Nama Kelas");
@@ -378,15 +360,11 @@ public class DataKelas extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jSeparator1))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 566, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(38, 38, 38)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> a3eb514da1f854132d4a301af5569d364adf2da4
                             .addComponent(Labelkodekelas)
                             .addComponent(jLabel1)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -397,7 +375,6 @@ public class DataKelas extends javax.swing.JFrame {
                                 .addGroup(jPanel1Layout.createSequentialGroup()
                                     .addGap(124, 124, 124)
                                     .addComponent(InputKodeKelas, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE))))
-<<<<<<< HEAD
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(ButtonTambah, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -405,33 +382,6 @@ public class DataKelas extends javax.swing.JFrame {
                             .addComponent(ButtonHapus, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
-=======
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(Labelkodekelas)
-                                    .addComponent(Labelnamakelas))
-                                .addGap(43, 43, 43)
-                                .addComponent(InputNamaKelas, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(124, 124, 124)
-                                .addComponent(InputKodeKelas, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(btnTambah, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(btnUbah, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-=======
-                        .addGap(18, 18, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(btnTambah, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnUbah, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
->>>>>>> a3eb514da1f854132d4a301af5569d364adf2da4
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnHapus, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 566, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(19, Short.MAX_VALUE))
->>>>>>> a8410404079014b251f80179df5f208314eb3a91
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -439,35 +389,21 @@ public class DataKelas extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-<<<<<<< HEAD
                 .addGap(7, 7, 7)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-=======
-                .addGap(35, 35, 35)
->>>>>>> a3eb514da1f854132d4a301af5569d364adf2da4
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Labelkodekelas)
                     .addComponent(InputKodeKelas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-<<<<<<< HEAD
                     .addComponent(ButtonTambah))
-=======
-                    .addComponent(btnTambah)
-                    .addComponent(btnHapus))
->>>>>>> a8410404079014b251f80179df5f208314eb3a91
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Labelnamakelas)
                     .addComponent(InputNamaKelas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-<<<<<<< HEAD
                     .addComponent(ButtonUbah))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(ButtonHapus)
                 .addGap(26, 26, 26)
-=======
-                    .addComponent(btnUbah))
-                .addGap(16, 16, 16)
->>>>>>> a8410404079014b251f80179df5f208314eb3a91
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -489,9 +425,7 @@ public class DataKelas extends javax.swing.JFrame {
     private void LihatNilaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LihatNilaiActionPerformed
         // TODO add your handling code here:
         LaporanNilaiSiswa a = new LaporanNilaiSiswa();
-
         a.setVisible(true);
-        //        a.setEnabled(true);
     }//GEN-LAST:event_LihatNilaiActionPerformed
 
     private void btnSiswaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiswaActionPerformed
@@ -550,20 +484,20 @@ public class DataKelas extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_InputNamaKelasActionPerformed
 
-    private void btnTambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahActionPerformed
+    private void ButtonTambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonTambahActionPerformed
         // TODO add your handling code here:
         tambahData();
-    }//GEN-LAST:event_btnTambahActionPerformed
+    }//GEN-LAST:event_ButtonTambahActionPerformed
 
-    private void btnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapusActionPerformed
-        // TODO add your handling code here:
-        hapusData();
-    }//GEN-LAST:event_btnHapusActionPerformed
-
-    private void btnUbahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUbahActionPerformed
+    private void ButtonUbahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonUbahActionPerformed
         // TODO add your handling code here:
         ubahData();
-    }//GEN-LAST:event_btnUbahActionPerformed
+    }//GEN-LAST:event_ButtonUbahActionPerformed
+
+    private void ButtonHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonHapusActionPerformed
+        // TODO add your handling code here:
+        hapusData();
+    }//GEN-LAST:event_ButtonHapusActionPerformed
 
     /**
      * @param args the command line arguments
@@ -591,6 +525,7 @@ public class DataKelas extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(DataKelas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -601,6 +536,9 @@ public class DataKelas extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton ButtonHapus;
+    private javax.swing.JButton ButtonTambah;
+    private javax.swing.JButton ButtonUbah;
     private javax.swing.JTextField InputKodeKelas;
     private javax.swing.JTextField InputNamaKelas;
     private javax.swing.JLabel Labelkodekelas;
@@ -608,21 +546,11 @@ public class DataKelas extends javax.swing.JFrame {
     private javax.swing.JButton LihatNilai;
     private javax.swing.JTable TableKelas;
     private javax.swing.JButton btnGuru;
-    private javax.swing.JButton btnHapus;
     private javax.swing.JButton btnJurusan;
     private javax.swing.JButton btnKelas;
     private javax.swing.JButton btnMapel;
     private javax.swing.JButton btnSiswa;
-<<<<<<< HEAD
     private javax.swing.JLabel jLabel1;
-=======
-    private javax.swing.JButton btnTambah;
-    private javax.swing.JButton btnUbah;
-<<<<<<< HEAD
->>>>>>> a8410404079014b251f80179df5f208314eb3a91
-=======
-    private javax.swing.JLabel jLabel1;
->>>>>>> a3eb514da1f854132d4a301af5569d364adf2da4
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
