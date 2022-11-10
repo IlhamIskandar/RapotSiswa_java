@@ -62,13 +62,13 @@
                                   <Component id="InputKodeKelas" min="-2" pref="260" max="-2" attributes="0"/>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                      <Component id="ButtonTambah" max="32767" attributes="0"/>
-                                      <Component id="ButtonUbah" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="btnTambah" max="32767" attributes="0"/>
+                                      <Component id="btnUbah" alignment="0" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="ButtonHapus" min="-2" pref="77" max="-2" attributes="0"/>
+                          <Component id="btnHapus" min="-2" pref="77" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="1" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
@@ -87,14 +87,14 @@
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="Labelkodekelas" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="InputKodeKelas" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="ButtonTambah" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="ButtonHapus" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnTambah" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnHapus" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="Labelnamakelas" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="InputNamaKelas" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="ButtonUbah" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnUbah" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
                   <Component id="jScrollPane1" min="-2" pref="219" max="-2" attributes="0"/>
@@ -305,7 +305,7 @@
             </Component>
           </SubComponents>
         </Container>
-        <Component class="javax.swing.JButton" name="ButtonTambah">
+        <Component class="javax.swing.JButton" name="btnTambah">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="0" green="ff" red="0" type="rgb"/>
@@ -315,8 +315,11 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Tambah"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnTambahActionPerformed"/>
+          </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="ButtonUbah">
+        <Component class="javax.swing.JButton" name="btnUbah">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="0" green="ff" red="ff" type="rgb"/>
@@ -327,7 +330,7 @@
             <Property name="text" type="java.lang.String" value="Ubah"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="ButtonHapus">
+        <Component class="javax.swing.JButton" name="btnHapus">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="0" green="0" red="ff" type="rgb"/>
