@@ -1,127 +1,21 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package rapotsiswa;
 
-import java.sql.*;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
-
 /**
  *
- * @author acer
+ * @author PC-RPL 10
  */
-public class DataKelas extends javax.swing.JFrame {
+public class DataGuru extends javax.swing.JFrame {
 
-    Connection conn;
-    DefaultTableModel tm;
     /**
-     * Creates new form DataKelas1
+     * Creates new form DataGuru
      */
-    public DataKelas() {
+    public DataGuru() {
         initComponents();
-        connectDB();
-        refreshTable();
     }
-    
-    private void connectDB(){
-        conn = null;
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3307/rapot_siswa", "root","");
-        } catch (Exception e) {
-            System.out.println("ERROR KONEKSI KE DATABASE " + e);
-            JOptionPane.showMessageDialog(null, "Gagal Terhubung ke Database");
-        }
-    }
-    
-    private void refreshTable(){
-        tm = new DefaultTableModel(null, new Object[] { "Kode Kelas", "Nama Kelas" });
-        TableKelas.setModel(tm);
-        tm.getDataVector().removeAllElements();
-
-        try {
-            PreparedStatement s = conn.prepareStatement("SELECT * FROM kelas");
-            ResultSet r = s.executeQuery();
-            while(r.next()) {
-                Object[] data = {
-                r.getString(1),
-                r.getString(2)
-                };
-           
-            tm.addRow(data);
-            
-            };
-        } catch (Exception e) {
-            System.out.println("ERROR QUERY KE DATABASE : \n"+e+"\n\n");
-        }
-    }
-    
-    private void tambahData(){
-        String namaKelas, kodeKelas;
-        namaKelas = InputNamaKelas.getText();
-        kodeKelas = InputKodeKelas.getText();
-        
-        try {
-            PreparedStatement ps = conn.prepareStatement("INSERT INTO kelas VALUES(?, ?)");
-            ps.setString(1, kodeKelas);
-            ps.setString(2, namaKelas);
-            ps.executeUpdate();
-            
-            refreshTable();
-            InputKodeKelas.setText("");
-            InputNamaKelas.setText("");
-        } catch (Exception e) {
-            System.out.println("GAGAL EKSEKUSI QUERY" +e);
-            JOptionPane.showMessageDialog(null, "Gagal Menambah Data");
-        }
-    }
-    
-    private void hapusData(){
-        String namaKelas, kodeKelas;
-        kodeKelas = InputKodeKelas.getText();
-        
-        try {
-            PreparedStatement ps = conn.prepareStatement("DELETE FROM kelas WHERE kode_kelas = ?");
-            ps.setString(1, kodeKelas);
-            ps.executeUpdate();
-            
-            refreshTable();
-            InputKodeKelas.setText("");
-            InputNamaKelas.setText("");
-        } catch (Exception e) {
-            System.out.println("GAGAL EKSEKUSI QUERY"+e);
-            JOptionPane.showMessageDialog(null, "Gagal Menghapus Data");
-            
-        }
-    }
-    private void ubahData(){
-        String namaKelas, kodeKelas;
-        kodeKelas = InputKodeKelas.getText();
-        namaKelas = InputNamaKelas.getText();
-        
-        try {
-            PreparedStatement ps = conn.prepareStatement("UPDATE kelas SET nama_kelas = ? WHERE kode_kelas = ?");
-            ps.setString(1, namaKelas);
-            ps.setString(2, kodeKelas);
-            ps.executeUpdate();
-            
-            refreshTable();
-            InputKodeKelas.setText("");
-            InputNamaKelas.setText("");
-        } catch (Exception e) {
-            System.out.println("GAGAL EKSEKUSI QUERY"+e);
-            JOptionPane.showMessageDialog(null, "Gagal Mengubah Data");
-            
-        }
-    }
-
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -133,6 +27,7 @@ public class DataKelas extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
         sideBar = new javax.swing.JPanel();
         LihatNilai = new javax.swing.JButton();
         btnSiswa = new javax.swing.JButton();
@@ -144,20 +39,34 @@ public class DataKelas extends javax.swing.JFrame {
         menuAwal = new javax.swing.JButton();
         nilaiSiswa1 = new javax.swing.JButton();
         Labelkodekelas = new javax.swing.JLabel();
-        InputKodeKelas = new javax.swing.JTextField();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        TableKelas = new javax.swing.JTable();
-        ButtonTambah = new javax.swing.JButton();
-        ButtonUbah = new javax.swing.JButton();
-        ButtonHapus = new javax.swing.JButton();
         Labelnamakelas = new javax.swing.JLabel();
-        InputNamaKelas = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        Tabelguru = new javax.swing.JTable();
+        Inputkodeguru = new javax.swing.JTextField();
+        Inputnamaguru = new javax.swing.JTextField();
+        btntambah = new javax.swing.JButton();
+        btnubah = new javax.swing.JButton();
+        btnhapus = new javax.swing.JButton();
+        LabelKodeGuru = new javax.swing.JLabel();
+        LabelNamaGuru = new javax.swing.JLabel();
+        LabelKodeMaoel = new javax.swing.JLabel();
+        Inputkodemapel = new javax.swing.JTextField();
         jSeparator1 = new javax.swing.JSeparator();
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
         sideBar.setBackground(new java.awt.Color(51, 153, 255));
 
@@ -278,20 +187,17 @@ public class DataKelas extends javax.swing.JFrame {
                 .addComponent(btnJurusan, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(menuAwal, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(38, Short.MAX_VALUE))
         );
 
-        Labelkodekelas.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
-        Labelkodekelas.setText("Kode Kelas");
+        Labelkodekelas.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
+        Labelkodekelas.setText("Data Guru");
 
-        InputKodeKelas.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                InputKodeKelasActionPerformed(evt);
-            }
-        });
+        Labelnamakelas.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        Labelnamakelas.setText("Nama Kelas");
 
-        TableKelas.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
-        TableKelas.setModel(new javax.swing.table.DefaultTableModel(
+        Tabelguru.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
+        Tabelguru.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -302,124 +208,152 @@ public class DataKelas extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(TableKelas);
+        jScrollPane1.setViewportView(Tabelguru);
 
-        ButtonTambah.setBackground(new java.awt.Color(0, 255, 0));
-        ButtonTambah.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
-        ButtonTambah.setForeground(new java.awt.Color(255, 255, 255));
-        ButtonTambah.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/add-user (1).png"))); // NOI18N
-        ButtonTambah.setText("Tambah");
-        ButtonTambah.addActionListener(new java.awt.event.ActionListener() {
+        Inputkodeguru.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ButtonTambahActionPerformed(evt);
+                InputkodeguruActionPerformed(evt);
             }
         });
 
-        ButtonUbah.setBackground(new java.awt.Color(255, 204, 0));
-        ButtonUbah.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
-        ButtonUbah.setForeground(new java.awt.Color(255, 255, 255));
-        ButtonUbah.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/pencil.png"))); // NOI18N
-        ButtonUbah.setText("Ubah");
-        ButtonUbah.addActionListener(new java.awt.event.ActionListener() {
+        Inputnamaguru.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ButtonUbahActionPerformed(evt);
+                InputnamaguruActionPerformed(evt);
             }
         });
 
-        ButtonHapus.setBackground(new java.awt.Color(255, 0, 0));
-        ButtonHapus.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
-        ButtonHapus.setForeground(new java.awt.Color(255, 255, 255));
-        ButtonHapus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/bin (3).png"))); // NOI18N
-        ButtonHapus.setText("Hapus");
-        ButtonHapus.addActionListener(new java.awt.event.ActionListener() {
+        btntambah.setBackground(new java.awt.Color(0, 255, 0));
+        btntambah.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
+        btntambah.setForeground(new java.awt.Color(255, 255, 255));
+        btntambah.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/add-user.png"))); // NOI18N
+        btntambah.setText("Tambah");
+        btntambah.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ButtonHapusActionPerformed(evt);
+                btntambahActionPerformed(evt);
             }
         });
 
-        Labelnamakelas.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
-        Labelnamakelas.setText("Nama Kelas");
-
-        InputNamaKelas.addActionListener(new java.awt.event.ActionListener() {
+        btnubah.setBackground(new java.awt.Color(255, 204, 0));
+        btnubah.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
+        btnubah.setForeground(new java.awt.Color(255, 255, 255));
+        btnubah.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/pencil.png"))); // NOI18N
+        btnubah.setText("Ubah");
+        btnubah.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                InputNamaKelasActionPerformed(evt);
+                btnubahActionPerformed(evt);
             }
         });
 
-        jLabel1.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
-        jLabel1.setText("Data Kelas");
+        btnhapus.setBackground(new java.awt.Color(255, 0, 0));
+        btnhapus.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
+        btnhapus.setForeground(new java.awt.Color(255, 255, 255));
+        btnhapus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/bin (3).png"))); // NOI18N
+        btnhapus.setText("Hapus");
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        LabelKodeGuru.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        LabelKodeGuru.setText("Kode Guru");
+
+        LabelNamaGuru.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        LabelNamaGuru.setText("Nama Guru");
+
+        LabelKodeMaoel.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        LabelKodeMaoel.setText("Kode Mapel");
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
                 .addComponent(sideBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jSeparator1))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(38, 38, 38)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(Labelkodekelas)
-                                    .addComponent(jLabel1)
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                            .addComponent(Labelnamakelas)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(InputNamaKelas, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                            .addGap(124, 124, 124)
-                                            .addComponent(InputKodeKelas, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(ButtonTambah, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(ButtonUbah, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(ButtonHapus, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGap(0, 24, Short.MAX_VALUE)))
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 544, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(21, 21, 21))))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(sideBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addGap(7, 7, 7)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Labelkodekelas)
-                    .addComponent(InputKodeKelas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ButtonTambah))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btntambah, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(54, 54, 54)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addComponent(LabelKodeGuru, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(Inputkodeguru, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                                .addComponent(LabelKodeMaoel)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(Inputkodemapel, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                                .addComponent(LabelNamaGuru)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(Inputnamaguru, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addGap(1, 1, 1)))
+                                .addGap(21, 21, 21)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(btnubah, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btnhapus, javax.swing.GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE))))
+                        .addGap(36, 36, 36))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(20, 20, 20)
+                                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 551, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(28, 28, 28)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 528, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addComponent(Labelkodekelas)))
+                        .addContainerGap(38, Short.MAX_VALUE))))
+            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel2Layout.createSequentialGroup()
+                    .addGap(13, 13, 13)
                     .addComponent(Labelnamakelas)
-                    .addComponent(InputNamaKelas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ButtonUbah))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(ButtonHapus)
+                    .addContainerGap(496, Short.MAX_VALUE)))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGap(17, 17, 17)
+                .addComponent(Labelkodekelas)
+                .addGap(18, 18, 18)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 4, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(26, 26, 26)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(LabelKodeGuru)
+                    .addComponent(Inputkodeguru, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btntambah))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(LabelNamaGuru)
+                    .addComponent(Inputnamaguru, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnubah))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(LabelKodeMaoel)
+                    .addComponent(Inputkodemapel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnhapus))
+                .addGap(18, 18, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(64, 64, 64))
+            .addComponent(sideBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel2Layout.createSequentialGroup()
+                    .addGap(134, 134, 134)
+                    .addComponent(Labelnamakelas)
+                    .addContainerGap(343, Short.MAX_VALUE)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -428,7 +362,9 @@ public class DataKelas extends javax.swing.JFrame {
     private void LihatNilaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LihatNilaiActionPerformed
         // TODO add your handling code here:
         LaporanNilaiSiswa a = new LaporanNilaiSiswa();
+
         a.setVisible(true);
+        //        a.setEnabled(true);
     }//GEN-LAST:event_LihatNilaiActionPerformed
 
     private void btnSiswaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiswaActionPerformed
@@ -479,28 +415,21 @@ public class DataKelas extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_nilaiSiswa1ActionPerformed
 
-    private void InputKodeKelasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InputKodeKelasActionPerformed
+    private void InputkodeguruActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InputkodeguruActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_InputKodeKelasActionPerformed
+    }//GEN-LAST:event_InputkodeguruActionPerformed
 
-    private void InputNamaKelasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InputNamaKelasActionPerformed
+    private void InputnamaguruActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InputnamaguruActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_InputNamaKelasActionPerformed
+    }//GEN-LAST:event_InputnamaguruActionPerformed
 
-    private void ButtonTambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonTambahActionPerformed
+    private void btntambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btntambahActionPerformed
         // TODO add your handling code here:
-        tambahData();
-    }//GEN-LAST:event_ButtonTambahActionPerformed
+    }//GEN-LAST:event_btntambahActionPerformed
 
-    private void ButtonUbahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonUbahActionPerformed
+    private void btnubahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnubahActionPerformed
         // TODO add your handling code here:
-        ubahData();
-    }//GEN-LAST:event_ButtonUbahActionPerformed
-
-    private void ButtonHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonHapusActionPerformed
-        // TODO add your handling code here:
-        hapusData();
-    }//GEN-LAST:event_ButtonHapusActionPerformed
+    }//GEN-LAST:event_btnubahActionPerformed
 
     /**
      * @param args the command line arguments
@@ -519,43 +448,46 @@ public class DataKelas extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(DataKelas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DataGuru.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(DataKelas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DataGuru.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(DataKelas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DataGuru.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(DataKelas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DataGuru.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new DataKelas().setVisible(true);
+                new DataGuru().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton ButtonHapus;
-    private javax.swing.JButton ButtonTambah;
-    private javax.swing.JButton ButtonUbah;
-    private javax.swing.JTextField InputKodeKelas;
-    private javax.swing.JTextField InputNamaKelas;
+    private javax.swing.JTextField Inputkodeguru;
+    private javax.swing.JTextField Inputkodemapel;
+    private javax.swing.JTextField Inputnamaguru;
+    private javax.swing.JLabel LabelKodeGuru;
+    private javax.swing.JLabel LabelKodeMaoel;
+    private javax.swing.JLabel LabelNamaGuru;
     private javax.swing.JLabel Labelkodekelas;
     private javax.swing.JLabel Labelnamakelas;
     private javax.swing.JButton LihatNilai;
-    private javax.swing.JTable TableKelas;
+    private javax.swing.JTable Tabelguru;
     private javax.swing.JButton btnGuru;
     private javax.swing.JButton btnJurusan;
     private javax.swing.JButton btnKelas;
     private javax.swing.JButton btnMapel;
     private javax.swing.JButton btnSiswa;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JButton btnhapus;
+    private javax.swing.JButton btntambah;
+    private javax.swing.JButton btnubah;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JButton menuAwal;
