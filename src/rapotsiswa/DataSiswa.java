@@ -376,10 +376,6 @@ public class DataSiswa extends javax.swing.JFrame {
 
     private void btnSiswaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiswaActionPerformed
         // TODO add your handling code here:
-        DataSiswa a = new DataSiswa();
-        a.setVisible(true);
-        a.setEnabled(true);
-        this.dispose();
     }//GEN-LAST:event_btnSiswaActionPerformed
 
     private void btnMapelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMapelActionPerformed
