@@ -33,12 +33,12 @@ public class MainMenu extends javax.swing.JFrame {
             LihatNilai.disable();
         }
         else if (level.equals("guru")) {
-            btnGuru.disable();
-            btnJurusan.disable();
-            btnKelas.disable();
-            btnSiswa.disable();
-            btnMapel.disable();
-            nilaiSiswa1.disable();
+            btnGuru.enable(false);
+            btnJurusan.enable(false);
+            btnKelas.enable(false);
+            btnSiswa.enable(false);
+            btnMapel.enable(false);
+            nilaiSiswa1.enable(false);
         }
     }
 
@@ -235,6 +235,10 @@ public class MainMenu extends javax.swing.JFrame {
 
     private void btnGuruActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuruActionPerformed
         // TODO add your handling code here:
+        DataGuru a = new DataGuru();
+        a.setVisible(true);
+        a.setEnabled(true);
+        this.dispose();
     }//GEN-LAST:event_btnGuruActionPerformed
 
     private void btnKelasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKelasActionPerformed
@@ -263,6 +267,10 @@ public class MainMenu extends javax.swing.JFrame {
 
     private void nilaiSiswa1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nilaiSiswa1ActionPerformed
         // TODO add your handling code here:
+        DataNilai a = new DataNilai();
+        a.setVisible(true);
+        a.setEnabled(true);
+        this.dispose();
     }//GEN-LAST:event_nilaiSiswa1ActionPerformed
 
     /**
