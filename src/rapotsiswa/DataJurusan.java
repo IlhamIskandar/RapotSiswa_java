@@ -5,17 +5,120 @@
  */
 package rapotsiswa;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author acer
  */
 public class DataJurusan extends javax.swing.JFrame {
+    
+    Connection conn;
+    DefaultTableModel tm;
 
     /**
      * Creates new form DataJurusan
      */
     public DataJurusan() {
         initComponents();
+    }
+    
+    private void connectDB(){
+        conn = null;
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3307/rapot_siswa", "root","");
+        } catch (Exception e) {
+            System.out.println("ERROR KONEKSI KE DATABASE " + e);
+            JOptionPane.showMessageDialog(null, "Gagal Terhubung ke Database");
+        }
+    }
+    
+    private void refreshTable(){
+        tm = new DefaultTableModel(null, new Object[] { "Kode Kelas", "Nama Kelas" });
+        TableKelas.setModel(tm);
+        tm.getDataVector().removeAllElements();
+
+        try {
+            PreparedStatement s = conn.prepareStatement("SELECT * FROM kelas");
+            ResultSet r = s.executeQuery();
+            while(r.next()) {
+                Object[] data = {
+                r.getString(1),
+                r.getString(2)
+                };
+           
+            tm.addRow(data);
+            
+            };
+        } catch (Exception e) {
+            System.out.println("ERROR QUERY KE DATABASE : \n"+e+"\n\n");
+        }
+    }
+    
+    private void tambahData(){
+        String namaKelas, kodeKelas;
+        namaKelas = InputNamaKelas.getText();
+        kodeKelas = InputKodeKelas.getText();
+        
+        try {
+            PreparedStatement ps = conn.prepareStatement("INSERT INTO kelas VALUES(?, ?)");
+            ps.setString(1, kodeKelas);
+            ps.setString(2, namaKelas);
+            ps.executeUpdate();
+            
+            refreshTable();
+            InputKodeKelas.setText("");
+            InputNamaKelas.setText("");
+        } catch (Exception e) {
+            System.out.println("GAGAL EKSEKUSI QUERY" +e);
+            JOptionPane.showMessageDialog(null, "Gagal Menambah Data");
+        }
+    }
+    
+    private void hapusData(){
+        String namaKelas, kodeKelas;
+        kodeKelas = InputKodeKelas.getText();
+        
+        try {
+            PreparedStatement ps = conn.prepareStatement("DELETE FROM kelas WHERE kode_kelas = ?");
+            ps.setString(1, kodeKelas);
+            ps.executeUpdate();
+            
+            refreshTable();
+            InputKodeKelas.setText("");
+            InputNamaKelas.setText("");
+        } catch (Exception e) {
+            System.out.println("GAGAL EKSEKUSI QUERY"+e);
+            JOptionPane.showMessageDialog(null, "Gagal Menghapus Data");
+            
+        }
+    }
+    
+    private void ubahData(){
+        String namaKelas, kodeKelas;
+        kodeKelas = Inputkodejurusan.getText();
+        namaKelas = Inputnamajurusan.getText();
+        
+        try {
+            PreparedStatement ps = conn.prepareStatement("UPDATE kelas SET nama_kelas = ? WHERE kode_kelas = ?");
+            ps.setString(1, namaKelas);
+            ps.setString(2, kodeKelas);
+            ps.executeUpdate();
+            
+            refreshTable();
+            InputKodeKelas.setText("");
+            InputNamaKelas.setText("");
+        } catch (Exception e) {
+            System.out.println("GAGAL EKSEKUSI QUERY"+e);
+            JOptionPane.showMessageDialog(null, "Gagal Mengubah Data");
+            
+        }
     }
 
     /**

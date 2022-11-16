@@ -230,7 +230,7 @@ public class MainMenu extends javax.swing.JFrame {
         DataSiswa a = new DataSiswa();
         a.setVisible(true);
         a.setEnabled(true);
-        this.dispose();
+        this.hide();
     }//GEN-LAST:event_btnSiswaActionPerformed
 
     private void btnMapelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMapelActionPerformed
@@ -238,7 +238,7 @@ public class MainMenu extends javax.swing.JFrame {
         DataMapel a = new DataMapel();
         a.setVisible(true);
         a.setEnabled(true);
-        this.dispose();
+        this.hide();
     }//GEN-LAST:event_btnMapelActionPerformed
 
     private void btnGuruActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuruActionPerformed
@@ -246,7 +246,7 @@ public class MainMenu extends javax.swing.JFrame {
         DataGuru a = new DataGuru();
         a.setVisible(true);
         a.setEnabled(true);
-        this.dispose();
+        this.setVisible(false);
     }//GEN-LAST:event_btnGuruActionPerformed
 
     private void btnKelasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKelasActionPerformed
@@ -254,7 +254,7 @@ public class MainMenu extends javax.swing.JFrame {
         DataKelas a = new DataKelas();
         a.setVisible(true);
         a.setEnabled(true);
-        this.dispose();
+        this.hide();
     }//GEN-LAST:event_btnKelasActionPerformed
 
     private void btnJurusanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnJurusanActionPerformed
@@ -262,7 +262,7 @@ public class MainMenu extends javax.swing.JFrame {
         DataJurusan a = new DataJurusan();
         a.setVisible(true);
         a.setEnabled(true);
-        this.dispose();
+        this.hide();
     }//GEN-LAST:event_btnJurusanActionPerformed
 
     private void menuAwalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuAwalActionPerformed
@@ -275,7 +275,7 @@ public class MainMenu extends javax.swing.JFrame {
         DataNilai a = new DataNilai();
         a.setVisible(true);
         a.setEnabled(true);
-        this.dispose();
+        this.setVisible(false);
     }//GEN-LAST:event_nilaiSiswa1ActionPerformed
 
     /**

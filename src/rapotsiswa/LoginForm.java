@@ -39,7 +39,15 @@ public class LoginForm extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Username atau Password Salah");
             }else{
                 MainMenu utama = new MainMenu();
+                DataNilai n = new DataNilai();
+                DataSiswa s = new DataSiswa();
+                DataMapel m = new DataMapel();
+                DataGuru g = new DataGuru();
+                DataKelas k = new DataKelas();
+                DataJurusan j = new DataJurusan();
                 utama.setLevel(r.getString(1));
+//                n.setLevel(r.getString(1));
+                
                 
                 
                 utama.show(true);
