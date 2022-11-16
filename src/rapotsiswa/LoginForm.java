@@ -39,11 +39,15 @@ public class LoginForm extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Username atau Password Salah");
             }else{
                 MainMenu utama = new MainMenu();
-//                utama.setLevel(r.getString(1));
+                utama.setLevel(r.getString(1));
+                
+                
                 utama.show(true);
                 this.dispose();
             }
+            
         } catch (Exception e) {
+            
         }
     }
 
@@ -166,6 +170,11 @@ public class LoginForm extends javax.swing.JFrame {
         jButton2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setText("Masuk");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-graduate-64.png"))); // NOI18N
 
@@ -247,6 +256,11 @@ public class LoginForm extends javax.swing.JFrame {
     private void txtUsernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUsernameActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtUsernameActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        loginValidation();
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments

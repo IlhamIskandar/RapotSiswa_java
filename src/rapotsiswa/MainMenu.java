@@ -10,12 +10,36 @@ package rapotsiswa;
  * @author acer
  */
 public class MainMenu extends javax.swing.JFrame {
-
+    String username, level;
     /**
      * Creates new form MainMenu
      */
     public MainMenu() {
         initComponents();
+    }
+    
+    public void setLevel(String l){
+        level = l;
+        if (level.equals("siswa")) {
+            btnGuru.disable();
+            btnJurusan.disable();
+            btnKelas.disable();
+            btnSiswa.disable();
+            btnMapel.disable();
+            nilaiSiswa1.disable();
+        }
+        else if (level.equals("petugas")) {
+            nilaiSiswa1.disable();
+            LihatNilai.disable();
+        }
+        else if (level.equals("guru")) {
+            btnGuru.disable();
+            btnJurusan.disable();
+            btnKelas.disable();
+            btnSiswa.disable();
+            btnMapel.disable();
+            nilaiSiswa1.disable();
+        }
     }
 
     /**
