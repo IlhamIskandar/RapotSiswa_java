@@ -180,6 +180,7 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Menu Awal"/>
                 <Property name="actionCommand" type="java.lang.String" value="Data Guru"/>
+                <Property name="enabled" type="boolean" value="false"/>
                 <Property name="verticalTextPosition" type="int" value="3"/>
               </Properties>
               <Events>

@@ -21,24 +21,31 @@ public class MainMenu extends javax.swing.JFrame {
     public void setLevel(String l){
         level = l;
         if (level.equals("siswa")) {
-            btnGuru.disable();
-            btnJurusan.disable();
-            btnKelas.disable();
-            btnSiswa.disable();
-            btnMapel.disable();
-            nilaiSiswa1.disable();
+            LihatNilai.setEnabled(true);
+            nilaiSiswa1.setEnabled(false);
+            btnSiswa.setEnabled(false);
+            btnMapel.setEnabled(false);
+            btnGuru.setEnabled(false);
+            btnKelas.setEnabled(false);
+            btnJurusan.setEnabled(false);
         }
         else if (level.equals("petugas")) {
-            nilaiSiswa1.disable();
-            LihatNilai.disable();
+            LihatNilai.setEnabled(false);
+            nilaiSiswa1.setEnabled(false);
+            btnSiswa.setEnabled(true);
+            btnMapel.setEnabled(true);
+            btnGuru.setEnabled(true);
+            btnKelas.setEnabled(true);
+            btnJurusan.setEnabled(true);
         }
         else if (level.equals("guru")) {
-            btnGuru.enable(false);
-            btnJurusan.enable(false);
-            btnKelas.enable(false);
-            btnSiswa.enable(false);
-            btnMapel.enable(false);
-            nilaiSiswa1.enable(false);
+            LihatNilai.setEnabled(false);
+            nilaiSiswa1.setEnabled(true);
+            btnSiswa.setEnabled(false);
+            btnMapel.setEnabled(false);
+            btnGuru.setEnabled(false);
+            btnKelas.setEnabled(false);
+            btnJurusan.setEnabled(false);
         }
     }
 
@@ -122,6 +129,7 @@ public class MainMenu extends javax.swing.JFrame {
 
         menuAwal.setText("Menu Awal");
         menuAwal.setActionCommand("Data Guru");
+        menuAwal.setEnabled(false);
         menuAwal.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         menuAwal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -259,10 +267,7 @@ public class MainMenu extends javax.swing.JFrame {
 
     private void menuAwalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuAwalActionPerformed
         // TODO add your handling code here:
-        MainMenu a = new MainMenu();
-        a.setVisible(true);
-        a.setEnabled(true);
-        this.dispose();
+        
     }//GEN-LAST:event_menuAwalActionPerformed
 
     private void nilaiSiswa1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nilaiSiswa1ActionPerformed
