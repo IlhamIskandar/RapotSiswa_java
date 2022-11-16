@@ -354,6 +354,10 @@ public class DataNilai extends javax.swing.JFrame {
 
     private void btnGuru2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuru2ActionPerformed
         // TODO add your handling code here:
+        DataGuru a = new DataGuru();
+        a.setVisible(true);
+        a.setEnabled(true);
+        this.dispose();
     }//GEN-LAST:event_btnGuru2ActionPerformed
 
     private void btnKelas2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKelas2ActionPerformed
@@ -382,6 +386,10 @@ public class DataNilai extends javax.swing.JFrame {
 
     private void nilaiSiswa3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nilaiSiswa3ActionPerformed
         // TODO add your handling code here:
+        DataSiswa a = new DataSiswa();
+        a.setVisible(true);
+        a.setEnabled(true);
+        this.dispose();
     }//GEN-LAST:event_nilaiSiswa3ActionPerformed
 
     private void btnubahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnubahActionPerformed
