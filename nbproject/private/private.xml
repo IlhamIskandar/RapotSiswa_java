@@ -1,56 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-<<<<<<< HEAD
-            <file>file:/C:/Tugas-Tugas/RapotSiswa_java/src/rapotsiswa/DataJurusan.java</file>
-            <file>file:/C:/Tugas-Tugas/RapotSiswa_java/src/rapotsiswa/DataSiswa.java</file>
-            <file>file:/C:/Tugas-Tugas/RapotSiswa_java/src/image/graduation_hat.png</file>
-            <file>file:/C:/Tugas-Tugas/RapotSiswa_java/src/rapotsiswa/LoginForm.java</file>
-            <file>file:/C:/Tugas-Tugas/RapotSiswa_java/src/rapotsiswa/Home.java</file>
-            <file>file:/C:/Tugas-Tugas/RapotSiswa_java/src/image/hat-g21deb8e18_1280.png</file>
-=======
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-            <file>file:/D:/Rapot/RapotSiswa_java/src/rapotsiswa/LoginForm.java</file>
-            <file>file:/D:/Rapot/RapotSiswa_java/src/rapotsiswa/MainMenu.java</file>
-            <file>file:/D:/Rapot/RapotSiswa_java/src/image/hat-g21deb8e18_1280.png</file>
-=======
-<<<<<<< HEAD
->>>>>>> ec3dc52788ed99fab57a3ec6406af0230a2cefac
-            <file>file:/D:/rapot/RapotSiswa_java/src/rapotsiswa/DataSiswa.java</file>
-            <file>file:/D:/rapot/RapotSiswa_java/src/rapotsiswa/MainMenu.java</file>
-            <file>file:/D:/rapot/RapotSiswa_java/src/rapotsiswa/DataKelas.java</file>
-            <file>file:/D:/rapot/RapotSiswa_java/src/rapotsiswa/Siswa.java</file>
-            <file>file:/D:/rapot/RapotSiswa_java/src/image/hat-g21deb8e18_1280.png</file>
-            <file>file:/D:/rapot/RapotSiswa_java/src/rapotsiswa/DataJurusan.java</file>
-            <file>file:/D:/rapot/RapotSiswa_java/src/rapotsiswa/CRUDNilai.java</file>
-            <file>file:/D:/rapot/RapotSiswa_java/src/rapotsiswa/LoginForm.java</file>
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-=======
->>>>>>> a59690394b4ba3f6ac2f5f0da4fb821840d47ba5
+            <file>file:/D:/Code/Java/RapotSiswa/nbproject/genfiles.properties</file>
             <file>file:/D:/Code/Java/RapotSiswa/src/rapotsiswa/MainMenu.java</file>
-            <file>file:/D:/Code/Java/RapotSiswa/src/rapotsiswa/DataKelas.java</file>
+            <file>file:/D:/Code/Java/RapotSiswa/nbproject/private/private.xml</file>
+            <file>file:/D:/Code/Java/RapotSiswa/src/rapotsiswa/DataNilai.java</file>
             <file>file:/D:/Code/Java/RapotSiswa/src/rapotsiswa/RapotSiswa.java</file>
             <file>file:/D:/Code/Java/RapotSiswa/src/rapotsiswa/DataMapel.java</file>
-            <file>file:/D:/Code/Java/RapotSiswa/src/rapotsiswa/DataSiswa.java</file>
-            <file>file:/D:/Code/Java/RapotSiswa/src/rapotsiswa/LoginForm.java</file>
-<<<<<<< HEAD
+            <file>file:/D:/Code/Java/RapotSiswa/nbproject/project.properties</file>
+            <file>file:/D:/Code/Java/RapotSiswa/nbproject/build-impl.xml</file>
+            <file>file:/D:/Code/Java/RapotSiswa/nbproject/project.xml</file>
+            <file>file:/D:/Code/Java/RapotSiswa/src/rapotsiswa/DataGuru.java</file>
             <file>file:/D:/Code/Java/RapotSiswa/src/rapotsiswa/DataJurusan.java</file>
-=======
->>>>>>> 33480b22dfba122f5d948ffd0d6a646a80c7779f
->>>>>>> 038850ef453b32adef62326f0d9baac2ea33c096
->>>>>>> a59690394b4ba3f6ac2f5f0da4fb821840d47ba5
->>>>>>> 328d66da501f17db4d4f631b7ba10a2bf88df262
->>>>>>> c7f1436bc3e72e6ec1f7f34b22fa69cf835f09c6
->>>>>>> ec3dc52788ed99fab57a3ec6406af0230a2cefac
->>>>>>> 5a6dc5157f4fea87b9500cf2b98d0165608fb3a0
+            <file>file:/D:/Code/Java/RapotSiswa/src/rapotsiswa/DataKelas.java</file>
+            <file>file:/D:/Code/Java/RapotSiswa/nbproject/private/config.properties</file>
+            <file>file:/D:/Code/Java/RapotSiswa/src/rapotsiswa/DataSiswa.java</file>
+            <file>file:/D:/Code/Java/RapotSiswa/src/rapotsiswa/LaporanNilaiSiswa.java</file>
+            <file>file:/D:/Code/Java/RapotSiswa/nbproject/private/private.properties</file>
+            <file>file:/D:/Code/Java/RapotSiswa/src/rapotsiswa/LoginForm.java</file>
+            <file>file:/D:/Code/Java/RapotSiswa/src/rapotsiswa/FunctionLib.java</file>
         </group>
     </open-files>
 </project-private>
