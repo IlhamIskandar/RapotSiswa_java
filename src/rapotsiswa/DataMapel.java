@@ -5,17 +5,119 @@
  */
 package rapotsiswa;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author acer
  */
 public class DataMapel extends javax.swing.JFrame {
-
+    Connection conn;
+    DefaultTableModel tm;
     /**
      * Creates new form DataMapel
      */
     public DataMapel() {
         initComponents();
+        connectDB();
+        refreshTable();
+    }
+    private void connectDB(){
+        conn = null;
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3307/rapot_siswa", "root","");
+        } catch (Exception e) {
+            System.out.println("ERROR KONEKSI KE DATABASE " + e);
+            JOptionPane.showMessageDialog(null, "Gagal Terhubung ke Database");
+        }
+    }
+    
+    private void refreshTable(){
+        tm = new DefaultTableModel(null, new Object[] { "Kode Mapel", "Nama Mapel" });
+        tableMapel.setModel(tm);
+        tm.getDataVector().removeAllElements();
+
+        try {
+            PreparedStatement s = conn.prepareStatement("SELECT * FROM mapel");
+            ResultSet r = s.executeQuery();
+            while(r.next()) {
+                Object[] data = {
+                r.getString(1),
+                r.getString(2)
+                };
+           
+            tm.addRow(data);
+            
+            };
+        } catch (Exception e) {
+            System.out.println("ERROR QUERY KE DATABASE : \n"+e+"\n\n");
+        }
+    }
+    
+    private void tambahData(){
+        String namaMapel, kodeMapel;
+        namaMapel = InputNmMapel.getText();
+        kodeMapel = InputKdMapel.getText();
+        
+        try {
+            PreparedStatement ps = conn.prepareStatement("INSERT INTO mapel VALUES(?, ?)");
+            ps.setString(1, kodeMapel);
+            ps.setString(2, namaMapel);
+            ps.executeUpdate();
+            
+            refreshTable();
+            InputKdMapel.setText("");
+            InputNmMapel.setText("");
+        } catch (Exception e) {
+            System.out.println("GAGAL EKSEKUSI QUERY" +e);
+            JOptionPane.showMessageDialog(null, "Gagal Menambah Data");
+        }
+    }
+    
+    private void hapusData(){
+        String kodeMapel;
+        kodeMapel = InputKdMapel.getText();
+        
+        try {
+            PreparedStatement ps = conn.prepareStatement("DELETE FROM mapel WHERE kode_mapel = ?");
+            ps.setString(1, kodeMapel);
+            ps.executeUpdate();
+            
+            refreshTable();
+            InputKdMapel.setText("");
+            InputNmMapel.setText("");
+        } catch (Exception e) {
+            System.out.println("GAGAL EKSEKUSI QUERY"+e);
+            JOptionPane.showMessageDialog(null, "Gagal Menghapus Data");
+            
+        }
+    }
+    
+    private void ubahData(){
+        String namaMapel, kodeMapel;
+        kodeMapel = InputKdMapel.getText();
+        namaMapel = InputNmMapel.getText();
+        
+        try {
+            PreparedStatement ps = conn.prepareStatement("UPDATE mapel SET nama_mapel = ? WHERE kode_mapel = ?");
+            ps.setString(1, namaMapel);
+            ps.setString(2, kodeMapel);
+            ps.executeUpdate();
+            
+            refreshTable();
+            InputKdMapel.setText("");
+            InputNmMapel.setText("");
+        } catch (Exception e) {
+            System.out.println("GAGAL EKSEKUSI QUERY"+e);
+            JOptionPane.showMessageDialog(null, "Gagal Mengubah Data");
+            
+        }
     }
 
     /**
@@ -39,14 +141,14 @@ public class DataMapel extends javax.swing.JFrame {
         menuAwal = new javax.swing.JButton();
         nilaiSiswa1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tableMapel = new javax.swing.JTable();
         KdMapel = new javax.swing.JLabel();
         NmMapel = new javax.swing.JLabel();
         InputKdMapel = new javax.swing.JTextField();
         InputNmMapel = new javax.swing.JTextField();
         TambahBtn = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        ubahBtn = new javax.swing.JButton();
+        hapusBtn = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
 
@@ -168,7 +270,7 @@ public class DataMapel extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tableMapel.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -179,7 +281,7 @@ public class DataMapel extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tableMapel);
 
         KdMapel.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
         KdMapel.setText("Kode Mata Pelajaran");
@@ -204,25 +306,25 @@ public class DataMapel extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setBackground(new java.awt.Color(255, 204, 0));
-        jButton2.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/pencil.png"))); // NOI18N
-        jButton2.setText("Ubah");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        ubahBtn.setBackground(new java.awt.Color(255, 204, 0));
+        ubahBtn.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
+        ubahBtn.setForeground(new java.awt.Color(255, 255, 255));
+        ubahBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/pencil.png"))); // NOI18N
+        ubahBtn.setText("Ubah");
+        ubahBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                ubahBtnActionPerformed(evt);
             }
         });
 
-        jButton3.setBackground(new java.awt.Color(255, 0, 0));
-        jButton3.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
-        jButton3.setForeground(new java.awt.Color(255, 255, 255));
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/bin (3).png"))); // NOI18N
-        jButton3.setText("Hapus");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        hapusBtn.setBackground(new java.awt.Color(255, 0, 0));
+        hapusBtn.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
+        hapusBtn.setForeground(new java.awt.Color(255, 255, 255));
+        hapusBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/bin (3).png"))); // NOI18N
+        hapusBtn.setText("Hapus");
+        hapusBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                hapusBtnActionPerformed(evt);
             }
         });
 
@@ -255,8 +357,8 @@ public class DataMapel extends javax.swing.JFrame {
                                         .addGap(18, 18, 18)
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                             .addComponent(TambahBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                            .addComponent(ubahBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(hapusBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 561, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
@@ -281,9 +383,9 @@ public class DataMapel extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(NmMapel)
                     .addComponent(InputNmMapel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2))
+                    .addComponent(ubahBtn))
                 .addGap(18, 18, 18)
-                .addComponent(jButton3)
+                .addComponent(hapusBtn)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(53, 53, 53))
@@ -361,15 +463,18 @@ public class DataMapel extends javax.swing.JFrame {
 
     private void TambahBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TambahBtnActionPerformed
         // TODO add your handling code here:
+        tambahData();
     }//GEN-LAST:event_TambahBtnActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void ubahBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ubahBtnActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+        ubahData();
+    }//GEN-LAST:event_ubahBtnActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void hapusBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hapusBtnActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
+        hapusData();
+    }//GEN-LAST:event_hapusBtnActionPerformed
 
     private void InputKdMapelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InputKdMapelActionPerformed
         // TODO add your handling code here:
@@ -423,16 +528,16 @@ public class DataMapel extends javax.swing.JFrame {
     private javax.swing.JButton btnKelas;
     private javax.swing.JButton btnMapel;
     private javax.swing.JButton btnSiswa;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton hapusBtn;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JButton menuAwal;
     private javax.swing.JButton nilaiSiswa1;
     private javax.swing.JPanel sideBar;
+    private javax.swing.JTable tableMapel;
+    private javax.swing.JButton ubahBtn;
     // End of variables declaration//GEN-END:variables
 }
