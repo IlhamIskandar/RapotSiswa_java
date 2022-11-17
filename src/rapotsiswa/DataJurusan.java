@@ -26,6 +26,8 @@ public class DataJurusan extends javax.swing.JFrame {
      */
     public DataJurusan() {
         initComponents();
+        connectDB();
+        refreshTable();
     }
     
     private void connectDB(){
@@ -40,12 +42,12 @@ public class DataJurusan extends javax.swing.JFrame {
     }
     
     private void refreshTable(){
-        tm = new DefaultTableModel(null, new Object[] { "Kode Kelas", "Nama Kelas" });
-        TableKelas.setModel(tm);
+        tm = new DefaultTableModel(null, new Object[] { "Kode Jurusan", "Nama Jurusan" });
+        Tabeljurusan.setModel(tm);
         tm.getDataVector().removeAllElements();
 
         try {
-            PreparedStatement s = conn.prepareStatement("SELECT * FROM kelas");
+            PreparedStatement s = conn.prepareStatement("SELECT * FROM jurusan");
             ResultSet r = s.executeQuery();
             while(r.next()) {
                 Object[] data = {
@@ -62,19 +64,19 @@ public class DataJurusan extends javax.swing.JFrame {
     }
     
     private void tambahData(){
-        String namaKelas, kodeKelas;
-        namaKelas = InputNamaKelas.getText();
-        kodeKelas = InputKodeKelas.getText();
+        String namaJurusan, kodeJurusan;
+        namaJurusan = Inputnamajurusan.getText();
+        kodeJurusan = Inputkodejurusan.getText();
         
         try {
-            PreparedStatement ps = conn.prepareStatement("INSERT INTO kelas VALUES(?, ?)");
-            ps.setString(1, kodeKelas);
-            ps.setString(2, namaKelas);
+            PreparedStatement ps = conn.prepareStatement("INSERT INTO jurusan VALUES(?, ?)");
+            ps.setString(1, kodeJurusan);
+            ps.setString(2, namaJurusan);
             ps.executeUpdate();
             
             refreshTable();
-            InputKodeKelas.setText("");
-            InputNamaKelas.setText("");
+            Inputkodejurusan.setText("");
+            Inputnamajurusan.setText("");
         } catch (Exception e) {
             System.out.println("GAGAL EKSEKUSI QUERY" +e);
             JOptionPane.showMessageDialog(null, "Gagal Menambah Data");
@@ -82,17 +84,17 @@ public class DataJurusan extends javax.swing.JFrame {
     }
     
     private void hapusData(){
-        String namaKelas, kodeKelas;
-        kodeKelas = InputKodeKelas.getText();
+        String kodeJurusan;
+        kodeJurusan = Inputkodejurusan.getText();
         
         try {
-            PreparedStatement ps = conn.prepareStatement("DELETE FROM kelas WHERE kode_kelas = ?");
-            ps.setString(1, kodeKelas);
+            PreparedStatement ps = conn.prepareStatement("DELETE FROM jurusan WHERE kode_jurusan = ?");
+            ps.setString(1, kodeJurusan);
             ps.executeUpdate();
             
             refreshTable();
-            InputKodeKelas.setText("");
-            InputNamaKelas.setText("");
+            Inputkodejurusan.setText("");
+            Inputnamajurusan.setText("");
         } catch (Exception e) {
             System.out.println("GAGAL EKSEKUSI QUERY"+e);
             JOptionPane.showMessageDialog(null, "Gagal Menghapus Data");
@@ -101,19 +103,19 @@ public class DataJurusan extends javax.swing.JFrame {
     }
     
     private void ubahData(){
-        String namaKelas, kodeKelas;
-        kodeKelas = Inputkodejurusan.getText();
-        namaKelas = Inputnamajurusan.getText();
+        String namaJurusan, kodeJurusan;
+        kodeJurusan = Inputkodejurusan.getText();
+        namaJurusan = Inputnamajurusan.getText();
         
         try {
-            PreparedStatement ps = conn.prepareStatement("UPDATE kelas SET nama_kelas = ? WHERE kode_kelas = ?");
-            ps.setString(1, namaKelas);
-            ps.setString(2, kodeKelas);
+            PreparedStatement ps = conn.prepareStatement("UPDATE jurusan SET nama_jurusan = ? WHERE kode_jurusan = ?");
+            ps.setString(1, namaJurusan);
+            ps.setString(2, kodeJurusan);
             ps.executeUpdate();
             
             refreshTable();
-            InputKodeKelas.setText("");
-            InputNamaKelas.setText("");
+            Inputkodejurusan.setText("");
+            Inputnamajurusan.setText("");
         } catch (Exception e) {
             System.out.println("GAGAL EKSEKUSI QUERY"+e);
             JOptionPane.showMessageDialog(null, "Gagal Mengubah Data");
@@ -312,12 +314,22 @@ public class DataJurusan extends javax.swing.JFrame {
         btnUbah.setForeground(new java.awt.Color(255, 255, 255));
         btnUbah.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/pencil.png"))); // NOI18N
         btnUbah.setText("Ubah");
+        btnUbah.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUbahActionPerformed(evt);
+            }
+        });
 
         btnHapus.setBackground(new java.awt.Color(255, 0, 0));
         btnHapus.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
         btnHapus.setForeground(new java.awt.Color(255, 255, 255));
         btnHapus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/bin (3).png"))); // NOI18N
         btnHapus.setText("Hapus");
+        btnHapus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHapusActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -458,7 +470,18 @@ public class DataJurusan extends javax.swing.JFrame {
 
     private void btnTambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahActionPerformed
         // TODO add your handling code here:
+        tambahData();
     }//GEN-LAST:event_btnTambahActionPerformed
+
+    private void btnUbahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUbahActionPerformed
+        // TODO add your handling code here:
+        ubahData();
+    }//GEN-LAST:event_btnUbahActionPerformed
+
+    private void btnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapusActionPerformed
+        // TODO add your handling code here:
+        hapusData();
+    }//GEN-LAST:event_btnHapusActionPerformed
 
     /**
      * @param args the command line arguments

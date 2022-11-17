@@ -100,6 +100,7 @@ public class DataKelas extends javax.swing.JFrame {
             
         }
     }
+    
     private void ubahData(){
         String namaKelas, kodeKelas;
         kodeKelas = InputKodeKelas.getText();

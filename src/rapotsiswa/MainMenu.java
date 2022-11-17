@@ -275,7 +275,7 @@ public class MainMenu extends javax.swing.JFrame {
         DataNilai a = new DataNilai();
         a.setVisible(true);
         a.setEnabled(true);
-        this.setVisible(false);
+        this.hide();
     }//GEN-LAST:event_nilaiSiswa1ActionPerformed
 
     /**
