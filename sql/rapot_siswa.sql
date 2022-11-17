@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 02, 2022 at 03:18 AM
+-- Generation Time: Nov 17, 2022 at 05:23 AM
 -- Server version: 10.1.38-MariaDB
 -- PHP Version: 7.3.2
 
@@ -29,10 +29,18 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `guru` (
-  `kode_guru` varchar(10) NOT NULL,
-  `nama_guru` varchar(10) NOT NULL,
-  `kode_mapel` varchar(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `kode_guru` int(10) NOT NULL,
+  `nama_guru` varchar(100) NOT NULL,
+  `kode_mapel` varchar(10) CHARACTER SET utf8mb4 NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `guru`
+--
+
+INSERT INTO `guru` (`kode_guru`, `nama_guru`, `kode_mapel`) VALUES
+(2, 'Guru B Inggris', 'bing'),
+(3, 'Guru MatemaTIKA', 'mtk');
 
 -- --------------------------------------------------------
 
@@ -62,7 +70,8 @@ CREATE TABLE `jurusan` (
 
 INSERT INTO `jurusan` (`kode_jurusan`, `nama_jurusan`) VALUES
 ('rpl1', 'Rekayasa Perangkat Lunak 1'),
-('rpl2', 'Rekayasa Perangkat Lunak 2');
+('rpl2', 'Rekayasa Perangkat Lunak 2'),
+('tkr1', 'Teknik Kendaraan Ringan 1');
 
 -- --------------------------------------------------------
 
@@ -72,7 +81,7 @@ INSERT INTO `jurusan` (`kode_jurusan`, `nama_jurusan`) VALUES
 
 CREATE TABLE `kelas` (
   `kode_kelas` varchar(10) NOT NULL,
-  `nama_kelas` varchar(10) NOT NULL
+  `nama_kelas` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -93,8 +102,17 @@ INSERT INTO `kelas` (`kode_kelas`, `nama_kelas`) VALUES
 
 CREATE TABLE `mapel` (
   `kode_mapel` varchar(10) NOT NULL,
-  `nama_mapel` varchar(10) NOT NULL
+  `nama_mapel` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `mapel`
+--
+
+INSERT INTO `mapel` (`kode_mapel`, `nama_mapel`) VALUES
+('bind', 'Bahasa Indonesia'),
+('bing', 'Bahasa Inggris'),
+('mtk', 'Matematika');
 
 -- --------------------------------------------------------
 
@@ -106,7 +124,7 @@ CREATE TABLE `nilai` (
   `id_nilai` int(11) NOT NULL,
   `id_penilaian` int(11) NOT NULL,
   `nis` int(11) NOT NULL,
-  `kode_guru` varchar(10) NOT NULL,
+  `kode_guru` int(10) NOT NULL,
   `nilai` double NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -164,7 +182,7 @@ INSERT INTO `user` (`id_user`, `username`, `password`, `level`) VALUES
 --
 ALTER TABLE `guru`
   ADD PRIMARY KEY (`kode_guru`),
-  ADD KEY `guru_ibfk_1` (`kode_mapel`);
+  ADD KEY `kode_mapel` (`kode_mapel`);
 
 --
 -- Indexes for table `jenis_penilaian`
@@ -196,7 +214,7 @@ ALTER TABLE `mapel`
 ALTER TABLE `nilai`
   ADD PRIMARY KEY (`id_nilai`),
   ADD KEY `id_penilaian` (`id_penilaian`),
-  ADD KEY `nilai_ibfk_2` (`kode_guru`);
+  ADD KEY `kode_guru` (`kode_guru`);
 
 --
 -- Indexes for table `siswa`
@@ -214,6 +232,16 @@ ALTER TABLE `user`
   ADD PRIMARY KEY (`id_user`);
 
 --
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `guru`
+--
+ALTER TABLE `guru`
+  MODIFY `kode_guru` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- Constraints for dumped tables
 --
 
@@ -221,14 +249,14 @@ ALTER TABLE `user`
 -- Constraints for table `guru`
 --
 ALTER TABLE `guru`
-  ADD CONSTRAINT `guru_ibfk_1` FOREIGN KEY (`kode_mapel`) REFERENCES `mapel` (`kode_mapel`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `guru_ibfk_1` FOREIGN KEY (`kode_mapel`) REFERENCES `mapel` (`kode_mapel`);
 
 --
 -- Constraints for table `nilai`
 --
 ALTER TABLE `nilai`
   ADD CONSTRAINT `nilai_ibfk_1` FOREIGN KEY (`id_penilaian`) REFERENCES `jenis_penilaian` (`id_penilaian`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `nilai_ibfk_2` FOREIGN KEY (`kode_guru`) REFERENCES `guru` (`kode_guru`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `nilai_ibfk_2` FOREIGN KEY (`kode_guru`) REFERENCES `guru` (`kode_guru`);
 
 --
 -- Constraints for table `siswa`

@@ -4,17 +4,155 @@
  */
 package rapotsiswa;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author PC-RPL 10
  */
 public class DataGuru extends javax.swing.JFrame {
-
+    Connection conn;
+    DefaultTableModel tm;
     /**
      * Creates new form DataGuru
      */
     public DataGuru() {
         initComponents();
+        connectDB();
+        getMapel();
+        refreshTable();
+        namaMapel.setText("");
+        cbKdMapel.setSelectedIndex(-1);
+    }
+    
+    private void connectDB(){
+        conn = null;
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3307/rapot_siswa", "root","");
+        } catch (Exception e) {
+            System.out.println("ERROR KONEKSI KE DATABASE " + e);
+            JOptionPane.showMessageDialog(null, "Gagal Terhubung ke Database");
+        }
+    }
+    
+    private void refreshTable(){
+        tm = new DefaultTableModel(null, new Object[] { "Kode Guru", "Nama Guru", "Mapel" });
+        Tabelguru.setModel(tm);
+        tm.getDataVector().removeAllElements();
+
+        try {
+            PreparedStatement s = conn.prepareStatement("SELECT guru.kode_guru, guru.nama_guru, mapel.nama_mapel FROM guru, mapel WHERE guru.kode_mapel=mapel.kode_mapel ");
+            ResultSet r = s.executeQuery();
+            while(r.next()) {
+                Object[] data = {
+                r.getString(1),
+                r.getString(2),
+                r.getString(3)
+                };
+           
+            tm.addRow(data);
+            
+            };
+        } catch (Exception e) {
+            System.out.println("ERROR QUERY KE DATABASE : \n"+e+"\n\n");
+        }
+    }
+    
+    private void getMapel(){
+        try {
+            PreparedStatement s = conn.prepareStatement("SELECT kode_mapel FROM mapel");
+            ResultSet r = s.executeQuery();
+//            comboMapel.addItem(Arrays.toString);
+            while (r.next()) {    
+                
+                cbKdMapel.addItem(r.getString("kode_mapel"));
+            }
+            s.executeUpdate();
+        } catch (Exception e) {
+        }
+    }
+    
+    private void tambahData(){
+        String namaGuru, kodeMapel;
+        namaGuru = InputNamaGuru.getText();
+        kodeMapel = (String) cbKdMapel.getSelectedItem();
+        System.out.print(kodeMapel);
+        
+        try {
+            PreparedStatement ps = conn.prepareStatement("INSERT INTO guru VALUES(? ,?, ?)");
+            ps.setString(1, null);
+            ps.setString(2, namaGuru);
+            ps.setString(3, kodeMapel);
+            ps.executeUpdate();
+            
+            refreshTable();
+            InputNamaGuru.setText("");
+            cbKdMapel.setSelectedIndex(-1);
+            namaMapel.setText("");
+        } catch (Exception e) {
+            System.out.println("GAGAL EKSEKUSI QUERY" +e);
+            JOptionPane.showMessageDialog(null, "Gagal Menambah Data");
+        }
+    }
+    
+    private void hapusData(){
+        String kodeGuru;
+        kodeGuru = InputKodeGuru.getText();
+        
+        try {
+            PreparedStatement ps = conn.prepareStatement("DELETE FROM guru WHERE kode_guru = ?");
+            ps.setString(1, kodeGuru);
+            ps.executeUpdate();
+            
+            refreshTable();
+            InputKodeGuru.setText("");
+        } catch (Exception e) {
+            System.out.println("GAGAL EKSEKUSI QUERY"+e);
+            JOptionPane.showMessageDialog(null, "Gagal Menghapus Data");
+            
+        }
+    }
+    
+    private void ubahData(){
+        String namaGuru, kodeMapel, kodeGuru;
+        kodeMapel = (String) cbKdMapel.getSelectedItem();
+        namaGuru = InputNamaGuru.getText();
+        kodeGuru = InputKodeGuru.getText();
+        if (kodeMapel != "") {
+            try {
+                PreparedStatement ps = conn.prepareStatement("UPDATE guru SET nama_guru = ?, kode_mapel = ? WHERE kode_guru = ?");
+                ps.setString(1, namaGuru);
+                ps.setString(2, kodeMapel);
+                ps.setString(3, kodeGuru);
+                ps.executeUpdate();                
+            } catch (Exception e) {
+                System.out.println("GAGAL EKSEKUSI QUERY"+e);
+                JOptionPane.showMessageDialog(null, "Gagal Mengubah Data");
+            
+            }
+        }else {
+            try {
+                PreparedStatement ps = conn.prepareStatement("UPDATE guru SET nama_guru = ?,  WHERE kode_guru = ?");
+                ps.setString(1, namaGuru);
+                ps.setString(2, kodeGuru);
+                ps.executeUpdate();
+            } catch (Exception e) {
+                System.out.println("GAGAL EKSEKUSI QUERY"+e);
+                JOptionPane.showMessageDialog(null, "Gagal Mengubah Data");
+            
+            }
+        }
+        refreshTable();
+        InputNamaGuru.setText("");
+        InputKodeGuru.setText("");
+        cbKdMapel.setSelectedIndex(-1);
+        namaMapel.setText("");
     }
 
     /**
@@ -39,19 +177,20 @@ public class DataGuru extends javax.swing.JFrame {
         menuAwal = new javax.swing.JButton();
         nilaiSiswa1 = new javax.swing.JButton();
         Labelkodekelas = new javax.swing.JLabel();
-        Labelnamakelas = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         Tabelguru = new javax.swing.JTable();
-        Inputkodeguru = new javax.swing.JTextField();
-        Inputnamaguru = new javax.swing.JTextField();
+        InputNamaGuru = new javax.swing.JTextField();
         btntambah = new javax.swing.JButton();
         btnubah = new javax.swing.JButton();
         btnhapus = new javax.swing.JButton();
         LabelKodeGuru = new javax.swing.JLabel();
-        LabelNamaGuru = new javax.swing.JLabel();
         LabelKodeMaoel = new javax.swing.JLabel();
-        Inputkodemapel = new javax.swing.JTextField();
         jSeparator1 = new javax.swing.JSeparator();
+        cbKdMapel = new javax.swing.JComboBox<>();
+        namaMapel = new javax.swing.JLabel();
+        LabelNamaGuru = new javax.swing.JLabel();
+        jSeparator2 = new javax.swing.JSeparator();
+        InputKodeGuru = new javax.swing.JTextField();
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -187,14 +326,11 @@ public class DataGuru extends javax.swing.JFrame {
                 .addComponent(btnJurusan, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(menuAwal, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(38, Short.MAX_VALUE))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
 
         Labelkodekelas.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
         Labelkodekelas.setText("Data Guru");
-
-        Labelnamakelas.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
-        Labelnamakelas.setText("Nama Kelas");
 
         Tabelguru.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
         Tabelguru.setModel(new javax.swing.table.DefaultTableModel(
@@ -210,15 +346,9 @@ public class DataGuru extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(Tabelguru);
 
-        Inputkodeguru.addActionListener(new java.awt.event.ActionListener() {
+        InputNamaGuru.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                InputkodeguruActionPerformed(evt);
-            }
-        });
-
-        Inputnamaguru.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                InputnamaguruActionPerformed(evt);
+                InputNamaGuruActionPerformed(evt);
             }
         });
 
@@ -249,15 +379,34 @@ public class DataGuru extends javax.swing.JFrame {
         btnhapus.setForeground(new java.awt.Color(255, 255, 255));
         btnhapus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/bin (3).png"))); // NOI18N
         btnhapus.setText("Hapus");
+        btnhapus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnhapusActionPerformed(evt);
+            }
+        });
 
         LabelKodeGuru.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
         LabelKodeGuru.setText("Kode Guru");
 
+        LabelKodeMaoel.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        LabelKodeMaoel.setText("Kode Mapel");
+
+        cbKdMapel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbKdMapelActionPerformed(evt);
+            }
+        });
+
         LabelNamaGuru.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
         LabelNamaGuru.setText("Nama Guru");
 
-        LabelKodeMaoel.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
-        LabelKodeMaoel.setText("Kode Mapel");
+        jSeparator2.setEnabled(false);
+
+        InputKodeGuru.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                InputKodeGuruActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -265,52 +414,46 @@ public class DataGuru extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addComponent(sideBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btntambah, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(54, 54, 54)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addComponent(LabelKodeGuru, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(Inputkodeguru, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                                .addComponent(LabelKodeMaoel)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(Inputkodemapel, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                                .addComponent(LabelNamaGuru)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(Inputnamaguru, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                        .addGap(1, 1, 1)))
-                                .addGap(21, 21, 21)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(btnubah, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(btnhapus, javax.swing.GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE))))
-                        .addGap(36, 36, 36))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(Labelkodekelas))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                        .addGap(20, 20, 20)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(20, 20, 20)
-                                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 551, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(28, 28, 28)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 528, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(18, 18, 18)
-                                .addComponent(Labelkodekelas)))
-                        .addContainerGap(38, Short.MAX_VALUE))))
-            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel2Layout.createSequentialGroup()
-                    .addGap(13, 13, 13)
-                    .addComponent(Labelnamakelas)
-                    .addContainerGap(496, Short.MAX_VALUE)))
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(jPanel2Layout.createSequentialGroup()
+                                    .addGap(26, 26, 26)
+                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(LabelKodeMaoel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(LabelNamaGuru, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addGroup(jPanel2Layout.createSequentialGroup()
+                                            .addComponent(cbKdMapel, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addComponent(namaMapel, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGap(124, 124, 124))
+                                        .addGroup(jPanel2Layout.createSequentialGroup()
+                                            .addComponent(InputNamaGuru, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(btntambah, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addGroup(jPanel2Layout.createSequentialGroup()
+                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 551, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 528, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGroup(jPanel2Layout.createSequentialGroup()
+                                            .addGap(26, 26, 26)
+                                            .addComponent(LabelKodeGuru, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGap(26, 26, 26)
+                                            .addComponent(InputKodeGuru, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGap(18, 18, 18)
+                                            .addComponent(btnhapus, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGap(18, 18, 18)
+                                            .addComponent(btnubah, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGap(0, 0, Short.MAX_VALUE)))
+                            .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 551, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(38, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -319,30 +462,29 @@ public class DataGuru extends javax.swing.JFrame {
                 .addComponent(Labelkodekelas)
                 .addGap(18, 18, 18)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 4, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(LabelKodeGuru)
-                    .addComponent(Inputkodeguru, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btntambah))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(LabelNamaGuru)
-                    .addComponent(Inputnamaguru, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(InputNamaGuru, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btntambah)
+                    .addComponent(LabelNamaGuru))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(LabelKodeMaoel)
+                        .addComponent(cbKdMapel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(namaMapel, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(10, 10, 10)
+                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnhapus)
+                    .addComponent(LabelKodeGuru)
+                    .addComponent(InputKodeGuru, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnubah))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(LabelKodeMaoel)
-                    .addComponent(Inputkodemapel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnhapus))
-                .addGap(18, 18, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(64, 64, 64))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addComponent(sideBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel2Layout.createSequentialGroup()
-                    .addGap(134, 134, 134)
-                    .addComponent(Labelnamakelas)
-                    .addContainerGap(343, Short.MAX_VALUE)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -353,7 +495,7 @@ public class DataGuru extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -415,21 +557,44 @@ public class DataGuru extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_nilaiSiswa1ActionPerformed
 
-    private void InputkodeguruActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InputkodeguruActionPerformed
+    private void InputNamaGuruActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InputNamaGuruActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_InputkodeguruActionPerformed
-
-    private void InputnamaguruActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InputnamaguruActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_InputnamaguruActionPerformed
+    }//GEN-LAST:event_InputNamaGuruActionPerformed
 
     private void btntambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btntambahActionPerformed
         // TODO add your handling code here:
+        tambahData();
     }//GEN-LAST:event_btntambahActionPerformed
 
     private void btnubahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnubahActionPerformed
         // TODO add your handling code here:
+        ubahData();
     }//GEN-LAST:event_btnubahActionPerformed
+
+    private void cbKdMapelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbKdMapelActionPerformed
+        // TODO add your handling code here:
+        String mapel;
+        mapel = (String) cbKdMapel.getSelectedItem();
+        try {
+            PreparedStatement ps = conn.prepareStatement("SELECT nama_mapel FROM mapel where kode_mapel = ?");
+            ps.setString(1, mapel);
+            ResultSet r = ps.executeQuery();
+            while (r.next()) {
+                namaMapel.setText(r.getString("nama_mapel"));
+            }
+            
+        } catch (Exception e) {
+        }
+    }//GEN-LAST:event_cbKdMapelActionPerformed
+
+    private void InputKodeGuruActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InputKodeGuruActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_InputKodeGuruActionPerformed
+
+    private void btnhapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnhapusActionPerformed
+        // TODO add your handling code here:
+        hapusData();
+    }//GEN-LAST:event_btnhapusActionPerformed
 
     /**
      * @param args the command line arguments
@@ -467,14 +632,12 @@ public class DataGuru extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField Inputkodeguru;
-    private javax.swing.JTextField Inputkodemapel;
-    private javax.swing.JTextField Inputnamaguru;
+    private javax.swing.JTextField InputKodeGuru;
+    private javax.swing.JTextField InputNamaGuru;
     private javax.swing.JLabel LabelKodeGuru;
     private javax.swing.JLabel LabelKodeMaoel;
     private javax.swing.JLabel LabelNamaGuru;
     private javax.swing.JLabel Labelkodekelas;
-    private javax.swing.JLabel Labelnamakelas;
     private javax.swing.JButton LihatNilai;
     private javax.swing.JTable Tabelguru;
     private javax.swing.JButton btnGuru;
@@ -485,12 +648,15 @@ public class DataGuru extends javax.swing.JFrame {
     private javax.swing.JButton btnhapus;
     private javax.swing.JButton btntambah;
     private javax.swing.JButton btnubah;
+    private javax.swing.JComboBox<String> cbKdMapel;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
     private javax.swing.JButton menuAwal;
+    private javax.swing.JLabel namaMapel;
     private javax.swing.JButton nilaiSiswa1;
     private javax.swing.JPanel sideBar;
     // End of variables declaration//GEN-END:variables
