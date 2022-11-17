@@ -11,8 +11,9 @@ package rapotsiswa;
  */
 import java.sql.*;
 import javax.swing.table.DefaultTableModel;
+
 public class DataSiswa extends javax.swing.JFrame {
-Connection conn;
+    Connection conn;
     DefaultTableModel tm; 
     /**
      * Creates new form DataSiswa
@@ -21,6 +22,8 @@ Connection conn;
         initComponents();
         connect();
         refreshTable();
+        getJurusan();
+         getKelas();
     }
 private void connect() {
         conn = null;
@@ -33,12 +36,12 @@ private void connect() {
         }
     }
     private void refreshTable() {
-        tm = new DefaultTableModel(null, new Object[] {"NIS", "Nama","Kode Kelas","Kode Jurusan", "No Telepon", "Alamat"});
+        tm = new DefaultTableModel(null, new Object[] {"nis", "Nama","Kode Kelas","Kode Jurusan", "No Telepon", "Alamat"});
         tabelSiswa.setModel(tm);
         tm.getDataVector().removeAllElements();
         
         try {
-            PreparedStatement p = conn.prepareStatement("SELECT * FROM ");
+            PreparedStatement p = conn.prepareStatement("SELECT * FROM siswa");
             ResultSet result = p.executeQuery();
             
             while(result.next()) {
@@ -56,8 +59,34 @@ private void connect() {
         } catch (Exception e) {
             System.out.println("ERROR QUERY KE DATABASE:\n"+ e);
         }
-        
     }
+        private void getJurusan(){
+        try {
+            PreparedStatement s = conn.prepareStatement("SELECT kode_jurusan FROM siswa");
+            ResultSet r = s.executeQuery();
+//            comboMapel.addItem(Arrays.toString);
+            while (r.next()) {    
+                
+                InputJurusan.addItem(r.getString("kode_jurusan"));
+            }
+            s.executeUpdate();
+        } catch (Exception e) {
+        }
+    }
+        private void getKelas(){
+        try {
+            PreparedStatement s = conn.prepareStatement("SELECT kode_kelas FROM kelas");
+            ResultSet r = s.executeQuery();
+//            comboMapel.addItem(Arrays.toString);
+            while (r.next()) {    
+                
+                InputKdKelas.addItem(r.getString("kode_kelas"));
+            }
+            s.executeUpdate();
+        } catch (Exception e) {
+        }
+    }
+    
 
 /**
      * This method is called from within the constructor to initialize the form.
@@ -516,7 +545,7 @@ private void connect() {
         String jurusan;
         jurusan = (String) InputJurusan.getSelectedItem();
         try {
-            PreparedStatement ps = conn.prepareStatement("SELECT kode_jurusan FROM siswa");
+            PreparedStatement ps = conn.prepareStatement("SELECT nama_jurusan FROM jurusan where kode_jurusan = ?");
             ps.setString(1, jurusan);
             ResultSet r = ps.executeQuery();
            
@@ -530,7 +559,7 @@ private void connect() {
          String kelas;
         kelas = (String) InputKdKelas.getSelectedItem();
         try {
-            PreparedStatement ps = conn.prepareStatement("SELECT kode_kelas FROM kelas");
+            PreparedStatement ps = conn.prepareStatement("SELECT nama_jurusan FROM jurusan where kode_jurusan = ?");
             ps.setString(1,kelas);
             ResultSet r = ps.executeQuery();
            
