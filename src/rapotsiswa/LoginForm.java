@@ -169,7 +169,7 @@ public class LoginForm extends javax.swing.JFrame {
         });
 
         jLabel5.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
-        jLabel5.setText("NIS");
+        jLabel5.setText("USERNAME");
 
         jLabel6.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
         jLabel6.setText("PASSWORD");

@@ -138,7 +138,7 @@ public class DataGuru extends javax.swing.JFrame {
             }
         }else {
             try {
-                PreparedStatement ps = conn.prepareStatement("UPDATE guru SET nama_guru = ?,  WHERE kode_guru = ?");
+                PreparedStatement ps = conn.prepareStatement("UPDATE guru SET nama_guru = ?  WHERE kode_guru = ?");
                 ps.setString(1, namaGuru);
                 ps.setString(2, kodeGuru);
                 ps.executeUpdate();

@@ -10,6 +10,7 @@ package rapotsiswa;
  * @author acer
  */
 import java.sql.*;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class DataSiswa extends javax.swing.JFrame {
@@ -20,12 +21,12 @@ public class DataSiswa extends javax.swing.JFrame {
      */
     public DataSiswa() {
         initComponents();
-        connect();
+        connectDB();
         refreshTable();
         getJurusan();
-         getKelas();
+        getKelas();
     }
-private void connect() {
+    private void connectDB() {
         conn = null;
         
         try {
@@ -60,33 +61,185 @@ private void connect() {
             System.out.println("ERROR QUERY KE DATABASE:\n"+ e);
         }
     }
-        private void getJurusan(){
+    
+    private void getJurusan(){
         try {
-            PreparedStatement s = conn.prepareStatement("SELECT kode_jurusan FROM siswa");
+            PreparedStatement s = conn.prepareStatement("SELECT kode_jurusan FROM jurusan");
             ResultSet r = s.executeQuery();
-//            comboMapel.addItem(Arrays.toString);
             while (r.next()) {    
                 
                 InputJurusan.addItem(r.getString("kode_jurusan"));
             }
-            s.executeUpdate();
+            System.out.println( "BERHASIL mengambil data Jurusan");
         } catch (Exception e) {
+            System.out.println( "GAGAL mengambil data Jurusan: "+ e);
         }
     }
-        private void getKelas(){
+    
+    private void getKelas(){
         try {
             PreparedStatement s = conn.prepareStatement("SELECT kode_kelas FROM kelas");
             ResultSet r = s.executeQuery();
-//            comboMapel.addItem(Arrays.toString);
             while (r.next()) {    
                 
                 InputKdKelas.addItem(r.getString("kode_kelas"));
             }
-            s.executeUpdate();
+            System.out.println( "BERHASIL mengambil data kelas");
         } catch (Exception e) {
+            System.out.println( "GAGAL mengambil data kelas: "+ e);
         }
     }
     
+    private String cekAkun(){
+        String nis, hasil;
+        nis = InputNis.getText();
+        hasil = "0";
+        try {
+            PreparedStatement ps = conn.prepareStatement("SELECT id_user FROM user WHERE username = ?");            
+            ps.setString(1, nis);
+            ResultSet r = ps.executeQuery();
+            while(r.next()){
+                hasil = r.getString("id_user");
+            }
+            System.out.println("BERHASIL cek akun. ID = "+hasil);
+
+        } catch (Exception e) {
+            System.out.println("GAGAL cek akun" +e);
+        }
+        return hasil;
+    }
+    
+    private void tambahData(){
+        String nis, namaSiswa, kodeKelas, kodeJurusan, nomorTelepon, alamat, idUser;
+        nis = InputNis.getText();
+        namaSiswa = InputNama.getText();
+        kodeKelas = (String) InputKdKelas.getSelectedItem();
+        kodeJurusan = (String) InputJurusan.getSelectedItem();
+        nomorTelepon = InputHP.getText();
+        alamat = InputAlamat.getText();
+        
+        idUser = cekAkun();
+//        System.out.println("Default Id"+idUser);
+        if (idUser != "0") {
+            try {
+                PreparedStatement ps = conn.prepareStatement("INSERT INTO siswa VALUES(?, ?, ?, ?, ?, ?, ?)");
+                ps.setString(1, nis);
+                ps.setString(2, namaSiswa);
+                ps.setString(3, kodeKelas);
+                ps.setString(4, kodeJurusan);
+                ps.setString(5, nomorTelepon);
+                ps.setString(6, alamat);
+                ps.setString(7, idUser);
+                ps.executeUpdate();
+            } catch (Exception e) {
+                System.out.println("GAGAL menambah ada siswa : " +e);
+                JOptionPane.showMessageDialog(null, "Gagal Menambah Data");
+            }
+        } else if (idUser == "0"){
+            try {
+                String accPassword;
+                accPassword = FunctionLib.generateRandomPassword(10);
+                
+                PreparedStatement ps = conn.prepareStatement("INSERT INTO user VALUES(?, ?, ?, ?)");
+                ps.setString(1, null);
+                ps.setString(2, nis);
+                ps.setString(3, accPassword);
+                ps.setString(4, "siswa");
+                ps.executeUpdate();
+                System.out.println("Berhasil membuat akun siswa");
+                try {
+                    PreparedStatement getUserId = conn.prepareStatement("SELECT id_user FROM user WHERE username = ?");
+                    getUserId.setString(1, nis);
+                    ResultSet r = getUserId.executeQuery();
+                    while(r.next()){
+                        idUser = r.getString("id_user");
+                    }
+                    System.out.println("Berhasil mengambil ID User");
+                    try {
+                        PreparedStatement inputSiswa = conn.prepareStatement("INSERT INTO siswa VALUES(?, ?, ?, ?, ?, ?, ?)");
+                        inputSiswa.setString(1, nis);
+                        inputSiswa.setString(2, namaSiswa);
+                        inputSiswa.setString(3, kodeKelas);
+                        inputSiswa.setString(4, kodeJurusan);
+                        inputSiswa.setString(5, nomorTelepon);
+                        inputSiswa.setString(6, alamat);
+                        inputSiswa.setString(7, idUser);
+                        inputSiswa.executeUpdate();
+                        System.out.println("BERHASIL input data siswa");
+                    } catch (Exception e) {
+                        System.out.println("GAGAL input data siswa : "+e);
+                    }
+                    
+                } catch (Exception e) {
+                    System.out.println("GAGAL mengambil ID User :"+e);
+                }
+            } catch (Exception e) {
+                System.out.println("GAGAL membuat akun siswa : " +e);
+            }
+        }
+        refreshTable();
+        InputNis.setText("");
+        InputNama.setText("");
+        InputKdKelas.setSelectedIndex(-1);
+        InputJurusan. setSelectedIndex(-1);
+        InputHP.setText("");
+        InputAlamat.setText("");
+    }
+    
+    private void hapusData(){
+        String nis;
+        nis = InputNis.getText();
+        
+        try {
+            PreparedStatement ps = conn.prepareStatement("DELETE FROM siswa WHERE nis = ?");
+            ps.setString(1, nis);
+            ps.executeUpdate();
+            
+            refreshTable();
+            InputNis.setText("");
+            InputNama.setText("");
+            InputKdKelas.setSelectedIndex(-1);
+            InputJurusan. setSelectedIndex(-1);
+            InputHP.setText("");
+            InputAlamat.setText("");
+        } catch (Exception e) {
+            System.out.println("GAGAL EKSEKUSI QUERY"+e);
+            JOptionPane.showMessageDialog(null, "Gagal Menghapus Data");
+            
+        }
+    }
+    
+    private void ubahData(){
+        String nis, namaSiswa, kodeKelas, kodeJurusan, nomorTelepon, alamat;
+        nis = InputNama.getText();
+        namaSiswa = InputNis.getText();
+        kodeKelas = (String) InputKdKelas.getSelectedItem();
+        kodeJurusan = (String) InputJurusan.getSelectedItem();
+        nomorTelepon = InputHP.getText();
+        alamat = InputAlamat.getText();
+        
+        try {
+            PreparedStatement ps = conn.prepareStatement("UPDATE siwa SET nama = ?, kode_kelas = ?, kode_jurusan, nomor_telepon = ?, alamat = ? WHERE nis = ?");
+            ps.setString(1, nis);
+            ps.setString(2, namaSiswa);
+            ps.setString(3, kodeKelas);
+            ps.setString(4, kodeJurusan);
+            ps.setString(5, nomorTelepon);
+            ps.setString(6, alamat);
+            ps.executeUpdate();
+            
+            refreshTable();
+            InputNis.setText("");
+            InputNama.setText("");
+            InputKdKelas.setSelectedIndex(-1);
+            InputJurusan. setSelectedIndex(-1);
+            InputHP.setText("");
+            InputAlamat.setText("");
+        } catch (Exception e) {
+            System.out.println("GAGAL EKSEKUSI QUERY" +e);
+            JOptionPane.showMessageDialog(null, "Gagal Menambah Data");
+        }
+    }
 
 /**
      * This method is called from within the constructor to initialize the form.
@@ -114,8 +267,8 @@ private void connect() {
         jLabel6 = new javax.swing.JLabel();
         InputNis = new javax.swing.JTextField();
         btnTambah = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        btnUbah = new javax.swing.JButton();
+        btnHapus = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         InputNama = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
@@ -273,25 +426,25 @@ private void connect() {
             }
         });
 
-        jButton2.setBackground(new java.awt.Color(255, 204, 0));
-        jButton2.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/pencil.png"))); // NOI18N
-        jButton2.setText("Ubah");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnUbah.setBackground(new java.awt.Color(255, 204, 0));
+        btnUbah.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
+        btnUbah.setForeground(new java.awt.Color(255, 255, 255));
+        btnUbah.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/pencil.png"))); // NOI18N
+        btnUbah.setText("Ubah");
+        btnUbah.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnUbahActionPerformed(evt);
             }
         });
 
-        jButton3.setBackground(new java.awt.Color(255, 0, 0));
-        jButton3.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
-        jButton3.setForeground(new java.awt.Color(255, 255, 255));
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/bin (3).png"))); // NOI18N
-        jButton3.setText("Hapus");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        btnHapus.setBackground(new java.awt.Color(255, 0, 0));
+        btnHapus.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
+        btnHapus.setForeground(new java.awt.Color(255, 255, 255));
+        btnHapus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/bin (3).png"))); // NOI18N
+        btnHapus.setText("Hapus");
+        btnHapus.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                btnHapusActionPerformed(evt);
             }
         });
 
@@ -379,9 +532,9 @@ private void connect() {
                                 .addComponent(jLabel1)
                                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 584, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btnUbah, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(48, 48, 48)
-                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(btnHapus, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addGap(0, 17, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -396,8 +549,8 @@ private void connect() {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(btnTambah)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3))
+                    .addComponent(btnUbah)
+                    .addComponent(btnHapus))
                 .addGap(8, 8, 8)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -502,42 +655,23 @@ private void connect() {
         // TODO add your handling code here:
     }//GEN-LAST:event_InputNisActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btnUbahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUbahActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+        ubahData();
+    }//GEN-LAST:event_btnUbahActionPerformed
 
     private void InputNamaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InputNamaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_InputNamaActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void btnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapusActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
+        hapusData();
+    }//GEN-LAST:event_btnHapusActionPerformed
 
     private void btnTambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahActionPerformed
         // TODO add your handling code here:
-         try {
-            PreparedStatement ps = conn.prepareStatement("INSERT INTO siswa VALUE (?,?,?,?,?,?)");
-            ps.setString(1, InputNis.getText());
-            ps.setString(2, InputNama.getText());
-            ps.setString(3, (String)InputKdKelas.getSelectedItem());
-            ps.setString(4, (String)InputJurusan.getSelectedItem());
-            ps.setString(5, InputHP.getText());
-            ps.setString(6, InputAlamat.getText());
-            
-            ps.executeUpdate();
-
-            refreshTable();
-            InputNis.setText("");
-            InputNama.setText("");
-            InputKdKelas.setSelectedIndex(-1);
-            InputJurusan.setSelectedIndex(-1);
-            InputHP.setText("");
-            InputAlamat.setText("");
-
-        } catch (Exception e) {
-            System.out.print("ERROR KUERI KE DATABASE:\n" + e + "\n\n");
-        }
+        tambahData();
     }//GEN-LAST:event_btnTambahActionPerformed
 
     private void InputJurusanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InputJurusanActionPerformed
@@ -612,13 +746,13 @@ private void connect() {
     private javax.swing.JTextField InputNis;
     private javax.swing.JButton LihatNilai;
     private javax.swing.JButton btnGuru;
+    private javax.swing.JButton btnHapus;
     private javax.swing.JButton btnJurusan;
     private javax.swing.JButton btnKelas;
     private javax.swing.JButton btnMapel;
     private javax.swing.JButton btnSiswa;
     private javax.swing.JButton btnTambah;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton btnUbah;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
