@@ -39,6 +39,7 @@ public class MenuSiswa extends javax.swing.JFrame {
 
         sideBar.setBackground(new java.awt.Color(51, 153, 255));
 
+        LihatNilai.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
         LihatNilai.setText("Lihat Nilai");
         LihatNilai.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -48,6 +49,7 @@ public class MenuSiswa extends javax.swing.JFrame {
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/R.png"))); // NOI18N
 
+        menuAwal.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
         menuAwal.setText("Menu Awal");
         menuAwal.setActionCommand("Data Guru");
         menuAwal.setEnabled(false);

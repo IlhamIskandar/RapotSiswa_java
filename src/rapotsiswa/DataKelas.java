@@ -142,6 +142,7 @@ public class DataKelas extends javax.swing.JFrame {
         btnJurusan = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         menuAwal = new javax.swing.JButton();
+        btnuser = new javax.swing.JButton();
         Labelkodekelas = new javax.swing.JLabel();
         InputKodeKelas = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -160,7 +161,7 @@ public class DataKelas extends javax.swing.JFrame {
 
         sideBar.setBackground(new java.awt.Color(51, 153, 255));
 
-        btnSiswa.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        btnSiswa.setFont(new java.awt.Font("SansSerif", 0, 10)); // NOI18N
         btnSiswa.setText("Data Siswa");
         btnSiswa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -168,7 +169,7 @@ public class DataKelas extends javax.swing.JFrame {
             }
         });
 
-        btnMapel.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        btnMapel.setFont(new java.awt.Font("SansSerif", 0, 10)); // NOI18N
         btnMapel.setText("Data Mata Pelajaran");
         btnMapel.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnMapel.addActionListener(new java.awt.event.ActionListener() {
@@ -177,7 +178,7 @@ public class DataKelas extends javax.swing.JFrame {
             }
         });
 
-        btnGuru.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        btnGuru.setFont(new java.awt.Font("SansSerif", 0, 10)); // NOI18N
         btnGuru.setText("Data Guru");
         btnGuru.setActionCommand("");
         btnGuru.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -187,7 +188,7 @@ public class DataKelas extends javax.swing.JFrame {
             }
         });
 
-        btnKelas.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        btnKelas.setFont(new java.awt.Font("SansSerif", 0, 10)); // NOI18N
         btnKelas.setText("Data Kelas");
         btnKelas.setActionCommand("Data Guru");
         btnKelas.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -197,7 +198,7 @@ public class DataKelas extends javax.swing.JFrame {
             }
         });
 
-        btnJurusan.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        btnJurusan.setFont(new java.awt.Font("SansSerif", 0, 10)); // NOI18N
         btnJurusan.setText("Data Jurusan");
         btnJurusan.setActionCommand("Data Guru");
         btnJurusan.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -209,7 +210,7 @@ public class DataKelas extends javax.swing.JFrame {
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/R.png"))); // NOI18N
 
-        menuAwal.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        menuAwal.setFont(new java.awt.Font("SansSerif", 0, 10)); // NOI18N
         menuAwal.setText("Menu Awal");
         menuAwal.setActionCommand("Data Guru");
         menuAwal.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -219,10 +220,24 @@ public class DataKelas extends javax.swing.JFrame {
             }
         });
 
+        btnuser.setFont(new java.awt.Font("SansSerif", 0, 10)); // NOI18N
+        btnuser.setText("Data Pengguna");
+        btnuser.setActionCommand("Data Guru");
+        btnuser.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnuser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnuserActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout sideBarLayout = new javax.swing.GroupLayout(sideBar);
         sideBar.setLayout(sideBarLayout);
         sideBarLayout.setHorizontalGroup(
             sideBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(sideBarLayout.createSequentialGroup()
+                .addGap(34, 34, 34)
+                .addComponent(jLabel5)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(sideBarLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(sideBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -231,12 +246,9 @@ public class DataKelas extends javax.swing.JFrame {
                     .addComponent(btnGuru, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnKelas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnJurusan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(menuAwal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(menuAwal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnuser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
-            .addGroup(sideBarLayout.createSequentialGroup()
-                .addGap(34, 34, 34)
-                .addComponent(jLabel5)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         sideBarLayout.setVerticalGroup(
             sideBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -253,7 +265,9 @@ public class DataKelas extends javax.swing.JFrame {
                 .addComponent(btnKelas, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnJurusan, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(100, 100, 100)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnuser, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(59, 59, 59)
                 .addComponent(menuAwal, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -470,6 +484,10 @@ public class DataKelas extends javax.swing.JFrame {
         hapusData();
     }//GEN-LAST:event_ButtonHapusActionPerformed
 
+    private void btnuserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnuserActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnuserActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -520,6 +538,7 @@ public class DataKelas extends javax.swing.JFrame {
     private javax.swing.JButton btnKelas;
     private javax.swing.JButton btnMapel;
     private javax.swing.JButton btnSiswa;
+    private javax.swing.JButton btnuser;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;

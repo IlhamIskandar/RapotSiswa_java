@@ -41,6 +41,7 @@ public class MenuGuru extends javax.swing.JFrame {
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/R.png"))); // NOI18N
 
+        menuAwal.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
         menuAwal.setText("Menu Awal");
         menuAwal.setActionCommand("Data Guru");
         menuAwal.setEnabled(false);
@@ -51,6 +52,7 @@ public class MenuGuru extends javax.swing.JFrame {
             }
         });
 
+        nilaiSiswa1.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
         nilaiSiswa1.setText("Data Nilai Siswa");
         nilaiSiswa1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

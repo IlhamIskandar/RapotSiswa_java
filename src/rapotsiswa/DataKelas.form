@@ -130,6 +130,11 @@
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
+                      <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
+                  </Group>
+                  <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="btnMapel" alignment="0" pref="154" max="32767" attributes="0"/>
@@ -138,13 +143,9 @@
                           <Component id="btnKelas" alignment="0" max="32767" attributes="0"/>
                           <Component id="btnJurusan" alignment="0" max="32767" attributes="0"/>
                           <Component id="menuAwal" alignment="0" max="32767" attributes="0"/>
+                          <Component id="btnuser" alignment="0" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
-                      <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -163,7 +164,9 @@
                       <Component id="btnKelas" min="-2" pref="35" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="btnJurusan" min="-2" pref="35" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="100" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="btnuser" min="-2" pref="35" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="59" max="-2" attributes="0"/>
                       <Component id="menuAwal" min="-2" pref="35" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
@@ -174,7 +177,7 @@
             <Component class="javax.swing.JButton" name="btnSiswa">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="SansSerif" size="11" style="0"/>
+                  <Font name="SansSerif" size="10" style="0"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Data Siswa"/>
               </Properties>
@@ -185,7 +188,7 @@
             <Component class="javax.swing.JButton" name="btnMapel">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="SansSerif" size="11" style="0"/>
+                  <Font name="SansSerif" size="10" style="0"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Data Mata Pelajaran"/>
                 <Property name="verticalTextPosition" type="int" value="3"/>
@@ -197,7 +200,7 @@
             <Component class="javax.swing.JButton" name="btnGuru">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="SansSerif" size="11" style="0"/>
+                  <Font name="SansSerif" size="10" style="0"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Data Guru"/>
                 <Property name="actionCommand" type="java.lang.String" value=""/>
@@ -210,7 +213,7 @@
             <Component class="javax.swing.JButton" name="btnKelas">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="SansSerif" size="11" style="0"/>
+                  <Font name="SansSerif" size="10" style="0"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Data Kelas"/>
                 <Property name="actionCommand" type="java.lang.String" value="Data Guru"/>
@@ -223,7 +226,7 @@
             <Component class="javax.swing.JButton" name="btnJurusan">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="SansSerif" size="11" style="0"/>
+                  <Font name="SansSerif" size="10" style="0"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Data Jurusan"/>
                 <Property name="actionCommand" type="java.lang.String" value="Data Guru"/>
@@ -243,7 +246,7 @@
             <Component class="javax.swing.JButton" name="menuAwal">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="SansSerif" size="11" style="0"/>
+                  <Font name="SansSerif" size="10" style="0"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Menu Awal"/>
                 <Property name="actionCommand" type="java.lang.String" value="Data Guru"/>
@@ -251,6 +254,19 @@
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menuAwalActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="btnuser">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="SansSerif" size="10" style="0"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Data Pengguna"/>
+                <Property name="actionCommand" type="java.lang.String" value="Data Guru"/>
+                <Property name="verticalTextPosition" type="int" value="3"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnuserActionPerformed"/>
               </Events>
             </Component>
           </SubComponents>
