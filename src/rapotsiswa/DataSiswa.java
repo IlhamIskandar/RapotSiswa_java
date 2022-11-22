@@ -147,7 +147,7 @@ public class DataSiswa extends javax.swing.JFrame {
                 ps.setString(3, accPassword);
                 ps.setString(4, "siswa");
                 ps.executeUpdate();
-                System.out.println("Berhasil membuat akun siswa");
+                System.out.println("BERHASIL membuat akun siswa");
                 try {
                     PreparedStatement getUserId = conn.prepareStatement("SELECT id_user FROM user WHERE username = ?");
                     getUserId.setString(1, nis);
@@ -155,7 +155,7 @@ public class DataSiswa extends javax.swing.JFrame {
                     while(r.next()){
                         idUser = r.getString("id_user");
                     }
-                    System.out.println("Berhasil mengambil ID User");
+                    System.out.println("BERHASIL mengambil ID User");
                     try {
                         PreparedStatement inputSiswa = conn.prepareStatement("INSERT INTO siswa VALUES(?, ?, ?, ?, ?, ?, ?)");
                         inputSiswa.setString(1, nis);
@@ -503,16 +503,17 @@ public class DataSiswa extends javax.swing.JFrame {
                                 .addComponent(InputNis, javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(InputNama, javax.swing.GroupLayout.Alignment.LEADING)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnTambah)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 395, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 395, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jLabel1)
                                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 584, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(189, 189, 189)
+                                .addComponent(btnTambah)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(btnUbah, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(48, 48, 48)
                                 .addComponent(btnHapus, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)))))
