@@ -42,12 +42,6 @@ public class DataNilai extends javax.swing.JFrame {
         btnubah = new javax.swing.JButton();
         btnhapus = new javax.swing.JButton();
         sideBar2 = new javax.swing.JPanel();
-        LihatNilai2 = new javax.swing.JButton();
-        btnSiswa2 = new javax.swing.JButton();
-        btnMapel2 = new javax.swing.JButton();
-        btnGuru2 = new javax.swing.JButton();
-        btnKelas2 = new javax.swing.JButton();
-        btnJurusan2 = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         menuAwal2 = new javax.swing.JButton();
         nilaiSiswa3 = new javax.swing.JButton();
@@ -95,6 +89,11 @@ public class DataNilai extends javax.swing.JFrame {
         btntambah.setForeground(new java.awt.Color(255, 255, 255));
         btntambah.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/add-user (1).png"))); // NOI18N
         btntambah.setText("Tambah");
+        btntambah.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btntambahActionPerformed(evt);
+            }
+        });
 
         btnubah.setBackground(new java.awt.Color(255, 204, 0));
         btnubah.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
@@ -114,55 +113,6 @@ public class DataNilai extends javax.swing.JFrame {
         btnhapus.setText("Hapus");
 
         sideBar2.setBackground(new java.awt.Color(51, 153, 255));
-
-        LihatNilai2.setText("Lihat Nilai");
-        LihatNilai2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                LihatNilai2ActionPerformed(evt);
-            }
-        });
-
-        btnSiswa2.setText("Data Siswa");
-        btnSiswa2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSiswa2ActionPerformed(evt);
-            }
-        });
-
-        btnMapel2.setText("Data Mata Pelajaran");
-        btnMapel2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btnMapel2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnMapel2ActionPerformed(evt);
-            }
-        });
-
-        btnGuru2.setText("Data Guru");
-        btnGuru2.setActionCommand("");
-        btnGuru2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btnGuru2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnGuru2ActionPerformed(evt);
-            }
-        });
-
-        btnKelas2.setText("Data Kelas");
-        btnKelas2.setActionCommand("Data Guru");
-        btnKelas2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btnKelas2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnKelas2ActionPerformed(evt);
-            }
-        });
-
-        btnJurusan2.setText("Data Jurusan");
-        btnJurusan2.setActionCommand("Data Guru");
-        btnJurusan2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btnJurusan2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnJurusan2ActionPerformed(evt);
-            }
-        });
 
         jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/R.png"))); // NOI18N
 
@@ -189,19 +139,13 @@ public class DataNilai extends javax.swing.JFrame {
             .addGroup(sideBar2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(sideBar2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnMapel2, javax.swing.GroupLayout.DEFAULT_SIZE, 154, Short.MAX_VALUE)
-                    .addComponent(btnSiswa2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(LihatNilai2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnGuru2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnKelas2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnJurusan2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(menuAwal2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(nilaiSiswa3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
             .addGroup(sideBar2Layout.createSequentialGroup()
                 .addGap(34, 34, 34)
                 .addComponent(jLabel7)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(40, Short.MAX_VALUE))
         );
         sideBar2Layout.setVerticalGroup(
             sideBar2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -209,20 +153,8 @@ public class DataNilai extends javax.swing.JFrame {
                 .addGap(19, 19, 19)
                 .addComponent(jLabel7)
                 .addGap(18, 18, 18)
-                .addComponent(LihatNilai2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
                 .addComponent(nilaiSiswa3, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnSiswa2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnMapel2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnGuru2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnKelas2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnJurusan2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(264, 264, 264)
                 .addComponent(menuAwal2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -328,57 +260,9 @@ public class DataNilai extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_InputnisActionPerformed
 
-    private void LihatNilai2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LihatNilai2ActionPerformed
-        // TODO add your handling code here:
-        LaporanNilaiSiswa a = new LaporanNilaiSiswa();
-
-        a.setVisible(true);
-        //        a.setEnabled(true);
-    }//GEN-LAST:event_LihatNilai2ActionPerformed
-
-    private void btnSiswa2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiswa2ActionPerformed
-        // TODO add your handling code here:
-        DataSiswa a = new DataSiswa();
-        a.setVisible(true);
-        a.setEnabled(true);
-        this.dispose();
-    }//GEN-LAST:event_btnSiswa2ActionPerformed
-
-    private void btnMapel2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMapel2ActionPerformed
-        // TODO add your handling code here:
-        DataMapel a = new DataMapel();
-        a.setVisible(true);
-        a.setEnabled(true);
-        this.dispose();
-    }//GEN-LAST:event_btnMapel2ActionPerformed
-
-    private void btnGuru2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuru2ActionPerformed
-        // TODO add your handling code here:
-        DataGuru a = new DataGuru();
-        a.setVisible(true);
-        a.setEnabled(true);
-        this.dispose();
-    }//GEN-LAST:event_btnGuru2ActionPerformed
-
-    private void btnKelas2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKelas2ActionPerformed
-        // TODO add your handling code here:
-        DataKelas a = new DataKelas();
-        a.setVisible(true);
-        a.setEnabled(true);
-        this.dispose();
-    }//GEN-LAST:event_btnKelas2ActionPerformed
-
-    private void btnJurusan2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnJurusan2ActionPerformed
-        // TODO add your handling code here:
-        DataJurusan a = new DataJurusan();
-        a.setVisible(true);
-        a.setEnabled(true);
-        this.dispose();
-    }//GEN-LAST:event_btnJurusan2ActionPerformed
-
     private void menuAwal2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuAwal2ActionPerformed
         // TODO add your handling code here:
-        MainMenu a = new MainMenu();
+        MenuGuru a = new MenuGuru();
         a.setVisible(true);
         a.setEnabled(true);
         this.dispose();
@@ -386,15 +270,15 @@ public class DataNilai extends javax.swing.JFrame {
 
     private void nilaiSiswa3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nilaiSiswa3ActionPerformed
         // TODO add your handling code here:
-        DataSiswa a = new DataSiswa();
-        a.setVisible(true);
-        a.setEnabled(true);
-        this.dispose();
     }//GEN-LAST:event_nilaiSiswa3ActionPerformed
 
     private void btnubahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnubahActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnubahActionPerformed
+
+    private void btntambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btntambahActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btntambahActionPerformed
 
     /**
      * @param args the command line arguments
@@ -440,13 +324,7 @@ public class DataNilai extends javax.swing.JFrame {
     private javax.swing.JLabel Labelpas;
     private javax.swing.JLabel Labelpts;
     private javax.swing.JLabel Labeluh;
-    private javax.swing.JButton LihatNilai2;
     private javax.swing.JTable Tabelnilai;
-    private javax.swing.JButton btnGuru2;
-    private javax.swing.JButton btnJurusan2;
-    private javax.swing.JButton btnKelas2;
-    private javax.swing.JButton btnMapel2;
-    private javax.swing.JButton btnSiswa2;
     private javax.swing.JButton btnhapus;
     private javax.swing.JButton btntambah;
     private javax.swing.JButton btnubah;

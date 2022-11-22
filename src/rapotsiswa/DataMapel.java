@@ -131,7 +131,6 @@ public class DataMapel extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         sideBar = new javax.swing.JPanel();
-        LihatNilai = new javax.swing.JButton();
         btnSiswa = new javax.swing.JButton();
         btnMapel = new javax.swing.JButton();
         btnGuru = new javax.swing.JButton();
@@ -139,7 +138,6 @@ public class DataMapel extends javax.swing.JFrame {
         btnJurusan = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         menuAwal = new javax.swing.JButton();
-        nilaiSiswa1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableMapel = new javax.swing.JTable();
         KdMapel = new javax.swing.JLabel();
@@ -157,13 +155,6 @@ public class DataMapel extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         sideBar.setBackground(new java.awt.Color(51, 153, 255));
-
-        LihatNilai.setText("Lihat Nilai");
-        LihatNilai.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                LihatNilaiActionPerformed(evt);
-            }
-        });
 
         btnSiswa.setText("Data Siswa");
         btnSiswa.addActionListener(new java.awt.event.ActionListener() {
@@ -218,13 +209,6 @@ public class DataMapel extends javax.swing.JFrame {
             }
         });
 
-        nilaiSiswa1.setText("Data Nilai");
-        nilaiSiswa1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                nilaiSiswa1ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout sideBarLayout = new javax.swing.GroupLayout(sideBar);
         sideBar.setLayout(sideBarLayout);
         sideBarLayout.setHorizontalGroup(
@@ -234,12 +218,10 @@ public class DataMapel extends javax.swing.JFrame {
                 .addGroup(sideBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnMapel, javax.swing.GroupLayout.DEFAULT_SIZE, 154, Short.MAX_VALUE)
                     .addComponent(btnSiswa, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(LihatNilai, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnGuru, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnKelas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnJurusan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(menuAwal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(nilaiSiswa1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(menuAwal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
             .addGroup(sideBarLayout.createSequentialGroup()
                 .addGap(34, 34, 34)
@@ -252,10 +234,6 @@ public class DataMapel extends javax.swing.JFrame {
                 .addGap(19, 19, 19)
                 .addComponent(jLabel5)
                 .addGap(18, 18, 18)
-                .addComponent(LihatNilai, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(nilaiSiswa1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnSiswa, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnMapel, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -265,7 +243,7 @@ public class DataMapel extends javax.swing.JFrame {
                 .addComponent(btnKelas, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnJurusan, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(100, 100, 100)
                 .addComponent(menuAwal, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -405,14 +383,6 @@ public class DataMapel extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void LihatNilaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LihatNilaiActionPerformed
-        // TODO add your handling code here:
-        LaporanNilaiSiswa a = new LaporanNilaiSiswa();
-
-        a.setVisible(true);
-        //        a.setEnabled(true);
-    }//GEN-LAST:event_LihatNilaiActionPerformed
-
     private void btnSiswaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiswaActionPerformed
         // TODO add your handling code here:
         DataSiswa a = new DataSiswa();
@@ -456,10 +426,6 @@ public class DataMapel extends javax.swing.JFrame {
         a.setEnabled(true);
         this.dispose();
     }//GEN-LAST:event_menuAwalActionPerformed
-
-    private void nilaiSiswa1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nilaiSiswa1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_nilaiSiswa1ActionPerformed
 
     private void TambahBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TambahBtnActionPerformed
         // TODO add your handling code here:
@@ -520,7 +486,6 @@ public class DataMapel extends javax.swing.JFrame {
     private javax.swing.JTextField InputKdMapel;
     private javax.swing.JTextField InputNmMapel;
     private javax.swing.JLabel KdMapel;
-    private javax.swing.JButton LihatNilai;
     private javax.swing.JLabel NmMapel;
     private javax.swing.JButton TambahBtn;
     private javax.swing.JButton btnGuru;
@@ -535,7 +500,6 @@ public class DataMapel extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JButton menuAwal;
-    private javax.swing.JButton nilaiSiswa1;
     private javax.swing.JPanel sideBar;
     private javax.swing.JTable tableMapel;
     private javax.swing.JButton ubahBtn;

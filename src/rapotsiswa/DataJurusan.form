@@ -134,12 +134,10 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="btnMapel" alignment="0" pref="154" max="32767" attributes="0"/>
                           <Component id="btnSiswa" alignment="1" max="32767" attributes="0"/>
-                          <Component id="LihatNilai" alignment="0" max="32767" attributes="0"/>
                           <Component id="btnGuru" alignment="0" max="32767" attributes="0"/>
                           <Component id="btnKelas" alignment="0" max="32767" attributes="0"/>
                           <Component id="btnJurusan" alignment="0" max="32767" attributes="0"/>
                           <Component id="menuAwal" alignment="0" max="32767" attributes="0"/>
-                          <Component id="nilaiSiswa1" alignment="0" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -156,10 +154,6 @@
                       <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
                       <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="LihatNilai" min="-2" pref="35" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="nilaiSiswa1" min="-2" pref="35" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
                       <Component id="btnSiswa" min="-2" pref="35" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="btnMapel" min="-2" pref="35" max="-2" attributes="0"/>
@@ -169,7 +163,7 @@
                       <Component id="btnKelas" min="-2" pref="35" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="btnJurusan" min="-2" pref="35" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="100" max="-2" attributes="0"/>
                       <Component id="menuAwal" min="-2" pref="35" max="-2" attributes="0"/>
                       <EmptySpace pref="20" max="32767" attributes="0"/>
                   </Group>
@@ -177,14 +171,6 @@
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="javax.swing.JButton" name="LihatNilai">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Lihat Nilai"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="LihatNilaiActionPerformed"/>
-              </Events>
-            </Component>
             <Component class="javax.swing.JButton" name="btnSiswa">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Data Siswa"/>
@@ -247,14 +233,6 @@
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menuAwalActionPerformed"/>
-              </Events>
-            </Component>
-            <Component class="javax.swing.JButton" name="nilaiSiswa1">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Data Nilai"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="nilaiSiswa1ActionPerformed"/>
               </Events>
             </Component>
           </SubComponents>
