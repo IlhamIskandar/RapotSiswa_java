@@ -5,17 +5,114 @@
  */
 package rapotsiswa;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author acer
  */
 public class DataNilai extends javax.swing.JFrame {
-
+    Connection conn;
+    DefaultTableModel tm;
+            
     /**
      * Creates new form DataNilai
      */
     public DataNilai() {
         initComponents();
+        connectDB();
+        refreshTable();
+        getNIS();
+        getKodeGuru();
+        getJenisPenilaian();
+        InputNis.setSelectedIndex(-1);
+        inputKodeGuru.setSelectedIndex(-1);
+//        System.out.println("aasd"+inputKodeGuru.getSelectedItem());
+        
+    }
+    
+    private void connectDB() {
+        conn = null;
+        
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3307/rapot_siswa", "root", "");
+            System.out.println("BERHASIL tersambung ke database");
+        } catch (Exception e) {
+            System.out.println("GAGAL tersambung ke database: " + e);
+        }
+    }
+    
+    private void refreshTable() {
+        tm = new DefaultTableModel(null, new Object[] {"NIS", "Nama", "Kelas","Mapel", "Jenis Penilaian", "Nilai"});
+        Tabelnilai.setModel(tm);
+        tm.getDataVector().removeAllElements();
+        
+        try {
+            PreparedStatement p = conn.prepareStatement("SELECT nilai.nis, siswa.nama, CONCAT(siswa.kode_kelas, siswa.kode_jurusan), mapel.nama_mapel, jenis_penilaian.jenis, nilai.nilai FROM siswa, nilai, mapel, guru, jenis_penilaian WHERE siswa.nis = nilai.nis AND nilai.id_penilaian = jenis_penilaian.id_penilaian AND nilai.kode_guru = guru.kode_guru Group BY nilai.id_penilaian");
+            ResultSet result = p.executeQuery();
+            
+            while(result.next()) {
+                Object[] data = {
+                    result.getString(1),
+                    result.getString(2),
+                    result.getString(3),
+                    result.getString(4),
+                    result.getString(5),
+                    result.getString(6),
+                };
+                tm.addRow(data);
+            }
+            System.out.println("BERHASIL mengambil data nilai");
+        } catch (Exception e) {
+            System.out.println("GAGAL mengambil data nilai : "+ e);
+        }
+    }
+    
+    private void getNIS(){
+        try {
+            PreparedStatement s = conn.prepareStatement("SELECT nis FROM siswa");
+            ResultSet r = s.executeQuery();
+            while (r.next()) {    
+                
+                InputNis.addItem(r.getString("nis"));
+            }
+            System.out.println( "BERHASIL mengambil data nis");
+        } catch (Exception e) {
+            System.out.println( "GAGAL mengambil data nis: "+ e);
+        }
+    }
+    
+    private void getKodeGuru(){
+        try {
+            PreparedStatement s = conn.prepareStatement("SELECT kode_guru FROM guru");
+            ResultSet r = s.executeQuery();
+            while (r.next()) {    
+                
+                inputKodeGuru.addItem(r.getString("kode_guru"));
+            }
+            System.out.println( "BERHASIL mengambil data kode guru");
+        } catch (Exception e) {
+            System.out.println( "GAGAL mengambil data kode guru : "+ e);
+        }
+    }
+
+    private void getJenisPenilaian(){
+        try {
+            PreparedStatement s = conn.prepareStatement("SELECT id_penilaian FROM jenis_penilaian");
+            ResultSet r = s.executeQuery();
+            while (r.next()) {    
+                
+                InputJenisPenilaian.addItem(r.getString("id_penilaian"));
+            }
+            System.out.println( "BERHASIL mengambil data jenis penilaian");
+        } catch (Exception e) {
+            System.out.println( "GAGAL mengambil data jenis penilaian : "+ e);
+        }
     }
 
     /**
@@ -29,13 +126,9 @@ public class DataNilai extends javax.swing.JFrame {
 
         mainPanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        Inputnis = new javax.swing.JTextField();
         Labelpts = new javax.swing.JLabel();
-        Inputpas = new javax.swing.JTextField();
         Labeluh = new javax.swing.JLabel();
-        Inputpts = new javax.swing.JTextField();
-        Labelpas = new javax.swing.JLabel();
-        Inputuh = new javax.swing.JTextField();
+        LabelJnsPenilaian = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         Tabelnilai = new javax.swing.JTable();
         btntambah = new javax.swing.JButton();
@@ -47,6 +140,19 @@ public class DataNilai extends javax.swing.JFrame {
         nilaiSiswa3 = new javax.swing.JButton();
         Labelnis = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
+        InputJenisPenilaian = new javax.swing.JComboBox<>();
+        InputNis = new javax.swing.JComboBox<>();
+        inputKodeGuru = new javax.swing.JComboBox<>();
+        Labeluh1 = new javax.swing.JLabel();
+        lblNamaGuru = new javax.swing.JLabel();
+        lblMapel = new javax.swing.JLabel();
+        LabelJnsPenilaian1 = new javax.swing.JLabel();
+        InputNilai = new javax.swing.JTextField();
+        lblKelas = new javax.swing.JLabel();
+        lblNamaSiswa = new javax.swing.JLabel();
+        Labeluh6 = new javax.swing.JLabel();
+        Labeluh7 = new javax.swing.JLabel();
+        lblJenisNilai = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -55,20 +161,14 @@ public class DataNilai extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
         jLabel1.setText("Data Nilai");
 
-        Inputnis.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                InputnisActionPerformed(evt);
-            }
-        });
-
         Labelpts.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
-        Labelpts.setText("PTS");
+        Labelpts.setText("Kode Guru-Mapel");
 
-        Labeluh.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
-        Labeluh.setText("UH");
+        Labeluh.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
+        Labeluh.setText("Nama Guru");
 
-        Labelpas.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
-        Labelpas.setText("PAS");
+        LabelJnsPenilaian.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        LabelJnsPenilaian.setText(" Jenis Penilaian        :");
 
         Tabelnilai.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
         Tabelnilai.setModel(new javax.swing.table.DefaultTableModel(
@@ -162,6 +262,58 @@ public class DataNilai extends javax.swing.JFrame {
         Labelnis.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
         Labelnis.setText("NIS");
 
+        InputJenisPenilaian.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                InputJenisPenilaianActionPerformed(evt);
+            }
+        });
+
+        InputNis.setEditable(true);
+        InputNis.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                InputNisActionPerformed(evt);
+            }
+        });
+
+        inputKodeGuru.setEditable(true);
+        inputKodeGuru.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                inputKodeGuruActionPerformed(evt);
+            }
+        });
+
+        Labeluh1.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
+        Labeluh1.setText("Mapel");
+
+        lblNamaGuru.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        lblNamaGuru.setText(":");
+
+        lblMapel.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        lblMapel.setText(":");
+
+        LabelJnsPenilaian1.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        LabelJnsPenilaian1.setText("Nilai    :");
+
+        InputNilai.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                InputNilaiActionPerformed(evt);
+            }
+        });
+
+        lblKelas.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        lblKelas.setText(":");
+
+        lblNamaSiswa.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        lblNamaSiswa.setText(":");
+
+        Labeluh6.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
+        Labeluh6.setText("Nama Siswa");
+
+        Labeluh7.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
+        Labeluh7.setText("Kelas");
+
+        lblJenisNilai.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+
         javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
         mainPanel.setLayout(mainPanelLayout);
         mainPanelLayout.setHorizontalGroup(
@@ -172,27 +324,52 @@ public class DataNilai extends javax.swing.JFrame {
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(mainPanelLayout.createSequentialGroup()
                         .addGap(0, 18, Short.MAX_VALUE)
-                        .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(mainPanelLayout.createSequentialGroup()
                                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(Labelpts)
                                     .addComponent(Labelnis)
-                                    .addComponent(Inputnis, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
-                                    .addComponent(Inputpts))
-                                .addGap(45, 45, 45)
-                                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(Labelpas)
-                                    .addComponent(Labeluh)
-                                    .addComponent(Inputpas, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
-                                    .addComponent(Inputuh))
-                                .addGap(33, 33, 33)
+                                    .addComponent(InputNis, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(Labelpts, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(inputKodeGuru, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(LabelJnsPenilaian, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE))
+                                .addGap(18, 18, 18)
+                                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(mainPanelLayout.createSequentialGroup()
+                                        .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(Labeluh7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(Labeluh6, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(lblNamaSiswa, javax.swing.GroupLayout.DEFAULT_SIZE, 161, Short.MAX_VALUE)
+                                            .addComponent(lblKelas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                    .addGroup(mainPanelLayout.createSequentialGroup()
+                                        .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                            .addComponent(InputJenisPenilaian, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(Labeluh1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(Labeluh, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(lblMapel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addGroup(mainPanelLayout.createSequentialGroup()
+                                                .addGap(10, 10, 10)
+                                                .addComponent(lblJenisNilai, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addComponent(lblNamaGuru, javax.swing.GroupLayout.DEFAULT_SIZE, 161, Short.MAX_VALUE))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addComponent(btnubah, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(btntambah, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(btnhapus, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                            .addComponent(jLabel1)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 549, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(20, 20, 20))
+                                    .addComponent(btnhapus, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(37, 37, 37))
+                            .addGroup(mainPanelLayout.createSequentialGroup()
+                                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLabel1)
+                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 549, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(mainPanelLayout.createSequentialGroup()
+                                        .addComponent(LabelJnsPenilaian1, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(InputNilai)
+                                        .addGap(399, 399, 399)))
+                                .addGap(20, 20, 20))))
                     .addGroup(mainPanelLayout.createSequentialGroup()
                         .addComponent(jSeparator1)
                         .addContainerGap())))
@@ -209,25 +386,38 @@ public class DataNilai extends javax.swing.JFrame {
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(mainPanelLayout.createSequentialGroup()
                         .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(Labelnis)
                             .addGroup(mainPanelLayout.createSequentialGroup()
-                                .addComponent(Labelnis)
+                                .addGap(25, 25, 25)
+                                .addComponent(InputNis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPanelLayout.createSequentialGroup()
+                                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(Labeluh6)
+                                    .addComponent(lblNamaSiswa, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(Inputnis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(mainPanelLayout.createSequentialGroup()
-                                .addComponent(Labelpas)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(Inputpas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(Labeluh7)
+                                    .addComponent(lblKelas, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(mainPanelLayout.createSequentialGroup()
                                 .addGap(7, 7, 7)
                                 .addComponent(Labelpts)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(Inputpts, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(inputKodeGuru, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(mainPanelLayout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(Labeluh)
+                                    .addComponent(lblNamaGuru, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(Labeluh)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(Inputuh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(Labeluh1)
+                                    .addComponent(lblMapel, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(LabelJnsPenilaian)
+                            .addComponent(InputJenisPenilaian, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblJenisNilai, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(mainPanelLayout.createSequentialGroup()
                         .addGap(7, 7, 7)
                         .addComponent(btntambah)
@@ -235,9 +425,13 @@ public class DataNilai extends javax.swing.JFrame {
                         .addComponent(btnubah)
                         .addGap(18, 18, 18)
                         .addComponent(btnhapus)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(8, 8, 8)
+                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(LabelJnsPenilaian1)
+                    .addComponent(InputNilai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -255,10 +449,6 @@ public class DataNilai extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void InputnisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InputnisActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_InputnisActionPerformed
 
     private void menuAwal2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuAwal2ActionPerformed
         // TODO add your handling code here:
@@ -279,6 +469,80 @@ public class DataNilai extends javax.swing.JFrame {
     private void btntambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btntambahActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btntambahActionPerformed
+
+    private void InputNilaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InputNilaiActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_InputNilaiActionPerformed
+
+    private void InputNisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InputNisActionPerformed
+        // TODO add your handling code here:
+        String nis;
+        nis = (String) InputNis.getSelectedItem();
+        if (nis != null) {
+        try {
+            PreparedStatement ps = conn.prepareStatement("SELECT siswa.nama, siswa.kode_kelas, jurusan.nama_jurusan FROM siswa, kelas, jurusan WHERE siswa.kode_kelas = kelas.kode_kelas AND siswa.kode_jurusan = jurusan.kode_jurusan AND nis = ?");
+            ps.setString(1, nis);
+            ResultSet r = ps.executeQuery();
+            while (r.next()) {
+                lblNamaSiswa.setText(": " + r.getString("nama"));
+                lblKelas.setText(": " + r.getString("kode_kelas") + " " + r.getString("nama_jurusan"));
+            }
+            System.out.println( "BERHASIL mengambil data siswa");
+        } catch (Exception e) {
+            System.out.println( "GAGAL mengambil data siswa : "+ e);
+        }
+        }else{
+            lblNamaSiswa.setText(": ");
+            lblKelas.setText(": ");
+        }
+        
+    }//GEN-LAST:event_InputNisActionPerformed
+
+    private void inputKodeGuruActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputKodeGuruActionPerformed
+        // TODO add your handling code here:
+        String kodeGuru;
+        kodeGuru = (String) inputKodeGuru.getSelectedItem();
+
+        if (kodeGuru != null) {
+            try {
+                PreparedStatement ps = conn.prepareStatement("SELECT guru.nama_guru, mapel.nama_mapel FROM guru, mapel WHERE guru.kode_mapel = mapel.kode_mapel AND kode_guru = ?");
+                ps.setString(1, kodeGuru);
+                ResultSet r = ps.executeQuery();
+                while (r.next()) {
+                    lblNamaGuru.setText(": " + r.getString("nama_guru"));
+                    lblMapel.setText(": " + r.getString("nama_mapel"));
+                }
+                System.out.println( "BERHASIL mengambil data guru");
+            } catch (Exception e) {
+                System.out.println( "GAGAL mengambil data guru : "+ e);
+            }
+        }else{
+            lblNamaGuru.setText(": ");
+            lblMapel.setText(": ");
+        }
+    }//GEN-LAST:event_inputKodeGuruActionPerformed
+
+    private void InputJenisPenilaianActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InputJenisPenilaianActionPerformed
+        // TODO add your handling code here:
+        String idPenilaian;
+        idPenilaian = (String) InputJenisPenilaian.getSelectedItem();
+
+        if (idPenilaian != null) {
+            try {
+                PreparedStatement ps = conn.prepareStatement("SELECT jenis FROM jenis_penilaian WHERE id_penilaian = ?");
+                ps.setString(1, idPenilaian);
+                ResultSet r = ps.executeQuery();
+                while (r.next()) {
+                    lblJenisNilai.setText(": " + r.getString("jenis"));
+                }
+                System.out.println( "BERHASIL mengambil data penilaian");
+            } catch (Exception e) {
+                System.out.println( "GAGAL mengambil data penilaian : "+ e);
+            }
+        }else{
+            lblJenisNilai.setText(": ");
+        }
+    }//GEN-LAST:event_InputJenisPenilaianActionPerformed
 
     /**
      * @param args the command line arguments
@@ -316,22 +580,31 @@ public class DataNilai extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField Inputnis;
-    private javax.swing.JTextField Inputpas;
-    private javax.swing.JTextField Inputpts;
-    private javax.swing.JTextField Inputuh;
+    private javax.swing.JComboBox<String> InputJenisPenilaian;
+    private javax.swing.JTextField InputNilai;
+    private javax.swing.JComboBox<String> InputNis;
+    private javax.swing.JLabel LabelJnsPenilaian;
+    private javax.swing.JLabel LabelJnsPenilaian1;
     private javax.swing.JLabel Labelnis;
-    private javax.swing.JLabel Labelpas;
     private javax.swing.JLabel Labelpts;
     private javax.swing.JLabel Labeluh;
+    private javax.swing.JLabel Labeluh1;
+    private javax.swing.JLabel Labeluh6;
+    private javax.swing.JLabel Labeluh7;
     private javax.swing.JTable Tabelnilai;
     private javax.swing.JButton btnhapus;
     private javax.swing.JButton btntambah;
     private javax.swing.JButton btnubah;
+    private javax.swing.JComboBox<String> inputKodeGuru;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JLabel lblJenisNilai;
+    private javax.swing.JLabel lblKelas;
+    private javax.swing.JLabel lblMapel;
+    private javax.swing.JLabel lblNamaGuru;
+    private javax.swing.JLabel lblNamaSiswa;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JButton menuAwal2;
     private javax.swing.JButton nilaiSiswa3;

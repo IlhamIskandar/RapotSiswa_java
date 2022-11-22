@@ -32,8 +32,9 @@ public class DataSiswa extends javax.swing.JFrame {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             conn = DriverManager.getConnection("jdbc:mysql://localhost:3307/rapot_siswa", "root", "");
+            System.out.println("BERHASIL tersambung ke database");
         } catch (Exception e) {
-            System.out.println("ERROR CONNECT KE DATABASE:\n" + e);
+            System.out.println("GAGAL tersambung ke database: " + e);
         }
     }
     private void refreshTable() {
@@ -447,6 +448,7 @@ public class DataSiswa extends javax.swing.JFrame {
         jLabel11.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
         jLabel11.setText("Alamat");
 
+        InputJurusan.setEditable(true);
         InputJurusan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 InputJurusanActionPerformed(evt);
@@ -470,6 +472,7 @@ public class DataSiswa extends javax.swing.JFrame {
         ));
         jScrollPane2.setViewportView(tabelSiswa);
 
+        InputKdKelas.setEditable(true);
         InputKdKelas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 InputKdKelasActionPerformed(evt);
