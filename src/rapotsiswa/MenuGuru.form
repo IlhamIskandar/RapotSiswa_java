@@ -105,6 +105,9 @@
             </Component>
             <Component class="javax.swing.JButton" name="menuAwal">
               <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="SansSerif" size="11" style="0"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Menu Awal"/>
                 <Property name="actionCommand" type="java.lang.String" value="Data Guru"/>
                 <Property name="enabled" type="boolean" value="false"/>
@@ -116,6 +119,9 @@
             </Component>
             <Component class="javax.swing.JButton" name="nilaiSiswa1">
               <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="SansSerif" size="11" style="0"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Data Nilai Siswa"/>
               </Properties>
               <Events>
