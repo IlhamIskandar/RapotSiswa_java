@@ -225,6 +225,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Tambah"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btntambahActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnubah">
           <Properties>
@@ -276,12 +279,6 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="btnMapel2" alignment="0" pref="154" max="32767" attributes="0"/>
-                          <Component id="btnSiswa2" alignment="1" max="32767" attributes="0"/>
-                          <Component id="LihatNilai2" alignment="0" max="32767" attributes="0"/>
-                          <Component id="btnGuru2" alignment="0" max="32767" attributes="0"/>
-                          <Component id="btnKelas2" alignment="0" max="32767" attributes="0"/>
-                          <Component id="btnJurusan2" alignment="0" max="32767" attributes="0"/>
                           <Component id="menuAwal2" alignment="0" max="32767" attributes="0"/>
                           <Component id="nilaiSiswa3" alignment="0" max="32767" attributes="0"/>
                       </Group>
@@ -290,7 +287,7 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
                       <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace pref="40" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -300,20 +297,8 @@
                       <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
                       <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="LihatNilai2" min="-2" pref="35" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="nilaiSiswa3" min="-2" pref="35" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="btnSiswa2" min="-2" pref="35" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="btnMapel2" min="-2" pref="35" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="btnGuru2" min="-2" pref="35" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="btnKelas2" min="-2" pref="35" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="btnJurusan2" min="-2" pref="35" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="264" max="-2" attributes="0"/>
                       <Component id="menuAwal2" min="-2" pref="35" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
@@ -321,61 +306,6 @@
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="javax.swing.JButton" name="LihatNilai2">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Lihat Nilai"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="LihatNilai2ActionPerformed"/>
-              </Events>
-            </Component>
-            <Component class="javax.swing.JButton" name="btnSiswa2">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Data Siswa"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSiswa2ActionPerformed"/>
-              </Events>
-            </Component>
-            <Component class="javax.swing.JButton" name="btnMapel2">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Data Mata Pelajaran"/>
-                <Property name="verticalTextPosition" type="int" value="3"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnMapel2ActionPerformed"/>
-              </Events>
-            </Component>
-            <Component class="javax.swing.JButton" name="btnGuru2">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Data Guru"/>
-                <Property name="actionCommand" type="java.lang.String" value=""/>
-                <Property name="verticalTextPosition" type="int" value="3"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnGuru2ActionPerformed"/>
-              </Events>
-            </Component>
-            <Component class="javax.swing.JButton" name="btnKelas2">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Data Kelas"/>
-                <Property name="actionCommand" type="java.lang.String" value="Data Guru"/>
-                <Property name="verticalTextPosition" type="int" value="3"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnKelas2ActionPerformed"/>
-              </Events>
-            </Component>
-            <Component class="javax.swing.JButton" name="btnJurusan2">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Data Jurusan"/>
-                <Property name="actionCommand" type="java.lang.String" value="Data Guru"/>
-                <Property name="verticalTextPosition" type="int" value="3"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnJurusan2ActionPerformed"/>
-              </Events>
-            </Component>
             <Component class="javax.swing.JLabel" name="jLabel7">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">

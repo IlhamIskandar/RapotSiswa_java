@@ -18,36 +18,36 @@ public class MainMenu extends javax.swing.JFrame {
         initComponents();
     }
     
-    public void setLevel(String l){
-        level = l;
-        if (level.equals("siswa")) {
-            LihatNilai.setEnabled(true);
-            nilaiSiswa1.setEnabled(false);
-            btnSiswa.setEnabled(false);
-            btnMapel.setEnabled(false);
-            btnGuru.setEnabled(false);
-            btnKelas.setEnabled(false);
-            btnJurusan.setEnabled(false);
-        }
-        else if (level.equals("petugas")) {
-            LihatNilai.setEnabled(false);
-            nilaiSiswa1.setEnabled(false);
-            btnSiswa.setEnabled(true);
-            btnMapel.setEnabled(true);
-            btnGuru.setEnabled(true);
-            btnKelas.setEnabled(true);
-            btnJurusan.setEnabled(true);
-        }
-        else if (level.equals("guru")) {
-            LihatNilai.setEnabled(false);
-            nilaiSiswa1.setEnabled(true);
-            btnSiswa.setEnabled(false);
-            btnMapel.setEnabled(false);
-            btnGuru.setEnabled(false);
-            btnKelas.setEnabled(false);
-            btnJurusan.setEnabled(false);
-        }
-    }
+//    public void setLevel(String l){
+//        level = l;
+//        if (level.equals("siswa")) {
+//            LihatNilai.setEnabled(true);
+//            nilaiSiswa1.setEnabled(false);
+//            btnSiswa.setEnabled(false);
+//            btnMapel.setEnabled(false);
+//            btnGuru.setEnabled(false);
+//            btnKelas.setEnabled(false);
+//            btnJurusan.setEnabled(false);
+//        }
+//        else if (level.equals("petugas")) {
+//            LihatNilai.setEnabled(false);
+//            nilaiSiswa1.setEnabled(false);
+//            btnSiswa.setEnabled(true);
+//            btnMapel.setEnabled(true);
+//            btnGuru.setEnabled(true);
+//            btnKelas.setEnabled(true);
+//            btnJurusan.setEnabled(true);
+//        }
+//        else if (level.equals("guru")) {
+//            LihatNilai.setEnabled(false);
+//            nilaiSiswa1.setEnabled(true);
+//            btnSiswa.setEnabled(false);
+//            btnMapel.setEnabled(false);
+//            btnGuru.setEnabled(false);
+//            btnKelas.setEnabled(false);
+//            btnJurusan.setEnabled(false);
+//        }
+//    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -60,7 +60,6 @@ public class MainMenu extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         sideBar = new javax.swing.JPanel();
-        LihatNilai = new javax.swing.JButton();
         btnSiswa = new javax.swing.JButton();
         btnMapel = new javax.swing.JButton();
         btnGuru = new javax.swing.JButton();
@@ -68,20 +67,12 @@ public class MainMenu extends javax.swing.JFrame {
         btnJurusan = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         menuAwal = new javax.swing.JButton();
-        nilaiSiswa1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         sideBar.setBackground(new java.awt.Color(51, 153, 255));
-
-        LihatNilai.setText("Lihat Nilai");
-        LihatNilai.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                LihatNilaiActionPerformed(evt);
-            }
-        });
 
         btnSiswa.setText("Data Siswa");
         btnSiswa.addActionListener(new java.awt.event.ActionListener() {
@@ -137,13 +128,6 @@ public class MainMenu extends javax.swing.JFrame {
             }
         });
 
-        nilaiSiswa1.setText("Data Nilai");
-        nilaiSiswa1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                nilaiSiswa1ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout sideBarLayout = new javax.swing.GroupLayout(sideBar);
         sideBar.setLayout(sideBarLayout);
         sideBarLayout.setHorizontalGroup(
@@ -153,12 +137,10 @@ public class MainMenu extends javax.swing.JFrame {
                 .addGroup(sideBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnMapel, javax.swing.GroupLayout.DEFAULT_SIZE, 154, Short.MAX_VALUE)
                     .addComponent(btnSiswa, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(LihatNilai, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnGuru, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnKelas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnJurusan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(menuAwal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(nilaiSiswa1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(menuAwal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
             .addGroup(sideBarLayout.createSequentialGroup()
                 .addGap(34, 34, 34)
@@ -171,10 +153,6 @@ public class MainMenu extends javax.swing.JFrame {
                 .addGap(19, 19, 19)
                 .addComponent(jLabel5)
                 .addGap(18, 18, 18)
-                .addComponent(LihatNilai, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(nilaiSiswa1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnSiswa, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnMapel, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -184,7 +162,7 @@ public class MainMenu extends javax.swing.JFrame {
                 .addComponent(btnKelas, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnJurusan, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(100, 100, 100)
                 .addComponent(menuAwal, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -215,15 +193,6 @@ public class MainMenu extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void LihatNilaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LihatNilaiActionPerformed
-        // TODO add your handling code here:
-        LaporanNilaiSiswa a = new LaporanNilaiSiswa();
-        
-        a.setVisible(true);
-//        a.setEnabled(true);
-        
-    }//GEN-LAST:event_LihatNilaiActionPerformed
 
     private void btnSiswaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiswaActionPerformed
         // TODO add your handling code here:
@@ -270,14 +239,6 @@ public class MainMenu extends javax.swing.JFrame {
         
     }//GEN-LAST:event_menuAwalActionPerformed
 
-    private void nilaiSiswa1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nilaiSiswa1ActionPerformed
-        // TODO add your handling code here:
-        DataNilai a = new DataNilai();
-        a.setVisible(true);
-        a.setEnabled(true);
-        this.hide();
-    }//GEN-LAST:event_nilaiSiswa1ActionPerformed
-
     /**
      * @param args the command line arguments
      */
@@ -314,7 +275,6 @@ public class MainMenu extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton LihatNilai;
     private javax.swing.JButton btnGuru;
     private javax.swing.JButton btnJurusan;
     private javax.swing.JButton btnKelas;
@@ -323,7 +283,6 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JButton menuAwal;
-    private javax.swing.JButton nilaiSiswa1;
     private javax.swing.JPanel sideBar;
     // End of variables declaration//GEN-END:variables
 }

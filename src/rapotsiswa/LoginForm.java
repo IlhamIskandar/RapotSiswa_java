@@ -35,23 +35,45 @@ public class LoginForm extends javax.swing.JFrame {
             ps.setString(2, String.valueOf(txtPassword.getPassword()));
             ResultSet r = ps.executeQuery();
             
-            if (r.next() == false) {
-                JOptionPane.showMessageDialog(this, "Username atau Password Salah");
+            if (r.next() != false) {
+                System.out.println("Berhasil login : " + r.getString("level"));
+                if (null != r.getString("level")) switch (r.getString("level")) {
+                    case "guru":{
+                        MenuGuru a = new MenuGuru();
+                        a.show(true);
+                        this.dispose();
+                            break;
+                        }
+                    case "petugas":{
+                        MainMenu a = new MainMenu();
+                        a.show(true);
+                        this.dispose();
+                            break;
+                        }
+                    case "siswa":{
+                        MenuSiswa a = new MenuSiswa();
+                        a.show(true);
+                        this.dispose();
+                            break;
+                        }
+                    default:
+                        break;
+                }
             }else{
-                MainMenu utama = new MainMenu();
-                DataNilai n = new DataNilai();
-                DataSiswa s = new DataSiswa();
-                DataMapel m = new DataMapel();
-                DataGuru g = new DataGuru();
-                DataKelas k = new DataKelas();
-                DataJurusan j = new DataJurusan();
-                utama.setLevel(r.getString(1));
+//                MenuPetugas utama = new MenuPetugas();
+//                DataNilai n = new DataNilai();
+//                DataSiswa s = new DataSiswa();
+//                DataMapel m = new DataMapel();
+//                DataGuru g = new DataGuru();
+//                DataKelas k = new DataKelas();
+//                DataJurusan j = new DataJurusan();
+//                utama.setLevel(r.getString(1));
 //                n.setLevel(r.getString(1));
+                JOptionPane.showMessageDialog(this, "Username atau Password Salah");
                 
                 
-                
-                utama.show(true);
-                this.dispose();
+//                utama.show(true);
+//                this.dispose();
             }
             
         } catch (Exception e) {
@@ -169,7 +191,7 @@ public class LoginForm extends javax.swing.JFrame {
         });
 
         jLabel5.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
-        jLabel5.setText("NIS");
+        jLabel5.setText("USERNAME");
 
         jLabel6.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
         jLabel6.setText("PASSWORD");

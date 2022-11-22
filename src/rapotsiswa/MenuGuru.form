@@ -67,21 +67,17 @@
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="btnMapel" alignment="0" pref="154" max="32767" attributes="0"/>
-                          <Component id="btnSiswa" alignment="1" max="32767" attributes="0"/>
-                          <Component id="btnGuru" alignment="0" max="32767" attributes="0"/>
-                          <Component id="btnKelas" alignment="0" max="32767" attributes="0"/>
-                          <Component id="btnJurusan" alignment="0" max="32767" attributes="0"/>
-                          <Component id="menuAwal" alignment="0" max="32767" attributes="0"/>
-                      </Group>
-                      <EmptySpace max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
                       <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace pref="40" max="32767" attributes="0"/>
+                  </Group>
+                  <Group type="102" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="menuAwal" alignment="0" max="32767" attributes="0"/>
+                          <Component id="nilaiSiswa1" alignment="0" max="32767" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -91,16 +87,8 @@
                       <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
                       <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="btnSiswa" min="-2" pref="35" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="btnMapel" min="-2" pref="35" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="btnGuru" min="-2" pref="35" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="btnKelas" min="-2" pref="35" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="btnJurusan" min="-2" pref="35" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="100" max="-2" attributes="0"/>
+                      <Component id="nilaiSiswa1" min="-2" pref="35" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="264" max="-2" attributes="0"/>
                       <Component id="menuAwal" min="-2" pref="35" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
@@ -108,53 +96,6 @@
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="javax.swing.JButton" name="btnSiswa">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Data Siswa"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSiswaActionPerformed"/>
-              </Events>
-            </Component>
-            <Component class="javax.swing.JButton" name="btnMapel">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Data Mata Pelajaran"/>
-                <Property name="verticalTextPosition" type="int" value="3"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnMapelActionPerformed"/>
-              </Events>
-            </Component>
-            <Component class="javax.swing.JButton" name="btnGuru">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Data Guru"/>
-                <Property name="actionCommand" type="java.lang.String" value=""/>
-                <Property name="verticalTextPosition" type="int" value="3"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnGuruActionPerformed"/>
-              </Events>
-            </Component>
-            <Component class="javax.swing.JButton" name="btnKelas">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Data Kelas"/>
-                <Property name="actionCommand" type="java.lang.String" value="Data Guru"/>
-                <Property name="verticalTextPosition" type="int" value="3"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnKelasActionPerformed"/>
-              </Events>
-            </Component>
-            <Component class="javax.swing.JButton" name="btnJurusan">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Data Jurusan"/>
-                <Property name="actionCommand" type="java.lang.String" value="Data Guru"/>
-                <Property name="verticalTextPosition" type="int" value="3"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnJurusanActionPerformed"/>
-              </Events>
-            </Component>
             <Component class="javax.swing.JLabel" name="jLabel5">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
@@ -171,6 +112,14 @@
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menuAwalActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="nilaiSiswa1">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Data Nilai Siswa"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="nilaiSiswa1ActionPerformed"/>
               </Events>
             </Component>
           </SubComponents>

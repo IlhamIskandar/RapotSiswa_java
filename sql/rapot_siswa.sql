@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 17, 2022 at 05:23 AM
+-- Generation Time: Nov 20, 2022 at 09:43 AM
 -- Server version: 10.1.38-MariaDB
 -- PHP Version: 7.3.2
 
@@ -39,7 +39,7 @@ CREATE TABLE `guru` (
 --
 
 INSERT INTO `guru` (`kode_guru`, `nama_guru`, `kode_mapel`) VALUES
-(2, 'Guru B Inggris', 'bing'),
+(2, 'Guru ', 'bind'),
 (3, 'Guru MatemaTIKA', 'mtk');
 
 -- --------------------------------------------------------
@@ -149,6 +149,7 @@ CREATE TABLE `siswa` (
 --
 
 INSERT INTO `siswa` (`nis`, `nama`, `kode_kelas`, `kode_jurusan`, `nomor_telepon`, `alamat`, `id_user`) VALUES
+(239847, 'belm', '10', 'rpl1', '12341234', 'asdf asdf', 9),
 (202100001, 'Raden Rafiardi Lesmana', '10', 'rpl1', '0821213123', 'jalan katapang nomer 202, Melbourne.', 3);
 
 -- --------------------------------------------------------
@@ -169,9 +170,15 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id_user`, `username`, `password`, `level`) VALUES
-(1, 'guru', 'loginguru', 'guru'),
-(2, 'petugas', 'loginpetugas', 'petugas'),
-(3, '202100001', 'loginsiswa', 'siswa');
+(1, 'petugas', 'loginpetugas', 'petugas'),
+(2, 'guru', 'loginguru', 'guru'),
+(3, '202100001', 'loginsiswa', 'siswa'),
+(4, '4646', 'login45', 'siswa'),
+(5, '3131', 'fIwKLg4rib', 'siswa'),
+(6, '909090', 'Nju4By0kOW', 'siswa'),
+(7, '8989', 'v0xbK8Ef6H', 'siswa'),
+(8, '202100002', 'WWSphaiejC', 'siswa'),
+(9, '239847', 'r6KprWeaaa', 'siswa');
 
 --
 -- Indexes for dumped tables
@@ -242,6 +249,12 @@ ALTER TABLE `guru`
   MODIFY `kode_guru` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
+-- AUTO_INCREMENT for table `user`
+--
+ALTER TABLE `user`
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
 -- Constraints for dumped tables
 --
 
@@ -264,7 +277,7 @@ ALTER TABLE `nilai`
 ALTER TABLE `siswa`
   ADD CONSTRAINT `siswa_ibfk_2` FOREIGN KEY (`kode_jurusan`) REFERENCES `jurusan` (`kode_jurusan`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `siswa_ibfk_3` FOREIGN KEY (`kode_kelas`) REFERENCES `kelas` (`kode_kelas`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `siswa_ibfk_4` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`);
+  ADD CONSTRAINT `siswa_ibfk_4` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

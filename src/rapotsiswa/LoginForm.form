@@ -255,7 +255,7 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="SansSerif" size="12" style="1"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="NIS"/>
+            <Property name="text" type="java.lang.String" value="USERNAME"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JPasswordField" name="txtPassword">

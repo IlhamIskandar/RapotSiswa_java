@@ -85,9 +85,9 @@
                                   <Component id="jSeparator1" alignment="0" min="-2" pref="584" max="-2" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="1" attributes="0">
-                                  <Component id="jButton2" min="-2" pref="97" max="-2" attributes="0"/>
+                                  <Component id="btnUbah" min="-2" pref="97" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
-                                  <Component id="jButton3" min="-2" pref="97" max="-2" attributes="0"/>
+                                  <Component id="btnHapus" min="-2" pref="97" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
@@ -108,8 +108,8 @@
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="btnTambah" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jButton2" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jButton3" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnUbah" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnHapus" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="1" attributes="0">
@@ -163,12 +163,10 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="btnMapel" alignment="0" pref="154" max="32767" attributes="0"/>
                           <Component id="btnSiswa" alignment="1" max="32767" attributes="0"/>
-                          <Component id="LihatNilai" alignment="0" max="32767" attributes="0"/>
                           <Component id="btnGuru" alignment="0" max="32767" attributes="0"/>
                           <Component id="btnKelas" alignment="0" max="32767" attributes="0"/>
                           <Component id="btnJurusan" alignment="0" max="32767" attributes="0"/>
                           <Component id="menuAwal" alignment="0" max="32767" attributes="0"/>
-                          <Component id="nilaiSiswa1" alignment="0" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -185,10 +183,6 @@
                       <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
                       <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="LihatNilai" min="-2" pref="35" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="nilaiSiswa1" min="-2" pref="35" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
                       <Component id="btnSiswa" min="-2" pref="35" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="btnMapel" min="-2" pref="35" max="-2" attributes="0"/>
@@ -198,7 +192,7 @@
                       <Component id="btnKelas" min="-2" pref="35" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="btnJurusan" min="-2" pref="35" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="100" max="-2" attributes="0"/>
                       <Component id="menuAwal" min="-2" pref="35" max="-2" attributes="0"/>
                       <EmptySpace pref="25" max="32767" attributes="0"/>
                   </Group>
@@ -206,14 +200,6 @@
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="javax.swing.JButton" name="LihatNilai">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Lihat Nilai"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="LihatNilaiActionPerformed"/>
-              </Events>
-            </Component>
             <Component class="javax.swing.JButton" name="btnSiswa">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Data Siswa"/>
@@ -278,14 +264,6 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menuAwalActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="nilaiSiswa1">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Data Nilai"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="nilaiSiswa1ActionPerformed"/>
-              </Events>
-            </Component>
           </SubComponents>
         </Container>
         <Component class="javax.swing.JLabel" name="jLabel1">
@@ -331,7 +309,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnTambahActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton2">
+        <Component class="javax.swing.JButton" name="btnUbah">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="0" green="cc" red="ff" type="rgb"/>
@@ -348,10 +326,10 @@
             <Property name="text" type="java.lang.String" value="Ubah"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton2ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnUbahActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton3">
+        <Component class="javax.swing.JButton" name="btnHapus">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="0" green="0" red="ff" type="rgb"/>
@@ -368,7 +346,7 @@
             <Property name="text" type="java.lang.String" value="Hapus"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton3ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnHapusActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel7">
