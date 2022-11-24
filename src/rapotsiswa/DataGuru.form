@@ -130,10 +130,10 @@
                       <Component id="btnubah" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
+                  <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="btnhapus" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="LabelKodeGuru" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="InputKodeGuru" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="LabelKodeGuru" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="jScrollPane1" min="-2" pref="219" max="-2" attributes="0"/>

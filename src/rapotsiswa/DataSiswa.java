@@ -23,8 +23,10 @@ public class DataSiswa extends javax.swing.JFrame {
         initComponents();
         connectDB();
         refreshTable();
+        getSiswa();
         getJurusan();
         getKelas();
+        InputPilih.setSelectedIndex(-1);
     }
     private void connectDB() {
         conn = null;
@@ -60,6 +62,20 @@ public class DataSiswa extends javax.swing.JFrame {
             
         } catch (Exception e) {
             System.out.println("ERROR QUERY KE DATABASE:\n"+ e);
+        }
+    }
+    
+    private void getSiswa(){
+        try {
+            PreparedStatement s = conn.prepareStatement("SELECT nis FROM siswa");
+            ResultSet r = s.executeQuery();
+            while (r.next()) {    
+                
+                InputPilih.addItem(r.getString("nis"));
+            }
+            System.out.println( "BERHASIL mengambil data form siswa");
+        } catch (Exception e) {
+            System.out.println( "GAGAL mengambil data form siswa : "+ e);
         }
     }
     
@@ -132,6 +148,10 @@ public class DataSiswa extends javax.swing.JFrame {
                 ps.setString(6, alamat);
                 ps.setString(7, idUser);
                 ps.executeUpdate();
+                
+                InputPilih.addItem(nis);
+                
+                System.out.println("BERHASIL input data siswa");
             } catch (Exception e) {
                 System.out.println("GAGAL menambah ada siswa : " +e);
                 JOptionPane.showMessageDialog(null, "Gagal Menambah Data");
@@ -166,6 +186,9 @@ public class DataSiswa extends javax.swing.JFrame {
                         inputSiswa.setString(6, alamat);
                         inputSiswa.setString(7, idUser);
                         inputSiswa.executeUpdate();
+                        
+                        InputPilih.addItem(nis);
+                        
                         System.out.println("BERHASIL input data siswa");
                     } catch (Exception e) {
                         System.out.println("GAGAL input data siswa : "+e);
@@ -181,8 +204,8 @@ public class DataSiswa extends javax.swing.JFrame {
         refreshTable();
         InputNis.setText("");
         InputNama.setText("");
-        InputKdKelas.setSelectedIndex(-1);
-        InputJurusan. setSelectedIndex(-1);
+        InputKdKelas.setSelectedIndex(1);
+        InputJurusan. setSelectedIndex(1);
         InputHP.setText("");
         InputAlamat.setText("");
     }
@@ -199,12 +222,14 @@ public class DataSiswa extends javax.swing.JFrame {
             refreshTable();
             InputNis.setText("");
             InputNama.setText("");
-            InputKdKelas.setSelectedIndex(-1);
-            InputJurusan. setSelectedIndex(-1);
+            InputKdKelas.setSelectedIndex(1);
+            InputJurusan. setSelectedIndex(1);
             InputHP.setText("");
             InputAlamat.setText("");
+            
+            System.out.println("BERHASIL menghapus data");
         } catch (Exception e) {
-            System.out.println("GAGAL EKSEKUSI QUERY"+e);
+            System.out.println("GAGAL menghapus data : "+e);
             JOptionPane.showMessageDialog(null, "Gagal Menghapus Data");
             
         }
@@ -212,33 +237,35 @@ public class DataSiswa extends javax.swing.JFrame {
     
     private void ubahData(){
         String nis, namaSiswa, kodeKelas, kodeJurusan, nomorTelepon, alamat;
-        nis = InputNama.getText();
-        namaSiswa = InputNis.getText();
+        nis = InputNis.getText();
+        namaSiswa = InputNama.getText();
         kodeKelas = (String) InputKdKelas.getSelectedItem();
         kodeJurusan = (String) InputJurusan.getSelectedItem();
         nomorTelepon = InputHP.getText();
         alamat = InputAlamat.getText();
         
         try {
-            PreparedStatement ps = conn.prepareStatement("UPDATE siwa SET nama = ?, kode_kelas = ?, kode_jurusan, nomor_telepon = ?, alamat = ? WHERE nis = ?");
-            ps.setString(1, nis);
-            ps.setString(2, namaSiswa);
-            ps.setString(3, kodeKelas);
-            ps.setString(4, kodeJurusan);
-            ps.setString(5, nomorTelepon);
-            ps.setString(6, alamat);
+            PreparedStatement ps = conn.prepareStatement("UPDATE siswa SET nama = ?, kode_kelas = ?, kode_jurusan = ?, nomor_telepon = ?, alamat = ? WHERE nis = ?");
+            ps.setString(1, namaSiswa);
+            ps.setString(2, kodeKelas);
+            ps.setString(3, kodeJurusan);
+            ps.setString(4, nomorTelepon);
+            ps.setString(5, alamat);
+            ps.setString(6, nis);
             ps.executeUpdate();
             
             refreshTable();
             InputNis.setText("");
             InputNama.setText("");
-            InputKdKelas.setSelectedIndex(-1);
-            InputJurusan. setSelectedIndex(-1);
+            InputKdKelas.setSelectedIndex(0);
+            InputJurusan. setSelectedIndex(0);
             InputHP.setText("");
             InputAlamat.setText("");
+            
+            System.out.println("BERHASIL mengubah data siswa");
         } catch (Exception e) {
-            System.out.println("GAGAL EKSEKUSI QUERY" +e);
-            JOptionPane.showMessageDialog(null, "Gagal Menambah Data");
+            System.out.println("GAGAL mengubah data siswa : " +e);
+            JOptionPane.showMessageDialog(null, "Gagal Mengubah Data");
         }
     }
 
@@ -282,6 +309,8 @@ public class DataSiswa extends javax.swing.JFrame {
         tabelSiswa = new javax.swing.JTable();
         InputHP = new javax.swing.JTextField();
         InputKdKelas = new javax.swing.JComboBox<>();
+        InputPilih = new javax.swing.JComboBox<>();
+        jLabel12 = new javax.swing.JLabel();
 
         jPasswordField1.setText("jPasswordField1");
 
@@ -468,7 +497,6 @@ public class DataSiswa extends javax.swing.JFrame {
         jLabel11.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
         jLabel11.setText("Alamat");
 
-        InputJurusan.setEditable(true);
         InputJurusan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 InputJurusanActionPerformed(evt);
@@ -492,12 +520,21 @@ public class DataSiswa extends javax.swing.JFrame {
         ));
         jScrollPane2.setViewportView(tabelSiswa);
 
-        InputKdKelas.setEditable(true);
         InputKdKelas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 InputKdKelasActionPerformed(evt);
             }
         });
+
+        InputPilih.setEditable(true);
+        InputPilih.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                InputPilihActionPerformed(evt);
+            }
+        });
+
+        jLabel12.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        jLabel12.setText("Pilih Data");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -508,36 +545,41 @@ public class DataSiswa extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel6)
                             .addComponent(jLabel7)
                             .addComponent(jLabel8)
                             .addComponent(jLabel9)
                             .addComponent(jLabel10)
                             .addComponent(jLabel11)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(InputKdKelas, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(InputHP, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(InputJurusan, javax.swing.GroupLayout.Alignment.LEADING, 0, 134, Short.MAX_VALUE)
-                                .addComponent(InputNis, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(InputNama, javax.swing.GroupLayout.Alignment.LEADING)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 395, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel1)
-                                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 584, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 167, Short.MAX_VALUE)
+                            .addComponent(InputKdKelas, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(InputNis)
+                            .addComponent(InputNama)
+                            .addComponent(InputHP)
+                            .addComponent(InputJurusan, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 395, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(189, 189, 189)
-                                .addComponent(btnTambah)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnUbah, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(48, 48, 48)
-                                .addComponent(btnHapus, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addGap(0, 17, Short.MAX_VALUE))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(btnTambah)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGap(4, 4, 4)
+                                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(btnUbah, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(btnHapus, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(InputPilih, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addContainerGap(21, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 584, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -545,21 +587,24 @@ public class DataSiswa extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(24, 24, 24)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(11, 11, 11)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
+                    .addComponent(jLabel12)
+                    .addComponent(InputPilih, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(6, 6, 6)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(InputNis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnTambah)
                     .addComponent(btnUbah)
                     .addComponent(btnHapus))
-                .addGap(8, 8, 8)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel7)
+                .addGap(4, 4, 4)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(InputNis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel7)
-                        .addGap(4, 4, 4)
                         .addComponent(InputNama, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel8)
@@ -587,7 +632,7 @@ public class DataSiswa extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -696,6 +741,36 @@ public class DataSiswa extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnuserActionPerformed
 
+    private void InputPilihActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InputPilihActionPerformed
+        // TODO add your handling code here:
+        String nis;
+        nis = (String) InputPilih.getSelectedItem();
+        if (nis != null) {
+            try {
+                PreparedStatement ps = conn.prepareStatement("SELECT nis, nama, kode_kelas, kode_jurusan, nomor_telepon, alamat FROM siswa WHERE nis = ?");
+                ps.setString(1, nis);
+                ResultSet r = ps.executeQuery();
+                while (r.next()) {
+                    InputNis.setText(r.getString(1));
+                    InputNama.setText(r.getString(2));
+                    InputKdKelas.setSelectedItem(r.getString(3));
+                    InputJurusan.setSelectedItem(r.getString(4));
+                    InputHP.setText(r.getString(5));
+                    InputAlamat.setText(r.getString(6));
+                }
+            } catch (Exception e) {
+            }
+        }else{
+            InputNis.setText("");
+            InputNama.setText("");
+            InputKdKelas.setSelectedIndex(0);
+            InputJurusan.setSelectedIndex(0);
+            InputHP.setText("");
+            InputAlamat.setText("");
+        }
+        
+    }//GEN-LAST:event_InputPilihActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -738,6 +813,7 @@ public class DataSiswa extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> InputKdKelas;
     private javax.swing.JTextField InputNama;
     private javax.swing.JTextField InputNis;
+    private javax.swing.JComboBox<String> InputPilih;
     private javax.swing.JButton btnGuru;
     private javax.swing.JButton btnHapus;
     private javax.swing.JButton btnJurusan;
@@ -750,6 +826,7 @@ public class DataSiswa extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
