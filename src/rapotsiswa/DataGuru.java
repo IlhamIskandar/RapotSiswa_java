@@ -25,9 +25,11 @@ public class DataGuru extends javax.swing.JFrame {
         initComponents();
         connectDB();
         getMapel();
+        getKodeGuru();
         refreshTable();
         namaMapel.setText("");
         cbKdMapel.setSelectedIndex(-1);
+        InputKodeGuru.setSelectedIndex(-1);
     }
     
     private void connectDB(){
@@ -58,9 +60,10 @@ public class DataGuru extends javax.swing.JFrame {
            
             tm.addRow(data);
             
-            };
+            }
+            System.out.println("BERHASIL mengambil data guru ");
         } catch (Exception e) {
-            System.out.println("ERROR QUERY KE DATABASE : \n"+e+"\n\n");
+            System.out.println("GAGAL mengambil data guru : "+e);
         }
     }
     
@@ -73,8 +76,26 @@ public class DataGuru extends javax.swing.JFrame {
                 
                 cbKdMapel.addItem(r.getString("kode_mapel"));
             }
-            s.executeUpdate();
+            
+            System.out.println("BERHASIL mengambil data mapel");
         } catch (Exception e) {
+            System.out.println("GAGAL mengambil data mapel : " + e);
+        }
+    }
+    
+    private void getKodeGuru(){
+        
+        try {
+            PreparedStatement ps = conn.prepareStatement("SELECT kode_guru FROM guru");
+            ResultSet r = ps.executeQuery();
+            
+            while (r.next()) {                
+                InputKodeGuru.addItem(r.getString("kode_guru"));
+            }
+            
+            System.out.println("BERHASIL mengambil data kode guru");
+        } catch (Exception e) {
+            System.out.println("GAGAL mengambil data kode guru : " + e);
         }
     }
     
@@ -95,6 +116,8 @@ public class DataGuru extends javax.swing.JFrame {
             InputNamaGuru.setText("");
             cbKdMapel.setSelectedIndex(-1);
             namaMapel.setText("");
+            
+            System.out.println("");
         } catch (Exception e) {
             System.out.println("GAGAL EKSEKUSI QUERY" +e);
             JOptionPane.showMessageDialog(null, "Gagal Menambah Data");
@@ -103,7 +126,7 @@ public class DataGuru extends javax.swing.JFrame {
     
     private void hapusData(){
         String kodeGuru;
-        kodeGuru = InputKodeGuru.getText();
+        kodeGuru = (String) InputKodeGuru.getSelectedItem();
         
         try {
             PreparedStatement ps = conn.prepareStatement("DELETE FROM guru WHERE kode_guru = ?");
@@ -111,7 +134,7 @@ public class DataGuru extends javax.swing.JFrame {
             ps.executeUpdate();
             
             refreshTable();
-            InputKodeGuru.setText("");
+            InputKodeGuru.setSelectedIndex(0);
         } catch (Exception e) {
             System.out.println("GAGAL EKSEKUSI QUERY"+e);
             JOptionPane.showMessageDialog(null, "Gagal Menghapus Data");
@@ -123,7 +146,7 @@ public class DataGuru extends javax.swing.JFrame {
         String namaGuru, kodeMapel, kodeGuru;
         kodeMapel = (String) cbKdMapel.getSelectedItem();
         namaGuru = InputNamaGuru.getText();
-        kodeGuru = InputKodeGuru.getText();
+        kodeGuru = (String) InputKodeGuru.getSelectedItem();
         if (kodeMapel != "") {
             try {
                 PreparedStatement ps = conn.prepareStatement("UPDATE guru SET nama_guru = ?, kode_mapel = ? WHERE kode_guru = ?");
@@ -150,7 +173,7 @@ public class DataGuru extends javax.swing.JFrame {
         }
         refreshTable();
         InputNamaGuru.setText("");
-        InputKodeGuru.setText("");
+        InputKodeGuru.setSelectedIndex(0);
         cbKdMapel.setSelectedIndex(-1);
         namaMapel.setText("");
     }
@@ -188,7 +211,8 @@ public class DataGuru extends javax.swing.JFrame {
         cbKdMapel = new javax.swing.JComboBox<>();
         namaMapel = new javax.swing.JLabel();
         LabelNamaGuru = new javax.swing.JLabel();
-        InputKodeGuru = new javax.swing.JTextField();
+        jSeparator2 = new javax.swing.JSeparator();
+        InputKodeGuru = new javax.swing.JComboBox<>();
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -406,7 +430,8 @@ public class DataGuru extends javax.swing.JFrame {
                         .addGap(20, 20, 20)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGap(26, 26, 26)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel2Layout.createSequentialGroup()
                                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -415,23 +440,25 @@ public class DataGuru extends javax.swing.JFrame {
                                             .addComponent(LabelKodeGuru, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(cbKdMapel, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(InputNamaGuru, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(InputKodeGuru, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addComponent(InputKodeGuru, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                                .addComponent(cbKdMapel, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(namaMapel, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                         .addGap(49, 49, 49)
                                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                             .addComponent(btntambah, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(btnhapus, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(btnubah, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 528, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(namaMapel, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 355, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 551, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(18, 18, 18)
-                        .addComponent(Labelkodekelas)
-                        .addContainerGap())))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(Labelkodekelas)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 528, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -439,27 +466,33 @@ public class DataGuru extends javax.swing.JFrame {
                 .addGap(17, 17, 17)
                 .addComponent(Labelkodekelas)
                 .addGap(18, 18, 18)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 4, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 4, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(InputNamaGuru, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btntambah)
+                            .addComponent(LabelNamaGuru))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnubah)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(3, 3, 3)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(LabelKodeMaoel)
+                                    .addComponent(cbKdMapel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                    .addComponent(namaMapel, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(3, 3, 3)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(InputNamaGuru, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btntambah)
-                    .addComponent(LabelNamaGuru))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(LabelKodeMaoel)
-                        .addComponent(cbKdMapel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(namaMapel, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnubah))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnhapus)
-                    .addComponent(InputKodeGuru, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(LabelKodeGuru))
-                .addGap(18, 18, 18)
+                    .addComponent(LabelKodeGuru)
+                    .addComponent(InputKodeGuru, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(26, 26, 26))
             .addComponent(sideBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
@@ -467,7 +500,7 @@ public class DataGuru extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 764, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -551,10 +584,6 @@ public class DataGuru extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_cbKdMapelActionPerformed
 
-    private void InputKodeGuruActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InputKodeGuruActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_InputKodeGuruActionPerformed
-
     private void btnhapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnhapusActionPerformed
         // TODO add your handling code here:
         hapusData();
@@ -563,6 +592,27 @@ public class DataGuru extends javax.swing.JFrame {
     private void btnuserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnuserActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnuserActionPerformed
+
+    private void InputKodeGuruActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InputKodeGuruActionPerformed
+        // TODO add your handling code here:
+        String kodeGuru;
+        kodeGuru = (String) InputKodeGuru.getSelectedItem();
+        if (kodeGuru != null) {
+            try {
+                PreparedStatement ps = conn.prepareStatement("SELECT kode_guru, nama_guru, kode_mapel FROM guru WHERE kode_guru = ?");
+                ps.setString(1, kodeGuru);
+                ResultSet r = ps.executeQuery();
+                while (r.next()) {
+                    InputNamaGuru.setText(r.getString("nama_guru"));
+                    cbKdMapel.setSelectedItem(r.getString("kode_mapel"));                    
+                }
+            } catch (Exception e) {
+            }
+        }else{
+            InputNamaGuru.setText("");
+            cbKdMapel.setSelectedIndex(0);  
+        }
+    }//GEN-LAST:event_InputKodeGuruActionPerformed
 
     /**
      * @param args the command line arguments
@@ -600,7 +650,7 @@ public class DataGuru extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField InputKodeGuru;
+    private javax.swing.JComboBox<String> InputKodeGuru;
     private javax.swing.JTextField InputNamaGuru;
     private javax.swing.JLabel LabelKodeGuru;
     private javax.swing.JLabel LabelKodeMaoel;
@@ -622,6 +672,7 @@ public class DataGuru extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
     private javax.swing.JButton menuAwal;
     private javax.swing.JLabel namaMapel;
     private javax.swing.JPanel sideBar;
