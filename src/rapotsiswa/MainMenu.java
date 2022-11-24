@@ -261,6 +261,10 @@ public class MainMenu extends javax.swing.JFrame {
 
     private void btnuserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnuserActionPerformed
         // TODO add your handling code here:
+        DataPengguna a = new DataPengguna();
+        a.setVisible(true);
+        a.setEnabled(true);
+        this.hide();
     }//GEN-LAST:event_btnuserActionPerformed
 
     /**

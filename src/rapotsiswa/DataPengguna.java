@@ -5,17 +5,273 @@
  */
 package rapotsiswa;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author UH
  */
 public class DataPengguna extends javax.swing.JFrame {
-
+    Connection conn;
+    DefaultTableModel tm;
+    
     /**
      * Creates new form DataPengguna
      */
     public DataPengguna() {
         initComponents();
+        connectDB();
+        refreshTableSiswa();
+        
+        getId();
+        inputId.setSelectedIndex(-1);
+    }
+    
+    private void connectDB() {
+        conn = null;
+        
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3307/rapot_siswa", "root", "");
+            System.out.println("BERHASIL tersambung ke database");
+        } catch (Exception e) {
+            System.out.println("GAGAL tersambung ke database: " + e);
+        }
+    }
+    
+    private void refreshTablePetugas(){
+        tm = new DefaultTableModel(null, new Object[] { "ID user", "Username", "Password", "Level" });
+        tableUser.setModel(tm);
+        tm.getDataVector().removeAllElements();
+        try {
+            PreparedStatement s = conn.prepareStatement("SELECT * FROM user WHERE level = 'petugas'");
+            ResultSet r = s.executeQuery();
+            
+            String level , password;
+            
+            while(r.next()) {
+                if ("petugas".equals(r.getString(4))) {
+                    password = "*******";
+                    Object[] data = {
+                        r.getString(1),
+                        r.getString(2),
+                        "*******",
+                        r.getString(4)
+                    };
+                    tm.addRow(data);
+                }else {
+                    password = r.getString(3);
+                    Object[] data = {
+                        r.getString(1),
+                        r.getString(2),
+                        r.getString(3),
+                        r.getString(4)
+                    };
+                    tm.addRow(data);
+                }
+            };
+            System.out.println("BERHASIL mengambil data petugas");
+        } catch (Exception e) {
+            System.out.println("GAGAL mengambil data petugas : "+e);
+        }
+    }
+    
+    private void refreshTableGuru(){
+        tm = new DefaultTableModel(null, new Object[] { "ID user", "Username", "Password", "Level" });
+        tableUser.setModel(tm);
+        tm.getDataVector().removeAllElements();
+        try {
+            PreparedStatement s = conn.prepareStatement("SELECT * FROM user WHERE level = 'guru'");
+            ResultSet r = s.executeQuery();
+            
+            String level , password;
+            
+            while(r.next()) {
+                if ("petugas".equals(r.getString(4))) {
+                    password = "*******";
+                    Object[] data = {
+                        r.getString(1),
+                        r.getString(2),
+                        "*******",
+                        r.getString(4)
+                    };
+                    tm.addRow(data);
+                }else {
+                    password = r.getString(3);
+                    Object[] data = {
+                        r.getString(1),
+                        r.getString(2),
+                        r.getString(3),
+                        r.getString(4)
+                    };
+                    tm.addRow(data);
+                }
+            };
+            System.out.println("BERHASIL mengambil data guru");
+        } catch (Exception e) {
+            System.out.println("GAGAL mengambil data guru : "+e);
+        }
+    }
+    
+    private void refreshTableSiswa(){
+        tm = new DefaultTableModel(null, new Object[] { "ID user", "Username", "Password", "Level" });
+        tableUser.setModel(tm);
+        tm.getDataVector().removeAllElements();
+        try {
+            PreparedStatement s = conn.prepareStatement("SELECT * FROM user WHERE level = 'siswa'");
+            ResultSet r = s.executeQuery();
+                        
+            while(r.next()) {
+                Object[] data = {
+                    r.getString(1),
+                    r.getString(2),
+                    r.getString(3),
+                    r.getString(4)
+                };
+                tm.addRow(data);
+            };
+            System.out.println("BERHASIL mengambil data siswa");
+        } catch (Exception e) {
+            System.out.println("GAGAL mengambil data siswa: "+e);
+        }
+    }
+    
+
+    private void getId(){
+        try {
+            PreparedStatement s = conn.prepareStatement("SELECT * FROM user WHERE level != 'petugas'");
+            ResultSet r = s.executeQuery();
+            while (r.next()) {    
+                
+                inputId.addItem(r.getString("id_user"));
+            }
+            System.out.println( "BERHASIL mengambil data Jurusan");
+        } catch (Exception e) {
+            System.out.println( "GAGAL mengambil data Jurusan: "+ e);
+        }
+    }
+
+    private void tambahData(){
+        String username, password,level;
+        username = Inputusername.getText();
+        password = InputPassword.getText();
+        level = (String) inputLevel.getSelectedItem();
+        
+        try {
+            PreparedStatement ps = conn.prepareStatement("INSERT INTO user VALUES(?, ?, ?, ?)");
+            ps.setString(1, null);
+            ps.setString(2, username);
+            ps.setString(3, password);
+            ps.setString(4, level.toLowerCase());
+            ps.executeUpdate();
+            
+            switch(level){
+                case "Siswa":
+                    refreshTableSiswa();
+                    break;
+                case "Guru":
+                    refreshTableGuru();
+                    break;
+                case "Petugas":
+                    refreshTablePetugas();
+                    break;
+            }
+            
+            Inputusername.setText("");
+            InputPassword.setText("");
+            System.out.println("BERHASIL menambah data user");
+        } catch (Exception e) {
+            System.out.println("GAGAL menambah data user: "+e);
+            JOptionPane.showMessageDialog(null, "Gagal Menambah Data");
+        }
+    }
+    
+    private void hapusData(){
+        String idUser, level;
+        idUser = (String) inputId.getSelectedItem();
+        level = "";
+        try {
+            PreparedStatement getLevel = conn.prepareStatement( "SELECT level FROM user WHERE id_user = ?");
+            getLevel.setString(1, idUser);
+            ResultSet gl = getLevel.executeQuery();
+            while (gl.next()) {
+                level = gl.getString(1);
+            }
+            
+            try {
+                PreparedStatement ps = conn.prepareStatement("DELETE FROM user WHERE id_user = ?");
+                ps.setString(1, idUser);
+                ps.executeUpdate();
+
+                switch(level){
+                    case "siswa":
+                        refreshTableSiswa();
+                        break;
+                    case "guru":
+                        refreshTableGuru();
+                        break;
+                    case "petugas":
+                        refreshTablePetugas();
+                        break;
+                }
+                System.out.println("BERHASIL menghapus data");
+            } catch (Exception e) {
+                System.out.println("GAGAL menghapus data : "+e);
+                JOptionPane.showMessageDialog(null, "Gagal Menghapus Data");
+            }
+            System.out.println("BERHASIL mengambil level user");
+        } catch (Exception e) {
+            System.out.println("GAGAL mengambil level user : "+e);
+        }
+    }
+    
+    private void ubahData(){
+        String username, password,level, idUser;
+        username = Inputusername.getText();
+        password = InputPassword.getText();
+        idUser = (String) inputId.getSelectedItem();
+        level = "";
+        
+        try {
+            PreparedStatement getLevel = conn.prepareStatement( "SELECT level FROM user WHERE id_user = ?");
+            getLevel.setString(1, idUser);
+            ResultSet gl = getLevel.executeQuery();
+            while (gl.next()) {
+                level = gl.getString(1);
+            }
+            
+            try {
+                PreparedStatement ps = conn.prepareStatement("UPDATE user SET username = ?, password = ? WHERE id_user = ?");
+                ps.setString(1, username);
+                ps.setString(2, password);
+                ps.setString(3, idUser);
+                ps.executeUpdate();
+
+                switch(level){
+                    case "siswa":
+                        refreshTableSiswa();
+                        break;
+                    case "guru":
+                        refreshTableGuru();
+                        break;
+                    case "petugas":
+                        refreshTablePetugas();
+                        break;
+                }
+                System.out.println("BERHASIL mengubah data user");
+            } catch (Exception e) {
+                System.out.println("GAGAL mengubah data user: "+e);
+                JOptionPane.showMessageDialog(null, "Gagal Mengubah Data");
+
+            }
+            
+        } catch (Exception e) {
+        }
     }
 
     /**
@@ -44,12 +300,16 @@ public class DataPengguna extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         Inputusername = new javax.swing.JTextField();
         InputPassword = new javax.swing.JTextField();
-        InputLevel = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tableUser = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        btnUbah = new javax.swing.JButton();
+        btnHapus = new javax.swing.JButton();
+        inputLevel = new javax.swing.JComboBox<>();
+        jLabel5 = new javax.swing.JLabel();
+        inputId = new javax.swing.JComboBox<>();
+        jSeparator2 = new javax.swing.JSeparator();
+        btnAcak = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -180,7 +440,7 @@ public class DataPengguna extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
         jLabel4.setText("Password");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tableUser.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -191,22 +451,63 @@ public class DataPengguna extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tableUser);
 
         jButton1.setBackground(new java.awt.Color(0, 255, 0));
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/add-user.png"))); // NOI18N
         jButton1.setText("Tambah");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
-        jButton2.setBackground(new java.awt.Color(255, 204, 0));
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/pencil.png"))); // NOI18N
-        jButton2.setText("Ubah");
+        btnUbah.setBackground(new java.awt.Color(255, 204, 0));
+        btnUbah.setForeground(new java.awt.Color(255, 255, 255));
+        btnUbah.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/pencil.png"))); // NOI18N
+        btnUbah.setText("Ubah");
+        btnUbah.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUbahActionPerformed(evt);
+            }
+        });
 
-        jButton3.setBackground(new java.awt.Color(255, 0, 0));
-        jButton3.setForeground(new java.awt.Color(255, 255, 255));
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/bin (3).png"))); // NOI18N
-        jButton3.setText("Hapus");
+        btnHapus.setBackground(new java.awt.Color(255, 0, 0));
+        btnHapus.setForeground(new java.awt.Color(255, 255, 255));
+        btnHapus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/bin (3).png"))); // NOI18N
+        btnHapus.setText("Hapus");
+        btnHapus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHapusActionPerformed(evt);
+            }
+        });
+
+        inputLevel.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Siswa", "Guru", "Petugas" }));
+        inputLevel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                inputLevelActionPerformed(evt);
+            }
+        });
+
+        jLabel5.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        jLabel5.setText("ID User");
+
+        inputId.setEditable(true);
+        inputId.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                inputIdActionPerformed(evt);
+            }
+        });
+
+        btnAcak.setBackground(new java.awt.Color(0, 153, 204));
+        btnAcak.setForeground(new java.awt.Color(255, 255, 255));
+        btnAcak.setText("Acak Sandi");
+        btnAcak.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAcakActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -216,41 +517,49 @@ public class DataPengguna extends javax.swing.JFrame {
                 .addComponent(sideBar4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel1)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(6, 6, 6)
-                                .addComponent(jSeparator1))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGap(18, 18, 18)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 524, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(0, 10, Short.MAX_VALUE))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
+                                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addGap(18, 18, 18)
+                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                                .addComponent(jLabel2)
-                                                .addGap(26, 26, 26)
-                                                .addComponent(Inputusername, javax.swing.GroupLayout.PREFERRED_SIZE, 286, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addComponent(jLabel4)
-                                                    .addComponent(jLabel3))
-                                                .addGap(29, 29, 29)
-                                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                                    .addComponent(InputPassword, javax.swing.GroupLayout.DEFAULT_SIZE, 284, Short.MAX_VALUE)
-                                                    .addComponent(InputLevel))))
+                                                .addComponent(inputLevel, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(186, 186, 186))
+                                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(InputPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 286, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(Inputusername, javax.swing.GroupLayout.PREFERRED_SIZE, 286, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                        .addGap(43, 43, 43)))))
-                        .addContainerGap())
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel1)
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(btnAcak, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(inputId, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(btnUbah, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(btnHapus, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                        .addGap(0, 0, Short.MAX_VALUE)
+                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 524, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(6, 6, 6)
+                                .addComponent(jSeparator1))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jSeparator2)))
+                        .addContainerGap())))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -265,22 +574,26 @@ public class DataPengguna extends javax.swing.JFrame {
                     .addComponent(jLabel2)
                     .addComponent(Inputusername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(InputPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jButton2))
-                    .addComponent(jLabel4))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(InputLevel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3))
-                        .addGap(21, 21, 21)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jButton3))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(InputPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAcak))
+                .addGap(7, 7, 7)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(inputLevel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(14, 14, 14)
+                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(inputId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnHapus)
+                    .addComponent(btnUbah))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -297,41 +610,31 @@ public class DataPengguna extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnSiswa4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiswa4ActionPerformed
+    private void inputLevelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputLevelActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnSiswa4ActionPerformed
+        String pilihan;
+        pilihan = (String) inputLevel.getSelectedItem();
+        switch(pilihan){
+            case "Siswa":
+            refreshTableSiswa();
+            break;
+            case "Guru":
+            refreshTableGuru();
+            break;
+            case "Petugas":
+            refreshTablePetugas();
+            break;
+        }
+    }//GEN-LAST:event_inputLevelActionPerformed
 
-    private void btnMapel4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMapel4ActionPerformed
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        DataMapel a = new DataMapel();
-        a.setVisible(true);
-        a.setEnabled(true);
-        this.dispose();
-    }//GEN-LAST:event_btnMapel4ActionPerformed
+        tambahData();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void btnGuru4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuru4ActionPerformed
+    private void btnuser4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnuser4ActionPerformed
         // TODO add your handling code here:
-        DataGuru a = new DataGuru();
-        a.setVisible(true);
-        a.setEnabled(true);
-        this.dispose();
-    }//GEN-LAST:event_btnGuru4ActionPerformed
-
-    private void btnKelas4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKelas4ActionPerformed
-        // TODO add your handling code here:
-        DataKelas a = new DataKelas();
-        a.setVisible(true);
-        a.setEnabled(true);
-        this.dispose();
-    }//GEN-LAST:event_btnKelas4ActionPerformed
-
-    private void btnJurusan4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnJurusan4ActionPerformed
-        // TODO add your handling code here:
-        DataJurusan a = new DataJurusan();
-        a.setVisible(true);
-        a.setEnabled(true);
-        this.dispose();
-    }//GEN-LAST:event_btnJurusan4ActionPerformed
+    }//GEN-LAST:event_btnuser4ActionPerformed
 
     private void menuAwal4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuAwal4ActionPerformed
         // TODO add your handling code here:
@@ -341,9 +644,81 @@ public class DataPengguna extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_menuAwal4ActionPerformed
 
-    private void btnuser4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnuser4ActionPerformed
+    private void btnJurusan4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnJurusan4ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnuser4ActionPerformed
+        DataJurusan a = new DataJurusan();
+        a.setVisible(true);
+        a.setEnabled(true);
+        this.dispose();
+    }//GEN-LAST:event_btnJurusan4ActionPerformed
+
+    private void btnKelas4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKelas4ActionPerformed
+        // TODO add your handling code here:
+        DataKelas a = new DataKelas();
+        a.setVisible(true);
+        a.setEnabled(true);
+        this.dispose();
+    }//GEN-LAST:event_btnKelas4ActionPerformed
+
+    private void btnGuru4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuru4ActionPerformed
+        // TODO add your handling code here:
+        DataGuru a = new DataGuru();
+        a.setVisible(true);
+        a.setEnabled(true);
+        this.dispose();
+    }//GEN-LAST:event_btnGuru4ActionPerformed
+
+    private void btnMapel4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMapel4ActionPerformed
+        // TODO add your handling code here:
+        DataMapel a = new DataMapel();
+        a.setVisible(true);
+        a.setEnabled(true);
+        this.dispose();
+    }//GEN-LAST:event_btnMapel4ActionPerformed
+
+    private void btnSiswa4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiswa4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnSiswa4ActionPerformed
+
+    private void btnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapusActionPerformed
+        // TODO add your handling code here:
+        hapusData();
+    }//GEN-LAST:event_btnHapusActionPerformed
+
+    private void inputIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputIdActionPerformed
+        // TODO add your handling code here:
+        String id;
+        id = (String) inputId.getSelectedItem();
+        if (id != null) {
+            try {
+                PreparedStatement ps = conn.prepareStatement("SELECT * FROM user WHERE id_user = ? AND level != 'petugas'");
+                ps.setString(1, id);
+                ResultSet r = ps.executeQuery();
+                while (r.next()) {
+                    Inputusername.setText(r.getString("username"));
+                    InputPassword.setText(r.getString("password"));
+                }
+                System.out.println( "BERHASIL mengambil data siswa");
+            } catch (Exception e) {
+                System.out.println( "GAGAL mengambil data siswa : "+ e);
+            }
+        }else{
+            Inputusername.setText("");
+            InputPassword.setText("");
+        }
+    }//GEN-LAST:event_inputIdActionPerformed
+
+    private void btnAcakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAcakActionPerformed
+        // TODO add your handling code here:
+        String acak;
+        acak = FunctionLib.generateRandomPassword(10);
+        InputPassword.setText(acak);
+    }//GEN-LAST:event_btnAcakActionPerformed
+
+    private void btnUbahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUbahActionPerformed
+        // TODO add your handling code here:
+        ubahData();
+    }//GEN-LAST:event_btnUbahActionPerformed
 
     /**
      * @param args the command line arguments
@@ -381,64 +756,32 @@ public class DataPengguna extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField InputLevel;
     private javax.swing.JTextField InputPassword;
     private javax.swing.JTextField Inputusername;
-    private javax.swing.JButton btnGuru;
-    private javax.swing.JButton btnGuru1;
-    private javax.swing.JButton btnGuru2;
-    private javax.swing.JButton btnGuru3;
+    private javax.swing.JButton btnAcak;
     private javax.swing.JButton btnGuru4;
-    private javax.swing.JButton btnJurusan;
-    private javax.swing.JButton btnJurusan1;
-    private javax.swing.JButton btnJurusan2;
-    private javax.swing.JButton btnJurusan3;
+    private javax.swing.JButton btnHapus;
     private javax.swing.JButton btnJurusan4;
-    private javax.swing.JButton btnKelas;
-    private javax.swing.JButton btnKelas1;
-    private javax.swing.JButton btnKelas2;
-    private javax.swing.JButton btnKelas3;
     private javax.swing.JButton btnKelas4;
-    private javax.swing.JButton btnMapel;
-    private javax.swing.JButton btnMapel1;
-    private javax.swing.JButton btnMapel2;
-    private javax.swing.JButton btnMapel3;
     private javax.swing.JButton btnMapel4;
-    private javax.swing.JButton btnSiswa;
-    private javax.swing.JButton btnSiswa1;
-    private javax.swing.JButton btnSiswa2;
-    private javax.swing.JButton btnSiswa3;
     private javax.swing.JButton btnSiswa4;
-    private javax.swing.JButton btnuser;
-    private javax.swing.JButton btnuser1;
-    private javax.swing.JButton btnuser2;
-    private javax.swing.JButton btnuser3;
+    private javax.swing.JButton btnUbah;
     private javax.swing.JButton btnuser4;
+    private javax.swing.JComboBox<String> inputId;
+    private javax.swing.JComboBox<String> inputLevel;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JButton menuAwal;
-    private javax.swing.JButton menuAwal1;
-    private javax.swing.JButton menuAwal2;
-    private javax.swing.JButton menuAwal3;
+    private javax.swing.JSeparator jSeparator2;
     private javax.swing.JButton menuAwal4;
-    private javax.swing.JPanel sideBar;
-    private javax.swing.JPanel sideBar1;
-    private javax.swing.JPanel sideBar2;
-    private javax.swing.JPanel sideBar3;
     private javax.swing.JPanel sideBar4;
+    private javax.swing.JTable tableUser;
     // End of variables declaration//GEN-END:variables
 }
