@@ -32,14 +32,15 @@ public class DataGuru extends javax.swing.JFrame {
         InputKodeGuru.setSelectedIndex(-1);
     }
     
-    private void connectDB(){
+    private void connectDB() {
         conn = null;
+        connection db = new connection();
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3307/rapot_siswa", "root","");
+            conn = DriverManager.getConnection(db.server(), db.username(), db.password());
+            System.out.println("BERHASIL tersambung ke database");
         } catch (Exception e) {
-            System.out.println("ERROR KONEKSI KE DATABASE " + e);
-            JOptionPane.showMessageDialog(null, "Gagal Terhubung ke Database");
+            System.out.println("GAGAL tersambung ke database: " + e);
         }
     }
     
@@ -103,7 +104,6 @@ public class DataGuru extends javax.swing.JFrame {
         String namaGuru, kodeMapel;
         namaGuru = InputNamaGuru.getText();
         kodeMapel = (String) cbKdMapel.getSelectedItem();
-        System.out.print(kodeMapel);
         
         try {
             PreparedStatement ps = conn.prepareStatement("INSERT INTO guru VALUES(? ,?, ?)");

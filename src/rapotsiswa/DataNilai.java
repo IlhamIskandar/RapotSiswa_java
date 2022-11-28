@@ -38,10 +38,10 @@ public class DataNilai extends javax.swing.JFrame {
     
     private void connectDB() {
         conn = null;
-        
+        connection db = new connection();
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3307/rapot_siswa", "root", "");
+            conn = DriverManager.getConnection(db.server(), db.username(), db.password());
             System.out.println("BERHASIL tersambung ke database");
         } catch (Exception e) {
             System.out.println("GAGAL tersambung ke database: " + e);
@@ -75,17 +75,39 @@ public class DataNilai extends javax.swing.JFrame {
         }
     }
     
+//    public class getSiswa {
+//        String nis, nama;
+//        
+//        public String getNIS(){
+//            return nis;
+//        }
+//        public void setNIS(String nis){
+//            this.nis = nis;
+//        }
+//        public String getNama(){
+//            return nama;
+//        }
+//        public void setNama(String nama){
+//            this.nama = nama;
+//        }
+//        
+//        @Override
+//        public String toString(){
+//            return nama;
+//        }
+//    }
+    
     private void getNIS(){
         try {
-            PreparedStatement s = conn.prepareStatement("SELECT nis FROM siswa");
+            PreparedStatement s = conn.prepareStatement("SELECT nis, nama FROM siswa");
             ResultSet r = s.executeQuery();
             while (r.next()) {    
                 
-                InputNis.addItem(r.getString("nis"));
+                InputNis.addItem(r.getString("nis") +" - "+ r.getString("nama"));
             }
             System.out.println( "BERHASIL mengambil data nis");
         } catch (Exception e) {
-            System.out.println( "GAGAL mengambil data nis: "+ e);
+            System.out.println( "GAGAL mengambil data nis : "+ e);
         }
     }
     
@@ -125,13 +147,13 @@ public class DataNilai extends javax.swing.JFrame {
         nilai = (String) InputNilai.getText();
         
         try {
-            PreparedStatement ps = conn.prepareStatement("INSERT INTO nilai VALUES(?, ?, ?, ?, ?)");
-            ps.setString(1, null);
-            ps.setString(2, kodeNilai);
-            ps.setString(3, nis);
-            ps.setString(4, kodeGuru);
-            ps.setString(5, nilai);
-            ps.executeUpdate();
+//            PreparedStatement ps = conn.prepareStatement("INSERT INTO nilai VALUES(?, ?, ?, ?, ?)");
+//            ps.setString(1, null);
+//            ps.setString(2, kodeNilai);
+//            ps.setString(3, nis);
+//            ps.setString(4, kodeGuru);
+//            ps.setString(5, nilai);
+//            ps.executeUpdate();
             
             refreshTable();
             InputNis.setSelectedIndex(-1);
@@ -413,7 +435,7 @@ public class DataNilai extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(mainPanelLayout.createSequentialGroup()
-                        .addGap(0, 18, Short.MAX_VALUE)
+                        .addGap(0, 25, Short.MAX_VALUE)
                         .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(mainPanelLayout.createSequentialGroup()
                                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -446,7 +468,7 @@ public class DataNilai extends javax.swing.JFrame {
                                                         .addGap(10, 10, 10)
                                                         .addComponent(lblJenisNilai, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                                                     .addComponent(lblNamaGuru, javax.swing.GroupLayout.DEFAULT_SIZE, 161, Short.MAX_VALUE))))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE))
                                     .addGroup(mainPanelLayout.createSequentialGroup()
                                         .addComponent(LabelJnsPenilaian1, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -454,11 +476,10 @@ public class DataNilai extends javax.swing.JFrame {
                                         .addGap(283, 283, 283)))
                                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(btnhapus, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(btnubah, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(btntambah, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(Labelidn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(InputID)))
+                                    .addComponent(btnubah, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btntambah, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(Labelidn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(InputID, javax.swing.GroupLayout.Alignment.TRAILING))
                                 .addGap(37, 37, 37))
                             .addGroup(mainPanelLayout.createSequentialGroup()
                                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -537,9 +558,7 @@ public class DataNilai extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(mainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

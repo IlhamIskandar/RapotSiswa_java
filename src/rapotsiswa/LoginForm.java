@@ -28,7 +28,8 @@ public class LoginForm extends javax.swing.JFrame {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             Connection con;
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3307/rapot_siswa", "root", "");
+            connection db = new connection();
+            con = DriverManager.getConnection(db.server(), db.username(), db.password());
             
             PreparedStatement ps = con.prepareStatement("SELECT level FROM user WHERE username=? AND password =?");
             ps.setString(1, txtUsername.getText());

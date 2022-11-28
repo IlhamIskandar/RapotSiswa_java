@@ -30,14 +30,15 @@ public class DataJurusan extends javax.swing.JFrame {
         refreshTable();
     }
     
-    private void connectDB(){
+    private void connectDB() {
         conn = null;
+        connection db = new connection();
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3307/rapot_siswa", "root","");
+            conn = DriverManager.getConnection(db.server(), db.username(), db.password());
+            System.out.println("BERHASIL tersambung ke database");
         } catch (Exception e) {
-            System.out.println("ERROR KONEKSI KE DATABASE " + e);
-            JOptionPane.showMessageDialog(null, "Gagal Terhubung ke Database");
+            System.out.println("GAGAL tersambung ke database: " + e);
         }
     }
     
