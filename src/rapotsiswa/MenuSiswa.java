@@ -10,14 +10,27 @@ package rapotsiswa;
  * @author acer
  */
 public class MenuSiswa extends javax.swing.JFrame {
-
+    LaporanNilaiSiswa lns = new LaporanNilaiSiswa();
+    private String nis;
+    LoginForm lf = new LoginForm();
     /**
      * Creates new form MenuSiswa
      */
     public MenuSiswa() {
         initComponents();
+        System.out.println("get di menu"+lf.getUsername());
+        System.out.println("setnis : "+nis);
+        System.out.println("getnis : "+getnis());
     }
-
+    public void setNIS(String n){
+        
+        this.nis = n;
+    }
+    
+    public final String getnis(){
+        return nis;
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -116,8 +129,9 @@ public class MenuSiswa extends javax.swing.JFrame {
 
     private void LihatNilaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LihatNilaiActionPerformed
         // TODO add your handling code here:
-        LaporanNilaiSiswa a = new LaporanNilaiSiswa();
-        a.setVisible(true);
+//        System.out.println("nis: "+ getnis());
+        lns.setNIS(getnis());
+        lns.setVisible(true);
         //        a.setEnabled(true);
 
     }//GEN-LAST:event_LihatNilaiActionPerformed

@@ -9,7 +9,7 @@ package rapotsiswa;
  *
  * @author acer
  */
-public class connection {
+public class DBConnection {
     public String server(){
         return "jdbc:mysql://localhost:3307/rapot_siswa";
     }

@@ -15,23 +15,30 @@ import javax.swing.JOptionPane;
  * @author PC-RPL 10
  */
 public class LoginForm extends javax.swing.JFrame {
-
+    private String username;
     /**
      * Creates new form LoginForm
      */
     public LoginForm() {
         initComponents();
-        
+    }
+    
+    public String getUsername(){
+        return username;
+    }
+    
+    public void setUsername(String username){
+        this.username = username;
     }
     
      public void loginValidation(){
         try {
             Class.forName("com.mysql.jdbc.Driver");
             Connection con;
-            connection db = new connection();
+            DBConnection db = new DBConnection();
             con = DriverManager.getConnection(db.server(), db.username(), db.password());
             
-            PreparedStatement ps = con.prepareStatement("SELECT level FROM user WHERE username=? AND password =?");
+            PreparedStatement ps = con.prepareStatement("SELECT username, level FROM user WHERE username=? AND password =?");
             ps.setString(1, txtUsername.getText());
             ps.setString(2, String.valueOf(txtPassword.getPassword()));
             ResultSet r = ps.executeQuery();
@@ -52,8 +59,16 @@ public class LoginForm extends javax.swing.JFrame {
                             break;
                         }
                     case "siswa":{
+                        System.out.println("Siswa : " + r.getString("username"));
+                        
                         MenuSiswa a = new MenuSiswa();
-                        a.show(true);
+                        LaporanNilaiSiswa lns = new LaporanNilaiSiswa();
+                        
+                        setUsername(r.getString("username"));
+                        lns.setNIS(r.getString("username"));
+                        a.setNIS(r.getString("username"));
+                        
+                        a.setVisible(true);
                         this.dispose();
                             break;
                         }
@@ -120,7 +135,6 @@ public class LoginForm extends javax.swing.JFrame {
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(587, 480));
         setUndecorated(true);
         setSize(new java.awt.Dimension(587, 480));
 

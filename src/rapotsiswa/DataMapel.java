@@ -29,7 +29,7 @@ public class DataMapel extends javax.swing.JFrame {
     }
     private void connectDB() {
         conn = null;
-        connection db = new connection();
+        DBConnection db = new DBConnection();
         try {
             Class.forName("com.mysql.jdbc.Driver");
             conn = DriverManager.getConnection(db.server(), db.username(), db.password());

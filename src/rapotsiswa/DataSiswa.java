@@ -30,7 +30,7 @@ public class DataSiswa extends javax.swing.JFrame {
     }
     private void connectDB() {
         conn = null;
-        connection db = new connection();
+        DBConnection db = new DBConnection();
         try {
             Class.forName("com.mysql.jdbc.Driver");
             conn = DriverManager.getConnection(db.server(), db.username(), db.password());
@@ -74,9 +74,9 @@ public class DataSiswa extends javax.swing.JFrame {
                 
                 InputPilih.addItem(r.getString("nis"));
             }
-            System.out.println( "BERHASIL mengambil data form siswa");
+            System.out.println( "BERHASIL mengambil data siswa");
         } catch (Exception e) {
-            System.out.println( "GAGAL mengambil data form siswa : "+ e);
+            System.out.println( "GAGAL mengambil data siswa : "+ e);
         }
     }
     
