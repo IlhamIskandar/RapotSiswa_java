@@ -47,6 +47,9 @@ public class MenuSiswa extends javax.swing.JFrame {
         LihatNilai = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         btnLogout = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -101,24 +104,54 @@ public class MenuSiswa extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jLabel3.setFont(new java.awt.Font("SansSerif", 1, 48)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(51, 153, 255));
+        jLabel3.setText("Wilujeung Sumping");
+
+        jLabel4.setFont(new java.awt.Font("SansSerif", 1, 48)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(51, 153, 255));
+        jLabel4.setText("NIKAT");
+
+        jLabel6.setFont(new java.awt.Font("SansSerif", 1, 48)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(51, 153, 255));
+        jLabel6.setText("(NILAI KATAPANG)");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(sideBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 226, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 83, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(155, 155, 155)
+                        .addComponent(jLabel4)))
+                .addGap(72, 72, 72))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(sideBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(118, 118, 118)
+                .addComponent(jLabel3)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel4)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel6)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -185,7 +218,10 @@ public class MenuSiswa extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton LihatNilai;
     private javax.swing.JButton btnLogout;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel sideBar;
     // End of variables declaration//GEN-END:variables
