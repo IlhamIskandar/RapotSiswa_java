@@ -5,6 +5,8 @@
  */
 package rapotsiswa;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author acer
@@ -66,7 +68,7 @@ public class MainMenu extends javax.swing.JFrame {
         btnKelas = new javax.swing.JButton();
         btnJurusan = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
-        menuAwal = new javax.swing.JButton();
+        btnLogout = new javax.swing.JButton();
         btnuser = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -124,14 +126,13 @@ public class MainMenu extends javax.swing.JFrame {
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/R.png"))); // NOI18N
 
-        menuAwal.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
-        menuAwal.setText("Menu Awal");
-        menuAwal.setActionCommand("Data Guru");
-        menuAwal.setEnabled(false);
-        menuAwal.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        menuAwal.addActionListener(new java.awt.event.ActionListener() {
+        btnLogout.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        btnLogout.setText("Logout");
+        btnLogout.setActionCommand("Data Guru");
+        btnLogout.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnLogout.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menuAwalActionPerformed(evt);
+                btnLogoutActionPerformed(evt);
             }
         });
 
@@ -161,7 +162,7 @@ public class MainMenu extends javax.swing.JFrame {
                     .addComponent(btnGuru, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnKelas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnJurusan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(menuAwal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnLogout, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnuser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -183,7 +184,7 @@ public class MainMenu extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnuser, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(59, 59, 59)
-                .addComponent(menuAwal, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -254,10 +255,15 @@ public class MainMenu extends javax.swing.JFrame {
         this.hide();
     }//GEN-LAST:event_btnJurusanActionPerformed
 
-    private void menuAwalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuAwalActionPerformed
+    private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
         // TODO add your handling code here:
-        
-    }//GEN-LAST:event_menuAwalActionPerformed
+        int result = JOptionPane.showConfirmDialog(null, "Konfirmasi Logout", "Logout" ,JOptionPane.YES_NO_OPTION );
+        if (result == JOptionPane.YES_OPTION) {
+            LoginForm l = new LoginForm();
+        l.setVisible(true);
+        this.setVisible(false);
+        }
+    }//GEN-LAST:event_btnLogoutActionPerformed
 
     private void btnuserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnuserActionPerformed
         // TODO add your handling code here:
@@ -306,12 +312,12 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JButton btnGuru;
     private javax.swing.JButton btnJurusan;
     private javax.swing.JButton btnKelas;
+    private javax.swing.JButton btnLogout;
     private javax.swing.JButton btnMapel;
     private javax.swing.JButton btnSiswa;
     private javax.swing.JButton btnuser;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JButton menuAwal;
     private javax.swing.JPanel sideBar;
     // End of variables declaration//GEN-END:variables
 }
