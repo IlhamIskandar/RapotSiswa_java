@@ -357,6 +357,11 @@ public class DataGuru extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        Tabelguru.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TabelguruMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(Tabelguru);
 
         InputNamaGuru.addActionListener(new java.awt.event.ActionListener() {
@@ -413,6 +418,7 @@ public class DataGuru extends javax.swing.JFrame {
         LabelNamaGuru.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
         LabelNamaGuru.setText("Nama Guru");
 
+        InputKodeGuru.setEditable(true);
         InputKodeGuru.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 InputKodeGuruActionPerformed(evt);
@@ -613,6 +619,15 @@ public class DataGuru extends javax.swing.JFrame {
             cbKdMapel.setSelectedIndex(0);  
         }
     }//GEN-LAST:event_InputKodeGuruActionPerformed
+
+    private void TabelguruMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TabelguruMouseClicked
+        // TODO add your handling code here:
+        int data = Tabelguru.getSelectedRow();
+        
+        String kode;
+        kode = (String) tm.getValueAt(data, 0);
+        InputKodeGuru.setSelectedItem(kode);
+    }//GEN-LAST:event_TabelguruMouseClicked
 
     /**
      * @param args the command line arguments

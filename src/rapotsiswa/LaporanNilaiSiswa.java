@@ -73,11 +73,11 @@ public class LaporanNilaiSiswa extends javax.swing.JFrame {
     
     private void getJenisPenilaian(){
         try {
-            PreparedStatement s = conn.prepareStatement("SELECT id_penilaian FROM jenis_penilaian");
+            PreparedStatement s = conn.prepareStatement("SELECT jenis, id_penilaian FROM jenis_penilaian");
             ResultSet r = s.executeQuery();
             while (r.next()) {    
                 
-                InputJenisPenilaian.addItem(r.getString("id_penilaian"));
+                InputJenisPenilaian.addItem(r.getString("jenis"));
             }
             System.out.println( "BERHASIL mengambil data jenis penilaian");
         } catch (Exception e) {
@@ -93,7 +93,7 @@ public class LaporanNilaiSiswa extends javax.swing.JFrame {
         System.out.println(inptjns);
         if (inptjns != null) {
             try {
-                PreparedStatement p = conn.prepareStatement("SELECT nilai.id_nilai, nilai.nis, siswa.nama, CONCAT(siswa.kode_kelas, siswa.kode_jurusan), mapel.nama_mapel, jenis_penilaian.jenis, nilai.nilai FROM siswa, nilai, mapel, guru, jenis_penilaian WHERE siswa.nis = nilai.nis AND nilai.id_penilaian = jenis_penilaian.id_penilaian AND nilai.kode_guru = guru.kode_guru AND guru.kode_mapel = mapel.kode_mapel AND nilai.nis = ? AND nilai.id_penilaian = ? Group BY nilai.id_nilai");
+                PreparedStatement p = conn.prepareStatement("SELECT nilai.id_nilai, nilai.nis, siswa.nama, CONCAT(siswa.kode_kelas, siswa.kode_jurusan), mapel.nama_mapel, jenis_penilaian.jenis, nilai.nilai FROM siswa, nilai, mapel, guru, jenis_penilaian WHERE siswa.nis = nilai.nis AND nilai.id_penilaian = jenis_penilaian.id_penilaian AND nilai.kode_guru = guru.kode_guru AND guru.kode_mapel = mapel.kode_mapel AND nilai.nis = ? AND jenis_penilaian.jenis = ? Group BY nilai.id_nilai");
                 p.setString(1, getNIS());
                 p.setString(2, inptjns);
                 ResultSet result = p.executeQuery();
@@ -268,6 +268,7 @@ public class LaporanNilaiSiswa extends javax.swing.JFrame {
         jLabel9.setText("Jenis Penilaian");
 
         lblJenisNilai.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
+        lblJenisNilai.setEnabled(false);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -326,10 +327,11 @@ public class LaporanNilaiSiswa extends javax.swing.JFrame {
                     .addComponent(jLabel8)
                     .addComponent(InputJurusan, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(InputJenisPenilaian, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel9)
-                    .addComponent(lblJenisNilai, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblJenisNilai, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(InputJenisPenilaian, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel9)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 335, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -366,21 +368,21 @@ public class LaporanNilaiSiswa extends javax.swing.JFrame {
         
         refreshTable();
 
-        if (idPenilaian != null) {
-            try {
-                PreparedStatement ps = conn.prepareStatement("SELECT jenis FROM jenis_penilaian WHERE id_penilaian = ?");
-                ps.setString(1, idPenilaian);
-                ResultSet r = ps.executeQuery();
-                while (r.next()) {
-                    lblJenisNilai.setText(": " + r.getString("jenis"));
-                }
-                System.out.println( "BERHASIL mengambil data penilaian");
-            } catch (Exception e) {
-                System.out.println( "GAGAL mengambil data penilaian : "+ e);
-            }
-        }else{
-            lblJenisNilai.setText(": ");
-        }
+//        if (idPenilaian != null) {
+//            try {
+//                PreparedStatement ps = conn.prepareStatement("SELECT jenis FROM jenis_penilaian WHERE id_penilaian = ?");
+//                ps.setString(1, idPenilaian);
+//                ResultSet r = ps.executeQuery();
+//                while (r.next()) {
+//                    lblJenisNilai.setText(": " + r.getString("jenis"));
+//                }
+//                System.out.println( "BERHASIL mengambil data penilaian");
+//            } catch (Exception e) {
+//                System.out.println( "GAGAL mengambil data penilaian : "+ e);
+//            }
+//        }else{
+//            lblJenisNilai.setText(": ");
+//        }
     }//GEN-LAST:event_InputJenisPenilaianActionPerformed
 
     /**

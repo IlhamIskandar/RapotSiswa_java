@@ -451,6 +451,11 @@ public class DataPengguna extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tableUser.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableUserMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tableUser);
 
         jButton1.setBackground(new java.awt.Color(0, 255, 0));
@@ -719,6 +724,15 @@ public class DataPengguna extends javax.swing.JFrame {
         // TODO add your handling code here:
         ubahData();
     }//GEN-LAST:event_btnUbahActionPerformed
+
+    private void tableUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableUserMouseClicked
+        // TODO add your handling code here:
+        int data = tableUser.getSelectedRow();
+        
+        String kode;
+        kode = (String) tm.getValueAt(data, 0);
+        inputId.setSelectedItem(kode);
+    }//GEN-LAST:event_tableUserMouseClicked
 
     /**
      * @param args the command line arguments

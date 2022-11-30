@@ -294,6 +294,11 @@ public class DataKelas extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        TableKelas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TableKelasMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(TableKelas);
 
         ButtonTambah.setBackground(new java.awt.Color(0, 255, 0));
@@ -488,6 +493,17 @@ public class DataKelas extends javax.swing.JFrame {
     private void btnuserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnuserActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnuserActionPerformed
+
+    private void TableKelasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TableKelasMouseClicked
+        // TODO add your handling code here:
+        int data = TableKelas.getSelectedRow();
+        
+        String kode, nama;
+        kode = (String) tm.getValueAt(data, 0);
+        InputKodeKelas.setText(kode);
+        nama = (String) tm.getValueAt(data, 1);
+        InputNamaKelas.setText(nama);
+    }//GEN-LAST:event_TableKelasMouseClicked
 
     /**
      * @param args the command line arguments

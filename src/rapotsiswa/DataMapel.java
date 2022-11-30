@@ -280,6 +280,11 @@ public class DataMapel extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tableMapel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableMapelMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tableMapel);
 
         KdMapel.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
@@ -471,6 +476,17 @@ public class DataMapel extends javax.swing.JFrame {
     private void btnuserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnuserActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnuserActionPerformed
+
+    private void tableMapelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableMapelMouseClicked
+        // TODO add your handling code here:
+        int data = tableMapel.getSelectedRow();
+        
+        String kode, nama;
+        kode = (String) tm.getValueAt(data, 0);
+        InputKdMapel.setText(kode);
+        nama = (String) tm.getValueAt(data, 1);
+        InputNmMapel.setText(nama);
+    }//GEN-LAST:event_tableMapelMouseClicked
 
     /**
      * @param args the command line arguments

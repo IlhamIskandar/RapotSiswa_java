@@ -289,6 +289,11 @@ public class DataJurusan extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        Tabeljurusan.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TabeljurusanMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(Tabeljurusan);
 
         Labelnamajurusan.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
@@ -472,6 +477,17 @@ public class DataJurusan extends javax.swing.JFrame {
     private void btnuserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnuserActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnuserActionPerformed
+
+    private void TabeljurusanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TabeljurusanMouseClicked
+        // TODO add your handling code here:
+        int data = Tabeljurusan.getSelectedRow();
+        
+        String kode, nama;
+        kode = (String) tm.getValueAt(data, 0);
+        Inputkodejurusan.setText(kode);
+        nama = (String) tm.getValueAt(data, 1);
+        Inputnamajurusan.setText(nama);
+    }//GEN-LAST:event_TabeljurusanMouseClicked
 
     /**
      * @param args the command line arguments

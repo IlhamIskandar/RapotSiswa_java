@@ -519,6 +519,11 @@ public class DataSiswa extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tabelSiswa.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabelSiswaMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(tabelSiswa);
 
         InputKdKelas.addActionListener(new java.awt.event.ActionListener() {
@@ -771,6 +776,15 @@ public class DataSiswa extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_InputPilihActionPerformed
+
+    private void tabelSiswaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelSiswaMouseClicked
+        // TODO add your handling code here:
+        int data = tabelSiswa.getSelectedRow();
+        
+        String kode;
+        kode = (String) tm.getValueAt(data, 0);
+        InputPilih.setSelectedItem(kode);
+    }//GEN-LAST:event_tabelSiswaMouseClicked
 
     /**
      * @param args the command line arguments

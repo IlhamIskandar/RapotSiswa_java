@@ -30,8 +30,11 @@ public class DataNilai extends javax.swing.JFrame {
         getNIS();
         getKodeGuru();
         getJenisPenilaian();
+        getID();
         InputNis.setSelectedIndex(-1);
         inputKodeGuru.setSelectedIndex(-1);
+        inputIDnilai.setSelectedIndex(-1);
+        InputNilai.setText("");
 //        System.out.println("aasd"+inputKodeGuru.getSelectedItem());
         
     }
@@ -97,12 +100,26 @@ public class DataNilai extends javax.swing.JFrame {
 //        }
 //    }
     
+    private void getID(){
+        try {
+            PreparedStatement s = conn.prepareStatement("SELECT id_nilai FROM nilai");
+            ResultSet r = s.executeQuery();
+            while (r.next()) {    
+//                 + r.getString("nama")
+                inputIDnilai.addItem(r.getString("id_nilai"));
+            }
+            System.out.println( "BERHASIL mengambil data id nilai");
+        } catch (Exception e) {
+            System.out.println( "GAGAL mengambil data id nilai : "+ e);
+        }
+    }
+    
     private void getNIS(){
         try {
             PreparedStatement s = conn.prepareStatement("SELECT nis, nama FROM siswa");
             ResultSet r = s.executeQuery();
             while (r.next()) {    
-                
+//                 + r.getString("nama")
                 InputNis.addItem(r.getString("nis"));
             }
             System.out.println( "BERHASIL mengambil data nis");
@@ -249,6 +266,7 @@ public class DataNilai extends javax.swing.JFrame {
         lblJenisNilai = new javax.swing.JLabel();
         Labelidn = new javax.swing.JLabel();
         InputID = new javax.swing.JTextField();
+        inputIDnilai = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -278,6 +296,11 @@ public class DataNilai extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        Tabelnilai.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TabelnilaiMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(Tabelnilai);
 
         btntambah.setBackground(new java.awt.Color(0, 255, 0));
@@ -426,6 +449,12 @@ public class DataNilai extends javax.swing.JFrame {
             }
         });
 
+        inputIDnilai.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                inputIDnilaiActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
         mainPanel.setLayout(mainPanelLayout);
         mainPanelLayout.setHorizontalGroup(
@@ -438,9 +467,6 @@ public class DataNilai extends javax.swing.JFrame {
                         .addGap(44, 44, 44)
                         .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(mainPanelLayout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addGap(487, 530, Short.MAX_VALUE))
-                            .addGroup(mainPanelLayout.createSequentialGroup()
                                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addGroup(mainPanelLayout.createSequentialGroup()
@@ -449,12 +475,11 @@ public class DataNilai extends javax.swing.JFrame {
                                                 .addComponent(LabelJnsPenilaian1, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                                 .addComponent(InputNilai, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE))
-                                            .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                                .addComponent(Labelnis)
-                                                .addComponent(InputNis, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(Labelpts, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addComponent(inputKodeGuru, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(LabelJnsPenilaian, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)))
+                                            .addComponent(Labelnis)
+                                            .addComponent(InputNis, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(Labelpts, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(inputKodeGuru, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(LabelJnsPenilaian, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE))
                                         .addGap(18, 18, 18)
                                         .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addGroup(mainPanelLayout.createSequentialGroup()
@@ -478,14 +503,19 @@ public class DataNilai extends javax.swing.JFrame {
                                                     .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                                         .addComponent(lblMapel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                                         .addComponent(lblNamaGuru, javax.swing.GroupLayout.DEFAULT_SIZE, 161, Short.MAX_VALUE)))))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 88, Short.MAX_VALUE)
                                         .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                             .addComponent(btnhapus, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                             .addComponent(btnubah, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                             .addComponent(btntambah, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                             .addComponent(Labelidn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(InputID, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                .addContainerGap())))
+                                            .addComponent(inputIDnilai, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addContainerGap())
+                            .addGroup(mainPanelLayout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(InputID, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(73, 73, 73))))
                     .addGroup(mainPanelLayout.createSequentialGroup()
                         .addComponent(jSeparator1)
                         .addContainerGap())))
@@ -495,7 +525,9 @@ public class DataNilai extends javax.swing.JFrame {
             .addComponent(sideBar2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(mainPanelLayout.createSequentialGroup()
                 .addGap(23, 23, 23)
-                .addComponent(jLabel1)
+                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(InputID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -540,9 +572,9 @@ public class DataNilai extends javax.swing.JFrame {
                         .addComponent(btntambah)
                         .addGap(18, 18, 18)
                         .addComponent(Labelidn)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(InputID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(inputIDnilai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnubah)))
                 .addGap(6, 6, 6)
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -668,12 +700,78 @@ public class DataNilai extends javax.swing.JFrame {
 
     private void InputIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InputIDActionPerformed
         // TODO add your handling code here:
+        String id = InputID.getText();
+        try {
+            PreparedStatement p = conn.prepareStatement("SELECT nilai.id_penilaian, nilai.kode_guru, nilai.id_nilai, nilai.nis, siswa.nama, CONCAT(siswa.kode_kelas, siswa.kode_jurusan), mapel.nama_mapel, jenis_penilaian.jenis, nilai.nilai FROM siswa, nilai, mapel, guru, jenis_penilaian WHERE siswa.nis = nilai.nis AND nilai.id_penilaian = jenis_penilaian.id_penilaian AND nilai.kode_guru = guru.kode_guru AND guru.kode_mapel = mapel.kode_mapel AND nilai.id_nilai = ?  Group BY nilai.id_nilai");
+            p.setString(1, id);
+            ResultSet result = p.executeQuery();
+            
+            while(result.next()) {
+                InputNis.setSelectedItem(result.getString("nis"));
+                inputKodeGuru.setSelectedItem(result.getString("kode_guru"));
+                InputJenisPenilaian.setSelectedItem(result.getString("id_penilaian"));
+                InputNilai.setText(result.getString("nilai"));
+//                Object[] data = {
+//                    result.getString(1),
+//                    result.getString(2),
+//                    result.getString(3),
+//                    result.getString(4),
+//                    result.getString(5),
+//                    result.getString(6),
+//                    result.getString(7)
+//                };
+//                tm.addRow(data);
+            }
+            System.out.println("BERHASIL mengambil data nilai");
+        } catch (Exception e) {
+            System.out.println("GAGAL mengambil data nilai : "+ e);
+        }
     }//GEN-LAST:event_InputIDActionPerformed
 
     private void btnhapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnhapusActionPerformed
         // TODO add your handling code here:
         hapusData();
     }//GEN-LAST:event_btnhapusActionPerformed
+
+    private void TabelnilaiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TabelnilaiMouseClicked
+        // TODO add your handling code here:
+        int data = Tabelnilai.getSelectedRow();
+        
+        String kode;
+        kode = (String) tm.getValueAt(data, 0);
+        inputIDnilai.setSelectedItem(kode);
+        
+    }//GEN-LAST:event_TabelnilaiMouseClicked
+
+    private void inputIDnilaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputIDnilaiActionPerformed
+        // TODO add your handling code here:
+        String id = (String)inputIDnilai.getSelectedItem();
+        try {
+            PreparedStatement p = conn.prepareStatement("SELECT nilai.id_penilaian, nilai.kode_guru, nilai.id_nilai, nilai.nis, siswa.nama, CONCAT(siswa.kode_kelas, siswa.kode_jurusan), mapel.nama_mapel, jenis_penilaian.jenis, nilai.nilai FROM siswa, nilai, mapel, guru, jenis_penilaian WHERE siswa.nis = nilai.nis AND nilai.id_penilaian = jenis_penilaian.id_penilaian AND nilai.kode_guru = guru.kode_guru AND guru.kode_mapel = mapel.kode_mapel AND nilai.id_nilai = ?  Group BY nilai.id_nilai");
+            p.setString(1, id);
+            ResultSet result = p.executeQuery();
+            
+            while(result.next()) {
+                InputNis.setSelectedItem(result.getString("nis"));
+                inputKodeGuru.setSelectedItem(result.getString("kode_guru"));
+                InputJenisPenilaian.setSelectedItem(result.getString("id_penilaian"));
+                InputNilai.setText(result.getString("nilai"));
+//                Object[] data = {
+//                    result.getString(1),
+//                    result.getString(2),
+//                    result.getString(3),
+//                    result.getString(4),
+//                    result.getString(5),
+//                    result.getString(6),
+//                    result.getString(7)
+//                };
+//                tm.addRow(data);
+            }
+            System.out.println("BERHASIL mengambil data nilai");
+        } catch (Exception e) {
+            System.out.println("GAGAL mengambil data nilai : "+ e);
+        }
+    }//GEN-LAST:event_inputIDnilaiActionPerformed
 
     /**
      * @param args the command line arguments
@@ -728,6 +826,7 @@ public class DataNilai extends javax.swing.JFrame {
     private javax.swing.JButton btnhapus;
     private javax.swing.JButton btntambah;
     private javax.swing.JButton btnubah;
+    private javax.swing.JComboBox<String> inputIDnilai;
     private javax.swing.JComboBox<String> inputKodeGuru;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel7;
