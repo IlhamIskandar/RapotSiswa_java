@@ -475,6 +475,10 @@ public class DataMapel extends javax.swing.JFrame {
 
     private void btnuserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnuserActionPerformed
         // TODO add your handling code here:
+        DataPengguna a = new DataPengguna();
+        a.setVisible(true);
+        a.setEnabled(true);
+        this.dispose();
     }//GEN-LAST:event_btnuserActionPerformed
 
     private void tableMapelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableMapelMouseClicked
