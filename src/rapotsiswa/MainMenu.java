@@ -5,7 +5,12 @@
  */
 package rapotsiswa;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -13,43 +18,187 @@ import javax.swing.JOptionPane;
  */
 public class MainMenu extends javax.swing.JFrame {
     String username, level;
+    Connection conn;
+    DefaultTableModel tm;
     /**
      * Creates new form MainMenu
      */
     public MainMenu() {
         initComponents();
+        connectDB();
+        refreshTableSiswa();
+        refreshTableMapel();
+        refreshTableGuru();
+        refreshTableJurusan();
+        refreshTableUser();
+        refreshTableKelas();
     }
     
-//    public void setLevel(String l){
-//        level = l;
-//        if (level.equals("siswa")) {
-//            LihatNilai.setEnabled(true);
-//            nilaiSiswa1.setEnabled(false);
-//            btnSiswa.setEnabled(false);
-//            btnMapel.setEnabled(false);
-//            btnGuru.setEnabled(false);
-//            btnKelas.setEnabled(false);
-//            btnJurusan.setEnabled(false);
-//        }
-//        else if (level.equals("petugas")) {
-//            LihatNilai.setEnabled(false);
-//            nilaiSiswa1.setEnabled(false);
-//            btnSiswa.setEnabled(true);
-//            btnMapel.setEnabled(true);
-//            btnGuru.setEnabled(true);
-//            btnKelas.setEnabled(true);
-//            btnJurusan.setEnabled(true);
-//        }
-//        else if (level.equals("guru")) {
-//            LihatNilai.setEnabled(false);
-//            nilaiSiswa1.setEnabled(true);
-//            btnSiswa.setEnabled(false);
-//            btnMapel.setEnabled(false);
-//            btnGuru.setEnabled(false);
-//            btnKelas.setEnabled(false);
-//            btnJurusan.setEnabled(false);
-//        }
-//    }
+    private void connectDB() {
+        conn = null;
+        DBConnection db = new DBConnection();
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            conn = DriverManager.getConnection(db.server(), db.username(), db.password());
+            System.out.println("BERHASIL tersambung ke database");
+        } catch (Exception e) {
+            System.out.println("GAGAL tersambung ke database: " + e);
+        }
+    }
+    
+    private void refreshTableSiswa() {
+        tm = new DefaultTableModel(null, new Object[] {"nis", "Nama","Kode Kelas","Kode Jurusan", "No Telepon", "Alamat"});
+        tabelSiswa.setModel(tm);
+        tm.getDataVector().removeAllElements();
+        
+        try {
+            PreparedStatement p = conn.prepareStatement("SELECT * FROM siswa");
+            ResultSet result = p.executeQuery();
+            
+            while(result.next()) {
+                Object[] data = {
+                    result.getString(1),
+                    result.getString(2),
+                    result.getString(3),
+                    result.getString(4),
+                    result.getString(5),
+                    result.getString(6),
+                };
+                tm.addRow(data);
+            }
+            
+        } catch (Exception e) {
+            System.out.println("ERROR QUERY KE DATABASE:\n"+ e);
+        }
+    }
+    
+    private void refreshTableMapel(){
+        tm = new DefaultTableModel(null, new Object[] { "Kode Mapel", "Nama Mapel" });
+        tableMapel.setModel(tm);
+        tm.getDataVector().removeAllElements();
+
+        try {
+            PreparedStatement s = conn.prepareStatement("SELECT * FROM mapel");
+            ResultSet r = s.executeQuery();
+            while(r.next()) {
+                Object[] data = {
+                r.getString(1),
+                r.getString(2)
+                };
+           
+            tm.addRow(data);
+            
+            };
+        } catch (Exception e) {
+            System.out.println("ERROR QUERY KE DATABASE : \n"+e+"\n\n");
+        }
+    }
+    
+    private void refreshTableGuru(){
+        tm = new DefaultTableModel(null, new Object[] { "Kode Guru", "Nama Guru", "Mapel" });
+        Tabelguru.setModel(tm);
+        tm.getDataVector().removeAllElements();
+
+        try {
+            PreparedStatement s = conn.prepareStatement("SELECT guru.kode_guru, guru.nama_guru, mapel.nama_mapel FROM guru, mapel WHERE guru.kode_mapel=mapel.kode_mapel ");
+            ResultSet r = s.executeQuery();
+            while(r.next()) {
+                Object[] data = {
+                r.getString(1),
+                r.getString(2),
+                r.getString(3)
+                };
+           
+            tm.addRow(data);
+            
+            }
+            System.out.println("BERHASIL mengambil data guru ");
+        } catch (Exception e) {
+            System.out.println("GAGAL mengambil data guru : "+e);
+        }
+    }
+    
+    private void refreshTableKelas(){
+        tm = new DefaultTableModel(null, new Object[] { "Kode Kelas", "Nama Kelas" });
+        TableKelas.setModel(tm);
+        tm.getDataVector().removeAllElements();
+
+        try {
+            PreparedStatement s = conn.prepareStatement("SELECT * FROM kelas");
+            ResultSet r = s.executeQuery();
+            while(r.next()) {
+                Object[] data = {
+                r.getString(1),
+                r.getString(2)
+                };
+           
+            tm.addRow(data);
+            
+            };
+        } catch (Exception e) {
+            System.out.println("ERROR QUERY KE DATABASE : \n"+e+"\n\n");
+        }
+    }
+    
+    private void refreshTableJurusan(){
+        tm = new DefaultTableModel(null, new Object[] { "Kode Jurusan", "Nama Jurusan" });
+        Tabeljurusan.setModel(tm);
+        tm.getDataVector().removeAllElements();
+
+        try {
+            PreparedStatement s = conn.prepareStatement("SELECT * FROM jurusan");
+            ResultSet r = s.executeQuery();
+            while(r.next()) {
+                Object[] data = {
+                r.getString(1),
+                r.getString(2)
+                };
+           
+            tm.addRow(data);
+            
+            };
+        } catch (Exception e) {
+            System.out.println("ERROR QUERY KE DATABASE : \n"+e+"\n\n");
+        }
+    }
+    
+    private void refreshTableUser(){
+        tm = new DefaultTableModel(null, new Object[] { "ID user", "Username", "Password", "Level" });
+        tableUser.setModel(tm);
+        tm.getDataVector().removeAllElements();
+        try {
+            PreparedStatement s = conn.prepareStatement("SELECT * FROM user");
+            ResultSet r = s.executeQuery();
+            
+            String level , password;
+            
+            while(r.next()) {
+                if ("petugas".equals(r.getString(4))) {
+                    password = "*******";
+                    Object[] data = {
+                        r.getString(1),
+                        r.getString(2),
+                        "*******",
+                        r.getString(4)
+                    };
+                    tm.addRow(data);
+                }else {
+                    password = r.getString(3);
+                    Object[] data = {
+                        r.getString(1),
+                        r.getString(2),
+                        r.getString(3),
+                        r.getString(4)
+                    };
+                    tm.addRow(data);
+                }
+            };
+            System.out.println("BERHASIL mengambil data petugas");
+        } catch (Exception e) {
+            System.out.println("GAGAL mengambil data petugas : "+e);
+        }
+    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -70,6 +219,24 @@ public class MainMenu extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         btnLogout = new javax.swing.JButton();
         btnuser = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tabelSiswa = new javax.swing.JTable();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tableMapel = new javax.swing.JTable();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        Tabelguru = new javax.swing.JTable();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        TableKelas = new javax.swing.JTable();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        Tabeljurusan = new javax.swing.JTable();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        tableUser = new javax.swing.JTable();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -183,10 +350,138 @@ public class MainMenu extends javax.swing.JFrame {
                 .addComponent(btnJurusan, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnuser, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(59, 59, 59)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
+
+        tabelSiswa.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        tabelSiswa.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabelSiswaMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(tabelSiswa);
+
+        tableMapel.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        tableMapel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableMapelMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tableMapel);
+
+        Tabelguru.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
+        Tabelguru.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        Tabelguru.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TabelguruMouseClicked(evt);
+            }
+        });
+        jScrollPane3.setViewportView(Tabelguru);
+
+        TableKelas.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
+        TableKelas.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        TableKelas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TableKelasMouseClicked(evt);
+            }
+        });
+        jScrollPane4.setViewportView(TableKelas);
+
+        Tabeljurusan.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        Tabeljurusan.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TabeljurusanMouseClicked(evt);
+            }
+        });
+        jScrollPane5.setViewportView(Tabeljurusan);
+
+        tableUser.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        tableUser.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableUserMouseClicked(evt);
+            }
+        });
+        jScrollPane6.setViewportView(tableUser);
+
+        jLabel1.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
+        jLabel1.setText("Data Siswa");
+
+        jLabel2.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
+        jLabel2.setText("Data Mapel");
+
+        jLabel3.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
+        jLabel3.setText("Data Guru");
+
+        jLabel4.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
+        jLabel4.setText("Data Kelas");
+
+        jLabel6.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
+        jLabel6.setText("Data Jurusan");
+
+        jLabel7.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
+        jLabel7.setText("Data User");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -194,11 +489,67 @@ public class MainMenu extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(sideBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 226, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 395, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addGap(274, 274, 274))
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel6)
+                                .addGap(251, 251, 251)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel7)
+                                .addGap(385, 385, 385))
+                            .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(sideBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel1)
+                        .addComponent(jLabel2))
+                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel6)
+                    .addComponent(jLabel7))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -209,7 +560,7 @@ public class MainMenu extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -273,6 +624,30 @@ public class MainMenu extends javax.swing.JFrame {
         this.hide();
     }//GEN-LAST:event_btnuserActionPerformed
 
+    private void tabelSiswaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelSiswaMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tabelSiswaMouseClicked
+
+    private void tableMapelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableMapelMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tableMapelMouseClicked
+
+    private void TabelguruMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TabelguruMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_TabelguruMouseClicked
+
+    private void TableKelasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TableKelasMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_TableKelasMouseClicked
+
+    private void TabeljurusanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TabeljurusanMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_TabeljurusanMouseClicked
+
+    private void tableUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableUserMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tableUserMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -309,6 +684,9 @@ public class MainMenu extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTable Tabelguru;
+    private javax.swing.JTable Tabeljurusan;
+    private javax.swing.JTable TableKelas;
     private javax.swing.JButton btnGuru;
     private javax.swing.JButton btnJurusan;
     private javax.swing.JButton btnKelas;
@@ -316,8 +694,23 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JButton btnMapel;
     private javax.swing.JButton btnSiswa;
     private javax.swing.JButton btnuser;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JPanel sideBar;
+    private javax.swing.JTable tabelSiswa;
+    private javax.swing.JTable tableMapel;
+    private javax.swing.JTable tableUser;
     // End of variables declaration//GEN-END:variables
 }
