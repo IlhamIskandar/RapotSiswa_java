@@ -15,6 +15,10 @@ import java.util.Random;
 
 
 public class FunctionLib {
+    public static void main(String[] args) {
+        System.out.println(toNumberOnly("123-parel-mtk"));
+    }
+    
     public static String generateRandomPassword(int len)
     {
         // ASCII range – alphanumeric (0-9, a-z, A-Z)
@@ -33,5 +37,10 @@ public class FunctionLib {
         }
  
         return sb.toString();
+    }
+    
+    public static String toNumberOnly(String s){
+        String numberOnly= s.replaceAll("[^0-9]", "");
+        return numberOnly;
     }
 }

@@ -19,6 +19,7 @@ import javax.swing.table.DefaultTableModel;
 public class DataNilai extends javax.swing.JFrame {
     Connection conn;
     DefaultTableModel tm;
+    String id_penilaian;
             
     /**
      * Creates new form DataNilai
@@ -130,11 +131,11 @@ public class DataNilai extends javax.swing.JFrame {
     
     private void getKodeGuru(){
         try {
-            PreparedStatement s = conn.prepareStatement("SELECT kode_guru FROM guru");
+            PreparedStatement s = conn.prepareStatement("SELECT guru.kode_guru, guru.nama_guru, mapel.kode_mapel FROM guru, mapel WHERE guru.kode_mapel = mapel.kode_mapel ORDER BY nama_guru");
             ResultSet r = s.executeQuery();
             while (r.next()) {    
                 
-                inputKodeGuru.addItem(r.getString("kode_guru"));
+                inputKodeGuru.addItem(r.getString("kode_guru") +" "+r.getString("nama_guru")+" "+r.getString("kode_mapel"));
             }
             System.out.println( "BERHASIL mengambil data kode guru");
         } catch (Exception e) {
@@ -144,11 +145,12 @@ public class DataNilai extends javax.swing.JFrame {
 
     private void getJenisPenilaian(){
         try {
-            PreparedStatement s = conn.prepareStatement("SELECT id_penilaian FROM jenis_penilaian");
+            PreparedStatement s = conn.prepareStatement("SELECT id_penilaian, jenis FROM jenis_penilaian");
             ResultSet r = s.executeQuery();
             while (r.next()) {    
                 
-                InputJenisPenilaian.addItem(r.getString("id_penilaian"));
+                InputJenisPenilaian.addItem(r.getString("jenis"));
+                
             }
             System.out.println( "BERHASIL mengambil data jenis penilaian");
         } catch (Exception e) {
@@ -159,14 +161,20 @@ public class DataNilai extends javax.swing.JFrame {
     private void tambahData(){
         String nis, kodeGuru, kodeNilai, nilai;
         nis = (String) InputNis.getSelectedItem();
-        kodeGuru = (String) inputKodeGuru.getSelectedItem();
+        kodeGuru = FunctionLib.toNumberOnly((String) inputKodeGuru.getSelectedItem());
         kodeNilai = (String) InputJenisPenilaian.getSelectedItem();
         nilai = (String) InputNilai.getText();
+        
+//        System.out.println(nis);
+//        System.out.println(kodeGuru);
+//        System.out.println(kodeNilai);
+//        System.out.println(id_penilaian);
+//        System.out.println(nilai);
         
         try {
             PreparedStatement ps = conn.prepareStatement("INSERT INTO nilai VALUES(?, ?, ?, ?, ?)");
             ps.setString(1, null);
-            ps.setString(2, kodeNilai);
+            ps.setString(2, id_penilaian);
             ps.setString(3, nis);
             ps.setString(4, kodeGuru);
             ps.setString(5, nilai);
@@ -184,9 +192,16 @@ public class DataNilai extends javax.swing.JFrame {
         }
     }
     
+    private void setIdPenilaian(String jenis){
+        this.id_penilaian = jenis;
+    }
+    private String getIdPenilaian(){
+        return id_penilaian;
+    }
+    
     private void hapusData(){
         String idNilai;
-        idNilai = InputID.getText();
+        idNilai = (String) inputIDnilai.getSelectedItem();
         
         try {
             PreparedStatement ps = conn.prepareStatement("DELETE FROM nilai WHERE id_nilai = ?");
@@ -206,7 +221,7 @@ public class DataNilai extends javax.swing.JFrame {
     
     private void ubahData(){
         String idNilai, nilai;
-        idNilai = InputID.getText();
+        idNilai = (String) inputIDnilai.getSelectedItem();
         nilai = InputNilai.getText();
         
         try {
@@ -217,7 +232,7 @@ public class DataNilai extends javax.swing.JFrame {
             
             refreshTable();
             InputNilai.setText("");
-            InputID.setText("");
+//            inputIDnilai.set("");
             System.out.println("BERHASIL mengubah data nilai");
         } catch (Exception e) {
             System.out.println("GAGAL mengubah data nilai"+e);
@@ -265,7 +280,6 @@ public class DataNilai extends javax.swing.JFrame {
         Labeluh7 = new javax.swing.JLabel();
         lblJenisNilai = new javax.swing.JLabel();
         Labelidn = new javax.swing.JLabel();
-        InputID = new javax.swing.JTextField();
         inputIDnilai = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -443,12 +457,6 @@ public class DataNilai extends javax.swing.JFrame {
         Labelidn.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
         Labelidn.setText("ID Nilai");
 
-        InputID.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                InputIDActionPerformed(evt);
-            }
-        });
-
         inputIDnilai.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 inputIDnilaiActionPerformed(evt);
@@ -513,9 +521,7 @@ public class DataNilai extends javax.swing.JFrame {
                                 .addContainerGap())
                             .addGroup(mainPanelLayout.createSequentialGroup()
                                 .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(InputID, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(73, 73, 73))))
+                                .addGap(73, 530, Short.MAX_VALUE))))
                     .addGroup(mainPanelLayout.createSequentialGroup()
                         .addComponent(jSeparator1)
                         .addContainerGap())))
@@ -525,9 +531,7 @@ public class DataNilai extends javax.swing.JFrame {
             .addComponent(sideBar2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(mainPanelLayout.createSequentialGroup()
                 .addGap(23, 23, 23)
-                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(InputID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -678,55 +682,41 @@ public class DataNilai extends javax.swing.JFrame {
 
     private void InputJenisPenilaianActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InputJenisPenilaianActionPerformed
         // TODO add your handling code here:
-        String idPenilaian;
-        idPenilaian = (String) InputJenisPenilaian.getSelectedItem();
-
-        if (idPenilaian != null) {
-            try {
-                PreparedStatement ps = conn.prepareStatement("SELECT jenis FROM jenis_penilaian WHERE id_penilaian = ?");
-                ps.setString(1, idPenilaian);
-                ResultSet r = ps.executeQuery();
-                while (r.next()) {
-                    lblJenisNilai.setText(": " + r.getString("jenis"));
-                }
-                System.out.println( "BERHASIL mengambil data penilaian");
-            } catch (Exception e) {
-                System.out.println( "GAGAL mengambil data penilaian : "+ e);
-            }
-        }else{
-            lblJenisNilai.setText(": ");
-        }
-    }//GEN-LAST:event_InputJenisPenilaianActionPerformed
-
-    private void InputIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InputIDActionPerformed
-        // TODO add your handling code here:
-        String id = InputID.getText();
+        String idpenilaian;
+        idpenilaian = (String) InputJenisPenilaian.getSelectedItem();
         try {
-            PreparedStatement p = conn.prepareStatement("SELECT nilai.id_penilaian, nilai.kode_guru, nilai.id_nilai, nilai.nis, siswa.nama, CONCAT(siswa.kode_kelas, siswa.kode_jurusan), mapel.nama_mapel, jenis_penilaian.jenis, nilai.nilai FROM siswa, nilai, mapel, guru, jenis_penilaian WHERE siswa.nis = nilai.nis AND nilai.id_penilaian = jenis_penilaian.id_penilaian AND nilai.kode_guru = guru.kode_guru AND guru.kode_mapel = mapel.kode_mapel AND nilai.id_nilai = ?  Group BY nilai.id_nilai");
-            p.setString(1, id);
-            ResultSet result = p.executeQuery();
-            
-            while(result.next()) {
-                InputNis.setSelectedItem(result.getString("nis"));
-                inputKodeGuru.setSelectedItem(result.getString("kode_guru"));
-                InputJenisPenilaian.setSelectedItem(result.getString("id_penilaian"));
-                InputNilai.setText(result.getString("nilai"));
-//                Object[] data = {
-//                    result.getString(1),
-//                    result.getString(2),
-//                    result.getString(3),
-//                    result.getString(4),
-//                    result.getString(5),
-//                    result.getString(6),
-//                    result.getString(7)
-//                };
-//                tm.addRow(data);
+            PreparedStatement s = conn.prepareStatement("SELECT id_penilaian FROM jenis_penilaian WHERE jenis = ?");
+            s.setString(1, idpenilaian);
+            ResultSet r = s.executeQuery();
+            while (r.next()) {                
+                setIdPenilaian(r.getString("id_penilaian"));
+                System.out.println("di while : " + r.getString("id_penilaian"));
             }
-            System.out.println("BERHASIL mengambil data nilai");
+            
+            System.out.println( "BERHASIL mengambil id penilaian");
         } catch (Exception e) {
-            System.out.println("GAGAL mengambil data nilai : "+ e);
+            System.out.println( "GAGAL mengambil id penilaian : " + e);
         }
-    }//GEN-LAST:event_InputIDActionPerformed
+        
+//        String idPenilaian;
+//        idPenilaian = (String) InputJenisPenilaian.getSelectedItem();
+          //set label penilaian
+//        if (idPenilaian != null) {
+//            try {
+//                PreparedStatement ps = conn.prepareStatement("SELECT jenis FROM jenis_penilaian WHERE id_penilaian = ?");
+//                ps.setString(1, idPenilaian);
+//                ResultSet r = ps.executeQuery();
+//                while (r.next()) {
+//                    lblJenisNilai.setText(": " + r.getString("jenis"));
+//                }
+//                System.out.println( "BERHASIL mengambil data penilaian");
+//            } catch (Exception e) {
+//                System.out.println( "GAGAL mengambil data penilaian : "+ e);
+//            }
+//        }else{
+//            lblJenisNilai.setText(": ");
+//        }
+    }//GEN-LAST:event_InputJenisPenilaianActionPerformed
 
     private void btnhapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnhapusActionPerformed
         // TODO add your handling code here:
@@ -809,7 +799,6 @@ public class DataNilai extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField InputID;
     private javax.swing.JComboBox<String> InputJenisPenilaian;
     private javax.swing.JTextField InputNilai;
     private javax.swing.JComboBox<String> InputNis;
